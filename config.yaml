@@ -1,0 +1,162 @@
+baseURL: https://utmist.gitlab.io
+languageCode: en-us
+title: "UTMIST: UofT Machine Intelligence Student Team"
+theme: hugo-fresh
+
+params:
+  navbarlogo:
+    # Logo (from static/images/logos/___)
+    image: logos/blueside.svg
+    link: /
+  font:
+    name: "Open Sans"
+    sizes: [400, 600]
+  hero:
+    # Main hero title
+    title: Clear the Mist
+    # Hero subtitle (optional)
+    subtitle: UofT Machine Intelligence Student Team
+    # Button text
+    buttontext: Subscribe
+    # Where the main hero button links to
+    buttonlink: "https://docs.google.com/forms/d/e/1FAIpQLSdsKdXEbd7cyrb9OvFXKd0Iy7p2-E_0A5i27pm4lEQZ4DG8OA/viewform"
+    # Hero image (from static/images/___)
+    image: "logos/bluebottom.svg"
+    # Footer logos (from static/images/logos/clients/___.svg)
+    # clientlogos:
+    # - systek
+    # - tribe
+    # - kromo
+    # - infinite
+    # - gutwork
+  # Customizable navbar. For a dropdown, add a "sublinks" list.
+  navbar:
+    - title: Events/Materials
+      sublinks:
+        - title: AI Squared 2019
+          url: /posts/aisquared2019
+        - title: Annual General Meeting (AGM) 2019
+          url: /posts/agm2019
+        - title: More Posts...
+          url: /posts
+    - title: Projects
+      sublinks:
+        - title: More Projects...
+          url: /projects
+    - title: Team
+      sublinks:
+        - title: Our Team
+          url: /team
+        - title: Academics
+          url: /team/academics
+        - title: Communications
+          url: /team/communications
+        - title: External
+          url: /team/external
+        - title: Finance
+          url: /team/finance
+        - title: Logistics
+          url: /team/logistics
+        - title: Marketing
+          url: /team/marketing
+        - title: Oversight
+          url: /team/oversight
+    - title: About
+      url: /about
+    - title: Subscribe
+      url: https://docs.google.com/forms/d/e/1FAIpQLSdsKdXEbd7cyrb9OvFXKd0Iy7p2-E_0A5i27pm4lEQZ4DG8OA/viewform
+      button: true
+
+  # section1:
+  #   title: Great power comes
+  #   subtitle: with great responsibility
+  #   tiles:
+  #   - title: App builder
+  #     icon: mouse-globe
+  #     text: This is some explanatory text that is on two rows
+  #     url: /
+  #     buttonText: Free trial
+  #   - title: Cloud integration
+  #     icon: laptop-cloud
+  #     text: This is some explanatory text that is on two rows
+  #     url: /
+  #     buttonText: Get started
+  #   - title: Add-ons & plugins
+  #     icon: plug-cloud
+  #     text: This is some explanatory text that is on two rows
+  #     url: /
+  #     buttonText: Get started
+  # section2:
+  #   title: You're here because you want the best
+  #   subtitle: And we know it
+  #   features:
+  #   - title: Powerful and unified interface
+  #     text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+  #     # Icon (from /images/illustrations/icons/___.svg)
+  #     icon: laptop-globe
+  #   - title: Cross-device synchronisation
+  #     text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+  #     icon: doc-sync
+  #   - title: Nomad system
+  #     text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
+  #     icon: mobile-feed
+  # section3:
+  #   title: One platform
+  #   subtitle: To rule them all
+  #   image: illustrations/mockups/app-mockup.png
+  #   buttonText: Get started
+  #   buttonLink: "#"
+  # section4:
+  #   title: Our Clients love us!
+  #   subtitle: Lorem ipsum sit dolor amet is a dummy text used by typography industry
+  #   clients:
+  #   - name: Irma Walters
+  #     quote: Lorem ipsum dolor sit amet, elit deleniti dissentias quo eu, hinc minim appetere te usu, ea case duis scribentur has. Duo te consequat elaboraret, has quando suavitate at.
+  #     job: Accountant
+  #     img: 1
+  #   - name: John Bradley
+  #     quote: Lorem ipsum dolor sit amet, elit deleniti dissentias quo eu, hinc minim appetere te usu, ea case duis scribentur has. Duo te consequat elaboraret, has quando suavitate at.
+  #     job: Financial Analyst
+  #     img: 2
+  #   - name: Gary Blackman
+  #     quote: Lorem ipsum dolor sit amet, elit deleniti dissentias quo eu, hinc minim appetere te usu, ea case duis scribentur has. Duo te consequat elaboraret, has quando suavitate at.
+  #     job: HR Manager
+  #     img: 3
+  # section5: true
+  footer:
+    # Logo (from /images/logos/___)
+    logo: white.svg
+    socialmedia:
+      - link: "mailto:utorontomist@gmail.com"
+        icon: envelope
+      - link: https://www.facebook.com/UofT.MIST/
+        icon: facebook
+      - link: https://github.com/utmist
+        icon: github
+      - link: https://gitlab.com/utmist
+        icon: git
+      - link: https://medium.com/@utorontomist
+        icon: medium
+      - link: https://twitter.com/UTMIST1
+        icon: twitter
+    bulmalogo: true
+    quicklinks:
+      column1:
+        title: "Events/Materials"
+        links:
+          - text: AI Squared
+            link: /posts/aisquared2019
+          - text: AGM 2019
+            link: /
+      column2:
+        title: "Our Projects"
+        links:
+          - text: Projects
+            link: /projects
+      column3:
+        title: "About Us"
+        links:
+          - text: About
+            link: /about
+          - text: Team
+            link: /team
