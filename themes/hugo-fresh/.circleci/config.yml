@@ -2,12 +2,18 @@ version: 2
 jobs:
   build:
     docker:
-      - image: alpine:3.9.2
+      - image: alpine:3.10.2
 
     steps:
       - run:
           name: Install hugo
-          command: apk add hugo
+          command: |
+            apk add wget
+            wget -q https://github.com/gohugoio/hugo/releases/download/v0.58.3/hugo_0.58.3_Linux-64bit.tar.gz
+            apk add tar
+            tar xzf hugo_0.58.3_Linux-64bit.tar.gz
+            chmod a+x hugo
+            mv hugo /usr/local/bin/hugo
 
       - run:
           name: Create site
@@ -22,20 +28,27 @@ jobs:
       - run:
           working_directory: my-site/themes/hugo-fresh
           command: |
-            if [[ ${CIRCLE_BRANCH} == "*pull*" ]]; then
+            set +e
+            isPrIfGreaterThanZero=$(expr $CIRCLE_BRANCH : "pull")
+            echo $isPrIfGreaterThanZero
+            if [ "$isPrIfGreaterThanZero" -gt "0" ]; then
+              echo "Hello World $CIRCLE_BRANCH"
               git fetch origin ${CIRCLE_BRANCH}/head:BRANCHNAME
               git checkout BRANCHNAME
             else
-              git checkout ${CIRCLE_BRANCH}
+              echo "Hello World else $CIRCLE_BRANCH"
+              git checkout $CIRCLE_BRANCH
             fi
 
       - run:
           name: Replace default config
           working_directory: my-site
           command: |
-            if [[ ${CIRCLE_BRANCH} == "*pull*" ]]; then
-              git fetch origin ${CIRCLE_BRANCH}/head:BRANCHNAME
-              branch=BRANCHNAME
+            set +e
+            isPrIfGreaterThanZero=$(expr $CIRCLE_BRANCH : "pull")
+            echo $isPrIfGreaterThanZero
+            if [ "$isPrIfGreaterThanZero" -gt "0" ]; then
+              branch=${CIRCLE_SHA1}
             else
               branch=${CIRCLE_BRANCH}
             fi
@@ -47,7 +60,7 @@ jobs:
           working_directory: my-site
           command: |
             apk add sed
-            URL=hugo-fresh-$(echo $CIRCLE_BRANCH | tr _ -)
+            URL=hugo-fresh-$(echo $CIRCLE_BRANCH | tr _ - | tr / -)
             if [ $CIRCLE_BRANCH == "master" ]; then
               URL=hugo-fresh
             fi
@@ -63,7 +76,7 @@ jobs:
           name: Create now.json
           working_directory: my-site/public
           command: |
-            URL=hugo-fresh-$(echo $CIRCLE_BRANCH | tr _ -)
+            URL=hugo-fresh-$(echo $CIRCLE_BRANCH | tr _ - | tr / -)
             if [ $CIRCLE_BRANCH == "master" ]; then
               URL=hugo-fresh
             fi
@@ -72,14 +85,10 @@ jobs:
       - run:
           name: Install now CLI
           command: |
-            apk add wget
-            wget -q https://github.com/zeit/now-cli/releases/download/15.4.0/now-alpine.gz
-            apk add gzip
-            gunzip now-alpine.gz
-            chmod a+x now-alpine
-            mv now-alpine /usr/local/bin/now
-            apk add libstdc++ libgcc
+            apk add --update npm
+            npm config set unsafe-perm true
+            npm install -g now@16.3.1
       - run:
           name: Publish to now.sh
           working_directory: my-site/public
-          command: now --target production --token ${NOW_TOKEN}
+          command: now --prod --token ${NOW_TOKEN}

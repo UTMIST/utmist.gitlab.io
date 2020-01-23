@@ -1,9 +1,15 @@
-# UTMIST Website
+# utmist.gitlab.io
 
-Club webpage for the [UofT Machine Intelligence Student Team](https://utmist.gitlab.io).
+Club website for the University of Toronto Machine Intelligence Student Team (UTMIST)
 
-## Acknowledgements
+## Prerequisites
 
-- This website uses foundational material from the [old UTMIST website](https://utmist.github.io).
-- GitLab Pages + CI/CD were used to deploy.
-- The themes [Bulma](https://bulma.io) and [Hugo-Fresh](https://github.com/StefMa/hugo-fresh) were used with [Hugo](https://gohugo.io).
+- [Hugo](https://github.com/gohugoio/hugo/releases), `>= 0.61`.
+
+## Setup/Housekeeping
+
+- `update-fresh.sh` will refresh the `hugo-fresh` theme.
+
+## Usage
+
+- `hugo server -D` should run the website on `localhost:1313`.
