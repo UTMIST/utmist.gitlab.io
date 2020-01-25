@@ -1,9 +1,25 @@
 package generator
 
-import (
-	"fmt"
-)
+func generateEventPage() {
 
-func Test(){
-	fmt.Println("GENERATOR")
+}
+
+func generateEventPages() {
+
+}
+
+func generateExecPage() {
+
+}
+
+func generateExecPages() {
+
+}
+
+func generateProjectPage() {
+
+}
+
+func generateProjectPages() {
+
 }
