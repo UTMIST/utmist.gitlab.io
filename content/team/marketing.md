@@ -1,11 +1,12 @@
 ---
 title: Marketing Department
-date: 0001-01-02
+date: 0001-01-01
 sidebar: true
 sidebarlogo: whiteside
 ---
 
-- **Haoran (Harvey) Fang, VP Marketing**
-- Lisa Li, Graphics Designer
-- Ruiyao Li, Marketing Associate
+- Teng (Teng) Tu, External Associate, Marketing Associate
 - **Siyan (Siyan) Zhao, VP Marketing**
+- **Haoran (Harvey) Fang, VP Marketing**
+- Ruiyao Li, Marketing Associate
+- Lisa Li, Graphics Designer

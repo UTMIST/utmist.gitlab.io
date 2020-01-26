@@ -1,4 +1,3 @@
 package generator
 
-type Project struct {
-}
+type Project struct{}

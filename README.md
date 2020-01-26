@@ -6,6 +6,7 @@ Club website for the University of Toronto Machine Intelligence Student Team (UT
 
 - [Go](https://golang.org/).
 - [Hugo](https://github.com/gohugoio/hugo/releases), `>= 0.61`.
+- See [Google Sheets API for Go](https://developers.google.com/sheets/api/quickstart/go).
 
 ## Setup/Housekeeping
 

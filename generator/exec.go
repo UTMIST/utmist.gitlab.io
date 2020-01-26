@@ -3,7 +3,7 @@ package generator
 // Exec represents an executive member's database row.
 type Exec struct {
 	Email       string
-	PhoneNumber int
+	PhoneNumber string
 
 	FirstName     string
 	PreferredName string
@@ -13,7 +13,7 @@ type Exec struct {
 
 	Position    string
 	VP          bool
-	Departments string
+	Departments []string
 
 	ProfilePicture   string
 	ProfileLink      string
@@ -24,3 +24,17 @@ type Exec struct {
 
 	Retired int
 }
+
+func getDepartments() []string {
+	return []string{
+		acd, com, ext, fin, lgs, mkt, osg,
+	}
+}
+
+const acd = "Academics"
+const com = "Communications"
+const ext = "External"
+const fin = "Finance"
+const lgs = "Logistics"
+const mkt = "Marketing"
+const osg = "Oversight"

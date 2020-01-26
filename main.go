@@ -5,5 +5,6 @@ import (
 )
 
 func main() {
-	gen.Fetch()
+	events, execs, projects := gen.Fetch()
+	gen.GeneratePages(events, execs, projects)
 }

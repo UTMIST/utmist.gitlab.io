@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/joho/godotenv"
 	"golang.org/x/oauth2/google"
@@ -63,6 +64,10 @@ func Fetch() ([]Event, []Exec, []Project) {
 		}
 
 		switch sheetName {
+		case EXECS:
+			for _, row := range resp.Values {
+				execs = append(execs, loadExec(row))
+			}
 		default:
 			fetchLog(fmt.Sprintf("Fetch for %s not yet implemented.", sheetName))
 		}
@@ -71,9 +76,21 @@ func Fetch() ([]Event, []Exec, []Project) {
 	return events, execs, projects
 }
 
-func loadEvents()   {}
-func loadExecs()    {}
-func loadProjects() {}
+func loadEvent() {}
+func loadExec(data []interface{}) Exec {
+	exec := Exec{
+		Email:         data[0].(string),
+		FirstName:     data[1].(string),
+		PreferredName: data[2].(string),
+		LastName:      data[3].(string),
+		PhoneNumber:   data[4].(string),
+		Position:      data[5].(string),
+		Departments:   strings.Split(data[6].(string), ", "),
+		Discipline:    data[8].(string),
+	}
+	return exec
+}
+func loadProject() {}
 
 // LoadFetchEnv loads environment variables from .env for fetching.
 func loadFetchEnv() (map[string]Sheet, error) {

@@ -1,22 +1,22 @@
 ---
 title: External Department
-date: 0001-01-02
+date: 0001-01-01
 sidebar: true
 sidebarlogo: whiteside
 ---
 
-- **Ahmed Abdulkadir, VP External**
+- **Shrey (Shrey) Jain, VP External**
+- **Ahmed (Ahmed) Abdulkadir, VP External**
+- Malhar (Malhar) Shah, External Associate
 - Zizhao (Zoe) Chen, External Associate
-- Claire Dalkie, External Associate
-- Yueze (Rex) Fang, External Associate
-- Hanze (Litos) Li, External Advisor
-- **Shrey Jain, VP External**
-- Malhar Shah, External Associate
-- Teng Tu, External Associate, Marketing Associate
-- Shuyi Wang, External Associate
-- Yuchen (Raina) Wang, External Associate
-- Yuyao (Alina) Wei, Event Director
-- Zitian Wu, External Associate
 - Yixuan (Richard) Xu, External Associate
-- Lily Zhang, External Associate
+- Teng (Teng) Tu, External Associate, Marketing Associate
+- Yuchen (Raina) Wang, External Associate
+- Lily Zhang, External Associate 
+- Zitian Wu, External Associate 
+- Shuyi  Wang, External Associate 
+- Yueze (Rex) Fang, External Associate 
+- Claire Dalkie, External Associate 
 - Sophie Zhang, External Associate
+- Hanze (Litos) Li, External Advisor
+- Yuyao (Alina) Wei, Event Director
