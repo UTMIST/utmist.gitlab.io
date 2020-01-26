@@ -1,17 +1,18 @@
 ---
 title: Academics Department
-date: 0001-01-02
+date: 0001-01-01
 sidebar: true
 sidebarlogo: whiteside
 ---
 
-- Matthieu Chan Chee, Project Director/Associate
-- **Jacob Kelly, VP Academics, Project Associate**
-- Abhishek (Abhi) Mahadevan, Project Director
-- Abhishek Moturu, Project Director
-- Devansh Ranade, Project Associate
 - Zachary (Zach) Trefler, Project Director
+- **Winnie (Winnie) Xu, VP Academics**
 - Theodore (Theo) Wu, Project Director
-- **Winnie Xu, VP Academics, Project Associate**
-- **Zhaocong (Justin) Yuan, VP Academics**
+- Matthieu (Matthieu) Chan Chee, Project Director
+- Abhishek (Abhishek) Moturu, Project Director
 - Wen Jie (Steven) Zhao, Project Associate
+- Abhishek (Abhi) Mahadevan, Project Director
+- **Zhaocong (Justin) Yuan, VP Academics**
+- **Jacob Kelly, VP Academics**
+- Devansh Ranade, Project Associate
+- Matthieu Chan Chee, Project Associate

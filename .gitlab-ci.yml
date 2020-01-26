@@ -6,15 +6,16 @@ variables:
 
 test:
   script:
-  - hugo
+    - hugo
   except:
-  - master
+    - master
 
 pages:
   script:
-  - hugo
+    - go run main.go
+    - hugo
   artifacts:
     paths:
-    - public
+      - public
   only:
-  - master
+    - master
