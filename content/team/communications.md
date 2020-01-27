@@ -5,7 +5,7 @@ sidebar: true
 sidebarlogo: whiteside
 ---
 
-- Robert (Rupert) Wu, Web Developer, Academics Associate
+- [Robert (Rupert) Wu](https://leglesslamb.gitlab.io), Web Developer, Academics Associate
 - Xinyi (Cindy) Zhang, Technical Writer
 - Isabella  (Isabella ) Mckay , Technical Writer 
 - Johnny (Johnny) Ye, Communications Associate

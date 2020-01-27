@@ -7,6 +7,22 @@ import (
 	"strings"
 )
 
+func generatePageHeader(f *os.File, title, date string) {
+	header := []string{
+		"---",
+		fmt.Sprintf("title: %s", title),
+		fmt.Sprintf("date: %s", date),
+		"sidebar: true",
+		"sidebarlogo: whiteside",
+		"---",
+		"",
+	}
+
+	for _, line := range header {
+		fmt.Fprintln(f, line)
+	}
+}
+
 func generateEventPage() {
 
 }
@@ -21,35 +37,36 @@ func generateExecPage(name string, execs []Exec) {
 	if err != nil {
 		generateExecLogError(name)
 	}
-	header := []string{
-		"---",
-		fmt.Sprintf("title: %s Department", name),
-		"date: 0001-01-01",
-		"sidebar: true",
-		"sidebarlogo: whiteside",
-		"---",
-		"",
-	}
 
-	for _, line := range header {
-		fmt.Fprintln(f, line)
-	}
-
+	generatePageHeader(f, fmt.Sprintf("%s Department", name), "0001-01-01")
 	for _, exec := range execs {
 		var line string
 
 		if exec.PreferredName != "" {
-			line = fmt.Sprintf("%s (%s) %s, %s",
+			line = fmt.Sprintf("%s (%s) %s",
 				exec.FirstName,
 				exec.PreferredName,
-				exec.LastName,
-				exec.Position)
+				exec.LastName)
 		} else {
-			line = fmt.Sprintf("%s %s, %s",
+			line = fmt.Sprintf("%s %s",
 				exec.FirstName,
-				exec.LastName,
-				exec.Position)
+				exec.LastName)
 		}
+
+		for _, str := range []string{
+			exec.Website,
+			exec.LinkedInUsername,
+			exec.GitHub,
+			exec.FacebookUsername,
+			exec.TwitterUsername,
+		} {
+			if strings.Index(str, "http") >= 0 {
+				line = fmt.Sprintf("[%s](%s)", line, str)
+				break
+			}
+		}
+
+		line = fmt.Sprintf("%s, %s", line, exec.Position)
 
 		if strings.Index(exec.Position, "VP") >= 0 ||
 			strings.Index(exec.Position, "President") >= 0 {

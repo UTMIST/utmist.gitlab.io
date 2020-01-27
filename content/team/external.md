@@ -7,7 +7,7 @@ sidebarlogo: whiteside
 
 - **Shrey (Shrey) Jain, VP External**
 - **Ahmed (Ahmed) Abdulkadir, VP External**
-- Malhar (Malhar) Shah, External Associate
+- [Malhar (Malhar) Shah](https://www.linkedin.com/in/malharshah22), External Associate
 - Zizhao (Zoe) Chen, External Associate
 - Yixuan (Richard) Xu, External Associate
 - Teng (Teng) Tu, External Associate, Marketing Associate

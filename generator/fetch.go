@@ -5,12 +5,15 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/joho/godotenv"
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/sheets/v4"
 )
+
+const SHEET_RANGE = 16
 
 // SCOPE of the sheets API access.
 const SCOPE = "https://www.googleapis.com/auth/spreadsheets.readonly"
@@ -78,15 +81,31 @@ func Fetch() ([]Event, []Exec, []Project) {
 
 func loadEvent() {}
 func loadExec(data []interface{}) Exec {
+	for i := len(data); i < SHEET_RANGE; i++ {
+		data = append(data, "")
+	}
+
 	exec := Exec{
-		Email:         data[0].(string),
-		FirstName:     data[1].(string),
-		PreferredName: data[2].(string),
-		LastName:      data[3].(string),
-		PhoneNumber:   data[4].(string),
-		Position:      data[5].(string),
-		Departments:   strings.Split(data[6].(string), ", "),
-		Discipline:    data[8].(string),
+		Email:            data[0].(string),
+		FirstName:        data[1].(string),
+		PreferredName:    data[2].(string),
+		LastName:         data[3].(string),
+		PhoneNumber:      data[4].(string),
+		Position:         data[5].(string),
+		Departments:      strings.Split(data[6].(string), ", "),
+		Discipline:       data[8].(string),
+		Website:          data[10].(string),
+		FacebookUsername: data[11].(string),
+		TwitterUsername:  data[12].(string),
+		LinkedInUsername: data[13].(string),
+		GitHub:           data[14].(string),
+		Retired: func(yearObj interface{}) int {
+			retired, err := strconv.Atoi(yearObj.(string))
+			if err != nil {
+				retired = -1
+			}
+			return retired
+		}(data[15]),
 	}
 	return exec
 }

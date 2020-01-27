@@ -9,14 +9,14 @@ type Exec struct {
 	PreferredName string
 	LastName      string
 
-	Discipline string
+	Discipline     string
+	ProfilePicture string
 
+	Departments []string
 	Position    string
 	VP          bool
-	Departments []string
 
-	ProfilePicture   string
-	ProfileLink      string
+	Website          string
 	FacebookUsername string
 	TwitterUsername  string
 	LinkedInUsername string
