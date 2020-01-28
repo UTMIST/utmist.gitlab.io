@@ -53,14 +53,8 @@ func generateExecPage(name string, execs []Exec) {
 				exec.LastName)
 		}
 
-		for _, str := range []string{
-			exec.Website,
-			exec.LinkedInUsername,
-			exec.GitHub,
-			exec.FacebookUsername,
-			exec.TwitterUsername,
-		} {
-			if strings.Index(str, "http") >= 0 {
+		for i := 0; i < 6; i++ {
+			if str := exec.getLink(i); len(str) > 0 {
 				line = fmt.Sprintf("[%s](%s)", line, str)
 				break
 			}

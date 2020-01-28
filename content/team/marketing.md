@@ -6,7 +6,7 @@ sidebarlogo: whiteside
 ---
 
 - Teng (Teng) Tu, External Associate, Marketing Associate
-- **Siyan (Siyan) Zhao, VP Marketing**
+- **[Siyan (Siyan) Zhao](https://www.github.com/siyanLearner/), VP Marketing**
 - **Haoran (Harvey) Fang, VP Marketing**
 - Ruiyao Li, Marketing Associate
 - Lisa Li, Graphics Designer
