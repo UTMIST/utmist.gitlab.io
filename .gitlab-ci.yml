@@ -1,22 +1,17 @@
 # All available Hugo versions are listed here: https://gitlab.com/pages/hugo/container_registry
 image: registry.gitlab.com/pages/hugo:latest
 
-before_script:
-  - apt-get install golang
-
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
 test:
   script:
-    - go run main.go
     - hugo
   except:
     - master
 
 pages:
   script:
-    - go run main.go
     - hugo
   artifacts:
     paths:
