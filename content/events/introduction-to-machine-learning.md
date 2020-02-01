@@ -9,3 +9,5 @@ hideLastModified: true
 ![Introduction to Machine Learning](https://drive.google.com/u/0/uc?id=1DdrIBgyt1f0aWGY_hytbIZQ7tcqNagN2)
 
 A general introduction to machine learning fundamentals and a demonstration of typical workflow in solving machine learning problems. The typical workflow is demonstrated here: https://youtu.be/4flbCsGBicE
+---
+Date/Time: **Thu, Nov 08 2018, 06:30.**

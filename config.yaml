@@ -19,8 +19,8 @@ params:
   navbar:
     - title: Events
       sublinks:
-        - title: "Demystifying How Machine Learn"
-          url: /events/demystifying-how-machine-learn
+        - title: "Demystifying How Machines Learn"
+          url: /events/demystifying-how-machines-learn
         - title: "Research Talk - Professor Pascal Poupart"
           url: /events/research-talk-professor-pascal-poupart
         - title: "The Second AI-Squared Forum"

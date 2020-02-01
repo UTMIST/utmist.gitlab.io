@@ -14,7 +14,7 @@ import (
 	"google.golang.org/api/sheets/v4"
 )
 
-const eventSheetRange = 7
+const eventSheetRange = 8
 const execSheetRange = 17
 const parseDateLayout = "01/02/2006 15:04:05"
 
@@ -95,13 +95,13 @@ func loadEvent(data []interface{}) Event {
 		Title:     data[0].(string),
 		Type:      data[1].(string),
 		DateTime:  formatDateEST(data[2].(string)),
-		Summary:   data[3].(string),
-		ImageLink: data[4].(string),
-		PreLink:   data[5].(string),
-		PostLink:  data[6].(string),
+		Location:  data[3].(string),
+		Summary:   data[4].(string),
+		ImageLink: data[5].(string),
+		PreLink:   data[6].(string),
+		PostLink:  data[7].(string),
 	}
 
-	fmt.Println(event.DateTime)
 	return event
 }
 

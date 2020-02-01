@@ -9,7 +9,7 @@ import (
 )
 
 const fileDateLayout = "2006-01-02"
-const printDateLayout = "Monday, January 02 15:04"
+const printDateLayout = "Mon, Jan 02 2006, 15:04"
 
 func getTagsListStr(tags []string) string {
 	tagsStr := "tags: ["
@@ -28,13 +28,13 @@ func getTagsListStr(tags []string) string {
 
 func generatePageHeader(f *os.File, title, date, summary string, tags []string) {
 	header := []string{
-		"---",
+		breakLine,
 		fmt.Sprintf("title: \"%s\"", title),
 		fmt.Sprintf("date: %s", date),
 		fmt.Sprintf("summary: \"%s\"", summary),
 		getTagsListStr(tags),
 		"hideLastModified: true",
-		"---",
+		breakLine,
 		"",
 	}
 
@@ -52,6 +52,7 @@ func generateEventPage(name string, event Event) {
 		generateErrorLog(fmt.Sprintf("%s", name))
 	}
 	defer f.Close()
+
 	dateStr := event.DateTime.Format(fileDateLayout)
 	generatePageHeader(f, name, dateStr, event.Summary, []string{"Event", event.Type})
 
@@ -66,6 +67,16 @@ func generateEventPage(name string, event Event) {
 		fmt.Fprintln(f, fmt.Sprintf("\n%s", event.Summary))
 	}
 
+	fmt.Fprintln(f, breakLine)
+
+	printedDateStr := fmt.Sprintf("Date/Time: **%s.**", event.DateTime.Format(printDateLayout))
+	fmt.Fprintln(f, printedDateStr)
+
+	if location := event.location(); len(location) > 0 {
+		fmt.Fprintln(f, "")
+		printedLocStr := fmt.Sprintf("Location: **%s.**", location)
+		fmt.Fprintln(f, printedLocStr)
+	}
 }
 
 func generateEventPages(events []Event) {
@@ -257,8 +268,8 @@ func generateEventList(events []Event) {
 		"sidebarlogo: whiteside",
 		"---",
 		"We regularly host events, on our own or in collaboration with other organizations.\n",
-		">|Event|>|Date|>|Time|",
-		">|-----|-|----|-|----|",
+		">|Event|>|Date|>|Time|>|Location|",
+		">|-----|-|----|-|----|-|--------|",
 	} {
 		eventsFile.WriteString(line + "\n")
 	}
@@ -268,11 +279,13 @@ func generateEventList(events []Event) {
 		filename := events[i].titleToFilename()
 		dateStr := events[i].DateTime.Format(printDateLayout)
 
-		listItem := fmt.Sprintf(">|[%s](%s)||%s||%s|",
+		listItem := fmt.Sprintf(">|[%s](%s)||%s||%s||%s|",
 			title,
 			filename,
 			dateStr[:len(dateStr)-6],
-			dateStr[len(dateStr)-6:])
+			dateStr[len(dateStr)-6:],
+			events[i].location(),
+		)
 		eventsFile.WriteString(listItem + "\n")
 	}
 	eventsFile.Close()
@@ -285,3 +298,4 @@ const navbarShift = 2
 const eventsDirPath = "./content/events/"
 const eventsFilePath = "./content/events.md"
 const maxNavbarEvents = 3
+const breakLine = "---"
