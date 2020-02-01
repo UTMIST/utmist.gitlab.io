@@ -20,8 +20,8 @@ type Exec struct {
 
 	Website  string
 	LinkedIn string
-	GitHub   string
 	GitLab   string
+	GitHub   string
 	Facebook string
 	Twitter  string
 

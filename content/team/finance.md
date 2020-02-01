@@ -1,9 +1,10 @@
 ---
-title: Finance Department
+title: "Finance Department"
 date: 0001-01-01
-sidebar: true
-sidebarlogo: whiteside
+summary: ""
+tags: ["Team"]
+hideLastModified: true
 ---
 
-- **[Jin Peng (Jin) Zhou](https://www.github.com/jinpz/), VP Finance**
+- **Jin Peng (Jin) Zhou, VP Finance**
 - **Jane Illarionova, VP Finance**

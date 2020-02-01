@@ -7,13 +7,16 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/joho/godotenv"
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/sheets/v4"
 )
 
+const eventSheetRange = 7
 const execSheetRange = 17
+const parseDateLayout = "01/02/2006 15:04:05"
 
 // SCOPE of the sheets API access.
 const SCOPE = "https://www.googleapis.com/auth/spreadsheets.readonly"
@@ -71,6 +74,10 @@ func Fetch() ([]Event, []Exec, []Project) {
 			for _, row := range resp.Values {
 				execs = append(execs, loadExec(row))
 			}
+		case EVENTS:
+			for _, row := range resp.Values {
+				events = append(events, loadEvent(row))
+			}
 		default:
 			fetchLog(fmt.Sprintf("Fetch for %s not yet implemented.", sheetName))
 		}
@@ -79,7 +86,25 @@ func Fetch() ([]Event, []Exec, []Project) {
 	return events, execs, projects
 }
 
-func loadEvent() {}
+func loadEvent(data []interface{}) Event {
+	for i := len(data); i < eventSheetRange; i++ {
+		data = append(data, "")
+	}
+
+	event := Event{
+		Title:     data[0].(string),
+		Type:      data[1].(string),
+		DateTime:  formatDateEST(data[2].(string)),
+		Summary:   data[3].(string),
+		ImageLink: data[4].(string),
+		PreLink:   data[5].(string),
+		PostLink:  data[6].(string),
+	}
+
+	fmt.Println(event.DateTime)
+	return event
+}
+
 func loadExec(data []interface{}) Exec {
 	for i := len(data); i < execSheetRange; i++ {
 		data = append(data, "")
@@ -160,4 +185,34 @@ func fetchLogFatal(str string, err error) {
 
 func fetchLog(str string) {
 	log.Println(str)
+}
+
+func formatDateEST(dateStr string) time.Time {
+	parts := strings.Split(dateStr, "/")
+	for i := 0; i < 2; i++ {
+		if len(parts[i]) == 1 {
+			parts[i] = fmt.Sprintf("0%s", parts[i])
+		}
+	}
+
+	dateStr = strings.Join(parts, "/")
+
+	parts = strings.Split(dateStr, " ")
+	if parts[1][1] == ':' {
+		parts[1] = fmt.Sprintf("0%s", parts[1])
+	}
+
+	dateStr = strings.Join(parts, " ")
+
+	toronto, err := time.LoadLocation("America/New_York")
+	if err != nil {
+		return time.Time{}
+	}
+
+	dateTime, err := time.ParseInLocation(parseDateLayout, dateStr, toronto)
+	if err != nil {
+		return time.Time{}
+	}
+
+	return dateTime
 }

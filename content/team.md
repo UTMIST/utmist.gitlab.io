@@ -11,13 +11,13 @@ sidebarlogo: whiteside
 
 ### **Departments**
 
-- [Academics](team/academics)
-- [Communications](team/communications)
-- [External](team/external)
-- [Finance](team/finance)
-- [Logistics](team/logistics)
-- [Marketing](team/marketing)
-- [Oversight](team/oversight)
+- [Academics](academics)
+- [Communications](communications)
+- [External](external)
+- [Finance](finance)
+- [Logistics](logistics)
+- [Marketing](marketing)
+- [Oversight](oversight)
 
 ### **Recruiting**
 
