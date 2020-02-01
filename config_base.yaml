@@ -19,7 +19,7 @@ params:
   navbar:
     - title: Events
       sublinks:
-        - title: Our Events...
+        - title: More Events...
           url: /events
     - title: Projects
       sublinks:

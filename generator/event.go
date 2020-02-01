@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// Event represents an entry in the Events Google Sheet
 type Event struct {
 	Title    string
 	Type     string

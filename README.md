@@ -28,3 +28,7 @@ Club website for the University of Toronto Machine Intelligence Student Team (UT
 
 - This new website [utmist.gitlab.io](https://utmist.gitlab.io) is intended to replace [utmist.github.io](utmist.github.io).
 - Instead of having `travis` rebuild the website on GH pages every 24h, we will instead move towards a **Slack bot**, allowing any member of the UTMIST Workspace to run the GitLab CI using the most recent data at will.
+
+## Developers
+
+- [Rupert Wu](https://leglesslamb.gitlab.io)

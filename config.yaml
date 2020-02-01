@@ -19,40 +19,14 @@ params:
   navbar:
     - title: Events
       sublinks:
-        - title: Our Events...
-          url: /events
         - title: "Demystifying How Machine Learn"
           url: /events/demystifying-how-machine-learn
         - title: "Research Talk - Professor Pascal Poupart"
           url: /events/research-talk-professor-pascal-poupart
         - title: "The Second AI-Squared Forum"
           url: /events/the-second-ai-squared-forum
-        - title: "Annual General Meeting (AGM) 2019"
-          url: /events/annual-general-meeting-(agm)-2019
-        - title: "Exploration in Reinforcement Learning"
-          url: /events/exploration-in-reinforcement-learning
-        - title: "Using ML Method on Assessing Drivers' Vigilance"
-          url: /events/using-ml-method-on-assessing-drivers-vigilance
-        - title: "The Effect of ASR on Alzheimer's Detection"
-          url: /events/the-effect-of-asr-on-alzheimers-detection
-        - title: "Computer Vision"
-          url: /events/computer-vision
-        - title: "Machine Learning for Recommender Systems"
-          url: /events/machine-learning-for-recommender-systems
-        - title: "Detecting Alzheimer's Disease"
-          url: /events/detecting-alzheimers-disease
-        - title: "Reinforcement Learning"
-          url: /events/reinforcement-learning
-        - title: "Introduction to Machine Learning"
-          url: /events/introduction-to-machine-learning
-        - title: "Machine Translations"
-          url: /events/machine-translations
-        - title: "Using Deep Learning to Analyze Typhoon Images"
-          url: /events/using-deep-learning-to-analyze-typhoon-images
-        - title: "Deep Learning on Graphs: CNN, RNN, GNN"
-          url: /events/deep-learning-on-graphs-cnn-rnn-gnn
-        - title: "Annual General Meeting (AGM) 2018"
-          url: /events/annual-general-meeting-(agm)-2018
+        - title: More Events...
+          url: /events
     - title: Projects
       sublinks:
         - title: More Projects...

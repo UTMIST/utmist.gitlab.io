@@ -69,6 +69,7 @@ func generateEventPage(name string, event Event) {
 }
 
 func generateEventPages(events []Event) {
+	generateEventList(events)
 	generateGroupLog("event")
 	for _, event := range events {
 		generateEventPage(event.Title, event)
@@ -219,7 +220,9 @@ func GenerateEventLinks(events []Event) {
 			eventLines = append(newEvent, eventLines...)
 		}
 
-		generateEventList(events)
+		if len(eventLines) > maxNavbarEvents*2 {
+			eventLines = eventLines[:maxNavbarEvents*2]
+		}
 
 		lines = append(preLines, eventLines...)
 		lines = append(lines, postLines...)
@@ -276,8 +279,9 @@ func generateEventList(events []Event) {
 }
 
 const config = "config.yaml"
-const configBase = "config.copy.yaml"
+const configBase = "config_base.yaml"
 const navbar = "  navbar:"
-const navbarShift = 4
+const navbarShift = 2
 const eventsDirPath = "./content/events/"
 const eventsFilePath = "./content/events.md"
+const maxNavbarEvents = 3
