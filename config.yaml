@@ -22,37 +22,37 @@ params:
         - title: Our Events...
           url: /events
         - title: "Demystifying How Machine Learn"
-          url: /events/2020-01-28
+          url: /events/demystifying-how-machine-learn
         - title: "Research Talk - Professor Pascal Poupart"
-          url: /events/2019-11-12
+          url: /events/research-talk-professor-pascal-poupart
         - title: "The Second AI-Squared Forum"
-          url: /events/2019-09-22
-        - title: "AGM: Annual General Meeting"
-          url: /events/2019-09-16
+          url: /events/the-second-ai-squared-forum
+        - title: "Annual General Meeting (AGM) 2019"
+          url: /events/annual-general-meeting-(agm)-2019
         - title: "Exploration in Reinforcement Learning"
-          url: /events/2019-04-25
+          url: /events/exploration-in-reinforcement-learning
         - title: "Using ML Method on Assessing Drivers' Vigilance"
-          url: /events/2019-03-12
+          url: /events/using-ml-method-on-assessing-drivers-vigilance
         - title: "The Effect of ASR on Alzheimer's Detection"
-          url: /events/2019-03-05
+          url: /events/the-effect-of-asr-on-alzheimers-detection
         - title: "Computer Vision"
-          url: /events/2019-02-05
+          url: /events/computer-vision
         - title: "Machine Learning for Recommender Systems"
-          url: /events/2018-11-27
+          url: /events/machine-learning-for-recommender-systems
         - title: "Detecting Alzheimer's Disease"
-          url: /events/2018-11-20
+          url: /events/detecting-alzheimers-disease
         - title: "Reinforcement Learning"
-          url: /events/2018-11-19
+          url: /events/reinforcement-learning
         - title: "Introduction to Machine Learning"
-          url: /events/2018-11-08
+          url: /events/introduction-to-machine-learning
         - title: "Machine Translations"
-          url: /events/2018-10-30
+          url: /events/machine-translations
         - title: "Using Deep Learning to Analyze Typhoon Images"
-          url: /events/2018-10-23
+          url: /events/using-deep-learning-to-analyze-typhoon-images
         - title: "Deep Learning on Graphs: CNN, RNN, GNN"
-          url: /events/2018-10-09
-        - title: "Annual General Meeting"
-          url: /events/2018-09-13
+          url: /events/deep-learning-on-graphs-cnn-rnn-gnn
+        - title: "Annual General Meeting (AGM) 2018"
+          url: /events/annual-general-meeting-(agm)-2018
     - title: Projects
       sublinks:
         - title: More Projects...

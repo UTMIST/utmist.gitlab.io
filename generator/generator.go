@@ -46,12 +46,13 @@ func generatePageHeader(f *os.File, title, date, summary string, tags []string) 
 func generateEventPage(name string, event Event) {
 	generateLog(fmt.Sprintf("%s", name))
 
-	dateStr := event.DateTime.Format(fileDateLayout)
-	f, err := os.Create(fmt.Sprintf("./content/events/%s.md", dateStr))
+	filename := event.titleToFilename()
+	f, err := os.Create(fmt.Sprintf("./content/events/%s.md", filename))
 	if err != nil {
 		generateErrorLog(fmt.Sprintf("%s", name))
 	}
 	defer f.Close()
+	dateStr := event.DateTime.Format(fileDateLayout)
 	generatePageHeader(f, name, dateStr, event.Summary, []string{"Event", event.Type})
 
 	if len(event.ImageLink) > 0 {
@@ -209,10 +210,10 @@ func GenerateEventLinks(events []Event) {
 		eventLines := []string{}
 
 		for i := len(events) - 1; i >= 0; i-- {
-			dateStr := events[i].DateTime.Format(fileDateLayout)
+			filename := events[i].titleToFilename()
 			newEvent := []string{
 				fmt.Sprintf("        - title: \"%s\"", events[i].Title),
-				fmt.Sprintf("          url: /events/%s", dateStr),
+				fmt.Sprintf("          url: /events/%s", filename),
 			}
 
 			eventLines = append(newEvent, eventLines...)
@@ -261,12 +262,12 @@ func generateEventList(events []Event) {
 
 	for i := 0; i < len(events); i++ {
 		title := events[i].Title
-		dateFile := events[i].DateTime.Format(fileDateLayout)
+		filename := events[i].titleToFilename()
 		dateStr := events[i].DateTime.Format(printDateLayout)
 
 		listItem := fmt.Sprintf(">|[%s](%s)||%s||%s|",
 			title,
-			dateFile,
+			filename,
 			dateStr[:len(dateStr)-6],
 			dateStr[len(dateStr)-6:])
 		eventsFile.WriteString(listItem + "\n")
