@@ -10,6 +10,6 @@ hideLastModified: true
 
 Lunjun Zhang will be providing an enriched introduction to reinforcement learning, one of the most active fields of AI research today. The workshop will cover both the fundamental ideas and several state-of-the-art methods including value iteration, policy gradients, actor critic, Q learning, and exploration strategies. The workshop will also explore how concepts from optimisation and information theory are used for control.
 ---
-Date/Time: **Mon, Nov 19 2018, 06:30.**
+Date/Time: **Mon, Nov 19 2018, 18:30.**
 
 Location: **[Galbraith Building](http://map.utoronto.ca/utsg/building/070) GB 220.**

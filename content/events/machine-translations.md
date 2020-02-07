@@ -10,6 +10,6 @@ hideLastModified: true
 
 We had the honour to invite Jun Gao to talk about Recent Advances in Neural Machine Translation. Jun Gao graduated from Peking University with fruitful experiences gained from working in both academia and industry. Currently, he is a graduate student in the Machine Learning Group here at UofT.
 ---
-Date/Time: **Tue, Oct 30 2018, 06:30.**
+Date/Time: **Tue, Oct 30 2018, 18:30.**
 
 Location: **[Earth Sciences Centre](http://map.utoronto.ca/utsg/building/062) ES B149.**

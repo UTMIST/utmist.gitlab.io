@@ -6,5 +6,4 @@ tags: ["Team"]
 hideLastModified: true
 ---
 
-- **Jin Peng (Jin) Zhou, VP Finance**
-- **Jane Illarionova, VP Finance**
+- **[Jin Peng (Jin) Zhou](https://www.github.com/jinpz/), VP Finance**

@@ -89,7 +89,6 @@ func generateEventPages(events []Event) {
 
 func generateExecPage(name string, execs []Exec) {
 	generateLog(fmt.Sprintf("%s team", name))
-	os.Mkdir(fmt.Sprintf("content/team/%s", strings.ToLower(name)), os.ModePerm)
 
 	f, err := os.Create(fmt.Sprintf("./content/team/%s.md", strings.ToLower(name)))
 	if err != nil {

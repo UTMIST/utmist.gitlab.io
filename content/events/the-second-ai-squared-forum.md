@@ -18,6 +18,6 @@ AI Squared is a forum for facilitating dialogues across boundaries in the AI ind
 - Hear about the experience of undergraduates working at institutes such as the Vector Institute, Nvidia and Google
 - Connect with AI professors and professionals from academia and industry
 ---
-Date/Time: **Sun, Sep 22 2019, 00:00.**
+Date/Time: **Sun, Sep 22 2019, 08:30.**
 
 Location: **[Bahen Centre for IT](http://map.utoronto.ca/utsg/building/080) BA Atrium.**

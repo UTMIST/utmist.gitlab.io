@@ -10,4 +10,4 @@ hideLastModified: true
 
 A general introduction to machine learning fundamentals and a demonstration of typical workflow in solving machine learning problems. The typical workflow is demonstrated here: https://youtu.be/4flbCsGBicE
 ---
-Date/Time: **Thu, Nov 08 2018, 06:30.**
+Date/Time: **Thu, Nov 08 2018, 18:30.**
