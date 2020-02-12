@@ -10,6 +10,15 @@ Club website for the University of Toronto Machine Intelligence Student Team (UT
 
 ## Setup/Housekeeping
 
+- Make sure you recursively cloned the submodule for `hugo-fresh` using either
+  ```
+  git clone --recurse-submodules https://gitlab.com/utmist/utmist.gitlab.io.git
+  ```
+  or
+  ```
+  git clone https://gitlab.com/utmist/utmist.gitlab.io.git
+  git submodule update --init --recursive
+  ```
 - `go-get.sh` downloads all the required Go packages.
 - `update-fresh.sh` will refresh the `hugo-fresh` theme.
 - `.gitlab-ci.yml` defines what the GitLab CI will do when running a pipeline. In particular, it lists the `scripts` the CI will run, and where to look for the static site files (currently in `./public`).
