@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// Formats for Google Drive Sheets data to be formatted into.
 const fileDateLayout = "2006-01-02"
 const printDateLayout = "Mon, Jan 02 2006, 15:04"
 
@@ -193,7 +194,6 @@ func GenerateEventLinks(events []Event) {
 		log.Fatal(err)
 	}
 	defer configFile.Close()
-	defer configFile.Close()
 
 	lines := []string{}
 	scanner := bufio.NewScanner(configFile)
@@ -290,11 +290,21 @@ func generateEventList(events []Event) {
 	eventsFile.Close()
 }
 
+// generator uses config_base.yaml to insert the links we want in config.yaml.
 const config = "config.yaml"
 const configBase = "config_base.yaml"
+
+// Identifying where the navbar entry in config_base.yaml begins.
 const navbar = "  navbar:"
+
+// Number of lines to shift when identifying navbar entry in config_base.yaml.
 const navbarShift = 2
+
+// Dictating how many individual links appear on the navbar list.
+const maxNavbarEvents = 3
+
+// Paths for the event files.
 const eventsDirPath = "./content/events/"
 const eventsFilePath = "./content/events.md"
-const maxNavbarEvents = 3
+
 const breakLine = "---"

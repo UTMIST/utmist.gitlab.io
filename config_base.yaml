@@ -1,0 +1,82 @@
+baseURL: https://utmist.gitlab.io
+languageCode: en-us
+title: "UTMIST: UofT Machine Intelligence Student Team"
+theme: hugo-fresh
+
+params:
+  navbarlogo:
+    image: logos/blueside.svg
+    link: /
+  font:
+    name: "Open Sans"
+    sizes: [400, 600]
+  hero:
+    title: Clear the Mist
+    subtitle: UofT Machine Intelligence Student Team
+    buttontext: Subscribe
+    buttonlink: "https://docs.google.com/forms/d/e/1FAIpQLSdsKdXEbd7cyrb9OvFXKd0Iy7p2-E_0A5i27pm4lEQZ4DG8OA/viewform"
+    image: "logos/bluebottom.svg"
+  navbar:
+    - title: Events
+      sublinks:
+        - title: More Events...
+          url: /events
+    - title: Projects
+      sublinks:
+        - title: More Projects...
+          url: /projects
+    - title: Team
+      sublinks:
+        - title: Our Team
+          url: /team
+        - title: Academics
+          url: /team/academics
+        - title: Communications
+          url: /team/communications
+        - title: External
+          url: /team/external
+        - title: Finance
+          url: /team/finance
+        - title: Logistics
+          url: /team/logistics
+        - title: Marketing
+          url: /team/marketing
+        - title: Oversight
+          url: /team/oversight
+    - title: About
+      url: /about
+    - title: Subscribe
+      url: https://docs.google.com/forms/d/e/1FAIpQLSdsKdXEbd7cyrb9OvFXKd0Iy7p2-E_0A5i27pm4lEQZ4DG8OA/viewform
+      button: true
+  footer:
+    logo: white.svg
+    socialmedia:
+      - link: "mailto:utorontomist@gmail.com"
+        icon: envelope
+      - link: https://www.facebook.com/UofT.MIST/
+        icon: facebook
+      - link: https://github.com/utmist
+        icon: github
+      - link: https://gitlab.com/utmist
+        icon: git
+      - link: https://medium.com/@utorontomist
+        icon: medium
+      - link: https://twitter.com/UTMIST1
+        icon: twitter
+    bulmalogo: true
+    quicklinks:
+      column1:
+        title: "Events"
+        links:
+      column2:
+        title: "Our Projects"
+        links:
+          - text: Projects
+            link: /projects
+      column3:
+        title: "About Us"
+        links:
+          - text: About
+            link: /about
+          - text: Team
+            link: /team
