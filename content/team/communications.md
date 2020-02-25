@@ -4,6 +4,8 @@ date: 0001-01-01
 summary: ""
 tags: ["Team"]
 hideLastModified: true
+sidebar: true
+sidebarlogo: whiteside
 ---
 
 - [Xinyi (Cindy) Zhang](https://www.facebook.com/cindyzhang99/), Technical Writer

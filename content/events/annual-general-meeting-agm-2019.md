@@ -5,6 +5,8 @@ summary: "
 Come and meet the new executive team! We will be talking about a variety of events that will be held throughout the year. At the end of the AGM, project leads will also introduce new academic projects. They will meet with anyone interested in joining the project teams afterwards. Anyone applied/interested in applying for a project associate position is strongly encouraged to come and potentially find your team. "
 tags: ["Event","Meeting"]
 hideLastModified: true
+sidebar: true
+sidebarlogo: whiteside
 ---
 
 ![Annual General Meeting (AGM) 2019](https://drive.google.com/u/0/uc?id=1fM0QovTlXhJFWAtJm3JG-qXiRio25tqO)

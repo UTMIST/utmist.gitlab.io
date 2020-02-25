@@ -8,6 +8,8 @@ Jekaterina is a director of Machine Learning at Winterlight Labs, where they foc
 Join us on March 5th for this insightful speaker session and learn from this excellent machine learning researcher!"
 tags: ["Event","Talk Series"]
 hideLastModified: true
+sidebar: true
+sidebarlogo: whiteside
 ---
 
 ![The Effect of ASR on Alzheimer's Detection](https://drive.google.com/u/0/uc?id=1pIzt9_T_moOBums_H3qXz7MCQ1Pq1KVL)

@@ -35,6 +35,8 @@ func generatePageHeader(f *os.File, title, date, summary string, tags []string) 
 		fmt.Sprintf("summary: \"%s\"", summary),
 		getTagsListStr(tags),
 		"hideLastModified: true",
+		sidebar,
+		sidebarlogo,
 		breakLine,
 		"",
 	}
@@ -308,3 +310,5 @@ const eventsDirPath = "./content/events/"
 const eventsFilePath = "./content/events.md"
 
 const breakLine = "---"
+const sidebar = "sidebar: true"
+const sidebarlogo = "sidebarlogo: whiteside"

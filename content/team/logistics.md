@@ -4,6 +4,8 @@ date: 0001-01-01
 summary: ""
 tags: ["Team"]
 hideLastModified: true
+sidebar: true
+sidebarlogo: whiteside
 ---
 
 - **Chaojun (Vicky) Chen, VP Logistics**

@@ -8,6 +8,8 @@ summary: "AI Squared is a forum for facilitating dialogues across boundaries in 
 - Connect with AI professors and professionals from academia and industry"
 tags: ["Event","Forum"]
 hideLastModified: true
+sidebar: true
+sidebarlogo: whiteside
 ---
 
 ![The Second AI-Squared Forum](https://drive.google.com/u/0/uc?id=1efcEk4QMw4oePSEnYH8L_T-OZPF795hQ)

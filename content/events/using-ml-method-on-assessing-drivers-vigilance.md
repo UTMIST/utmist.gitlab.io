@@ -7,6 +7,8 @@ This talk session will be featuring her MITACS research project at Alcohol Count
 Join us on March 12th. Get inspired, make connections and learn new skills from this talk session!"
 tags: ["Event","Talk Series"]
 hideLastModified: true
+sidebar: true
+sidebarlogo: whiteside
 ---
 
 ![Using ML Method on Assessing Drivers' Vigilance](https://drive.google.com/u/0/uc?id=1p-Evp_xp0JSvx57iUhwApfjR6ebH-_a3)

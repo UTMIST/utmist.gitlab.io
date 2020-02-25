@@ -7,6 +7,8 @@ Master’s from McGill University, where she did research in Machine Learning in
 Check out her personal website: https://danlanchen.github.io/"
 tags: ["Event","Paper Reading"]
 hideLastModified: true
+sidebar: true
+sidebarlogo: whiteside
 ---
 
 ![Using Deep Learning to Analyze Typhoon Images](https://drive.google.com/u/0/uc?id=1ofWnNQ3LZHlgQnJatACQULdw-KmckOZn)

@@ -4,6 +4,8 @@ date: 2018-11-27
 summary: "Recommender systems are intelligent machine learning systems that help customers discover personalized products from a dynamic pool of diverse choices. In this talk, Soon Chee Loong from Data-Driven Decision Making Laboratory will share his insights on different types of recommender systems, their challenges, and various seminal approaches to tackle them."
 tags: ["Event","Talk Series"]
 hideLastModified: true
+sidebar: true
+sidebarlogo: whiteside
 ---
 
 ![Machine Learning for Recommender Systems](https://drive.google.com/u/0/uc?id=1zw9zqJTfrzvOaWkRCGmWdk51W6U-Ti0N)

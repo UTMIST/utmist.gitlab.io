@@ -7,6 +7,8 @@ Join us in uncovering the exciting ideas in machine learning!
 "
 tags: ["Event","Talk Series"]
 hideLastModified: true
+sidebar: true
+sidebarlogo: whiteside
 ---
 
 ![Demystifying How Machines Learn](https://drive.google.com/u/0/uc?id=1ofK_dJz-UH8rNe70xPTZFPkl2u6xubpa)
