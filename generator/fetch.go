@@ -2,7 +2,6 @@ package generator
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"strconv"
@@ -23,14 +22,20 @@ const SCOPE = "https://www.googleapis.com/auth/spreadsheets.readonly"
 
 // Fetch fetches events, projects, recruitment, and exec databases.
 func Fetch() ([]Event, []Exec, []Project) {
-	b, err := ioutil.ReadFile("credentials.json")
+	if err := godotenv.Load(); err != nil {
+		log.Print("No .env file found")
+	}
+
+	b, err := getCredentials()
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
 	}
+	b = append(b, 10)
 
 	// If modifying these scopes, delete your previously saved token.json.
 	config, err := google.ConfigFromJSON(b, SCOPE)
 	if err != nil {
+		log.Print(string(b))
 		log.Fatalf("Unable to parse client secret file to config: %v", err)
 	}
 	client := getClient(config)
@@ -62,12 +67,13 @@ func Fetch() ([]Event, []Exec, []Project) {
 		if err != nil {
 			dataErrorLog(sheetName, err)
 			continue
-		} else if len(resp.Values) == 0 {
+		}
+		if len(resp.Values) == 0 {
 			dataNoneLog(sheetName)
 			continue
-		} else {
-			dataSuccessLog(sheetName)
 		}
+
+		dataSuccessLog(sheetName)
 
 		switch sheetName {
 		case EXECS:
@@ -141,7 +147,6 @@ func loadProject() {}
 func loadFetchEnv() (map[string]Sheet, error) {
 	if err := godotenv.Load(); err != nil {
 		log.Print("No .env file found")
-		return nil, err
 	}
 
 	sheetIDRanges := map[string]Sheet{}

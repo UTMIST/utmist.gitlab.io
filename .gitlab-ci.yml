@@ -1,5 +1,14 @@
 # All available Hugo versions are listed here: https://gitlab.com/pages/hugo/container_registry
-image: registry.gitlab.com/pages/hugo:latest
+image: june29/golang-hugo:latest
+
+cache:
+  paths:
+    - /apt-cache
+    - /go/src/gitlab.com
+    - /go/src/github.com
+    - /go/src/golang.org
+    - /go/src/google.golang.org
+    - /go/src/gopkg.in
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
@@ -18,3 +27,9 @@ pages:
       - public
   only:
     - master
+
+post-pages:
+  script:
+    - go mod download
+    # should be go build but I'll lowe it
+    - go run main.go
