@@ -1,7 +1,7 @@
 package main
 
 import (
-	gen "utmist.gitlab.io/generator"
+	gen "gitlab.com/utmist/utmist.gitlab.io/generator"
 )
 
 func main() {
