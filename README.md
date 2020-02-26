@@ -10,21 +10,25 @@ Club website for the University of Toronto Machine Intelligence Student Team (UT
 
 ## Setup/Housekeeping
 
-- Make sure you recursively cloned the submodule for `hugo-fresh` using either
+- Clone into the `GOPATH` using `SSH` or `HTTPS`.
   ```
-  git clone --recurse-submodules https://gitlab.com/utmist/utmist.gitlab.io.git
+  cd $GOPATH/src/gitlab.com/utmist
   ```
-  or
+  `SSH`
+  ```
+  git clone git@gitlab.com:utmist/utmist.gitlab.io.git
+  ```
+  `HTTPS`
   ```
   git clone https://gitlab.com/utmist/utmist.gitlab.io.git
+  ```
+
+* Add the `hugo-fresh` theme.
+  ```
   git submodule update --init --recursive
   ```
-- `go-get.sh` downloads all the required Go packages.
-- `update-fresh.sh` will refresh the `hugo-fresh` theme.
-- `.gitlab-ci.yml` defines what the GitLab CI will do when running a pipeline. In particular, it lists the `scripts` the CI will run, and where to look for the static site files (currently in `./public`).
-- Get `credentials.json` from signing up on the Google Could Platform. It should have a similar form to `credentials.copy.json`.
-- You'll need access to the UTMIST drive folders for your `credentials.json` to work. This is usually done by logging into the **VP Communications** account; you might also be able to share the UTMIST GDrive folders with your personal account and generate `credentials.json` yourself.
-- Get the sheet IDs and ranges and put them in `.env` (similar to `.env.copy`).
+* `.gitlab-ci.yml` defines what the GitLab CI will do when running a pipeline. In particular, it lists the `scripts` the CI will run, and where to look for the static site files (currently in `./public`).
+* We originally utilized `credentials.json` and `token.json` as the Google Sheets API documentation had suggested. However, locally, we now just use the `.env` (similar to `.env.copy`) provided by the team workspace.
 
 ## Usage
 
@@ -41,3 +45,4 @@ Club website for the University of Toronto Machine Intelligence Student Team (UT
 ## Developers
 
 - [Rupert Wu](https://leglesslamb.gitlab.io)
+- [Salim](https://msanvarov.github.io/personal-portfolio)

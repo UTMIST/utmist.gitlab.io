@@ -15,21 +15,19 @@ variables:
 
 test:
   script:
+    - go mod download
+    - go run main.go
     - hugo
   except:
     - master
 
 pages:
   script:
+    - go mod download
+    - go run main.go
     - hugo
   artifacts:
     paths:
       - public
   only:
     - master
-
-post-pages:
-  script:
-    - go mod download
-    # should be go build but I'll lowe it
-    - go run main.go
