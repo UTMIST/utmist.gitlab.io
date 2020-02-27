@@ -3,3 +3,5 @@ public/
 .env
 credentials.json
 token.json
+
+content/events/*md

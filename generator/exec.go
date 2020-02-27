@@ -1,6 +1,25 @@
 package generator
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"strings"
+)
+
+const websiteLink = 0
+const linkedinLink = 1
+const gitlabLink = 2
+const gitlhubLink = 3
+const facebookLink = 4
+const twitterLink = 5
+
+const acd = "Academics"
+const com = "Communications"
+const ext = "External"
+const fin = "Finance"
+const lgs = "Logistics"
+const mkt = "Marketing"
+const osg = "Oversight"
 
 // Exec represents an executive member's database row.
 type Exec struct {
@@ -65,17 +84,75 @@ func getDepartments() []string {
 	}
 }
 
-const websiteLink = 0
-const linkedinLink = 1
-const gitlabLink = 2
-const gitlhubLink = 3
-const facebookLink = 4
-const twitterLink = 5
+func generateExecPage(name string, execs []Exec) {
+	generateLog(fmt.Sprintf("%s team", name))
 
-const acd = "Academics"
-const com = "Communications"
-const ext = "External"
-const fin = "Finance"
-const lgs = "Logistics"
-const mkt = "Marketing"
-const osg = "Oversight"
+	f, err := os.Create(fmt.Sprintf("./content/team/%s.md", strings.ToLower(name)))
+	if err != nil {
+		generateErrorLog(fmt.Sprintf("%s team", name))
+	}
+	defer f.Close()
+
+	generatePageHeader(f, fmt.Sprintf("%s Department", name), "0001-01-01", "", []string{"Team"})
+	for _, exec := range execs {
+		if exec.Retired >= 0 {
+			continue
+		}
+
+		var line string
+
+		if exec.PreferredName != "" {
+			line = fmt.Sprintf("%s (%s) %s",
+				exec.FirstName,
+				exec.PreferredName,
+				exec.LastName)
+		} else {
+			line = fmt.Sprintf("%s %s",
+				exec.FirstName,
+				exec.LastName)
+		}
+
+		for i := 0; i < 6; i++ {
+			if str := exec.getLink(i); len(str) > 0 {
+				line = fmt.Sprintf("[%s](%s)", line, str)
+				break
+			}
+		}
+
+		line = fmt.Sprintf("%s, %s", line, exec.Position)
+
+		if strings.Index(exec.Position, "VP") >= 0 ||
+			strings.Index(exec.Position, "President") >= 0 {
+			line = "**" + line + "**"
+		}
+
+		line = "- " + line
+
+		fmt.Fprintln(f, line)
+	}
+
+	if err := f.Close(); err != nil {
+		generateErrorLog(fmt.Sprintf("%s team", name))
+	}
+
+}
+
+func generateExecPages(execs []Exec) {
+	generateGroupLog("exec")
+	depts := map[string][]Exec{}
+	for _, dept := range getDepartments() {
+		depts[dept] = []Exec{}
+	}
+
+	for _, exec := range execs {
+		for _, dept := range exec.Departments {
+			if deptList, exists := depts[dept]; exists {
+				depts[dept] = append(deptList, exec)
+			}
+		}
+	}
+
+	for deptName, deptExecs := range depts {
+		generateExecPage(deptName, deptExecs)
+	}
+}
