@@ -47,6 +47,7 @@ type Exec struct {
 	Retired int
 }
 
+// Return selected social media link for user.
 func (e *Exec) getLink(link int) string {
 	switch link {
 	case websiteLink:
@@ -78,29 +79,32 @@ func (e *Exec) getLink(link int) string {
 	return ""
 }
 
+// Get list of departments.
 func getDepartments() []string {
 	return []string{
 		acd, com, ext, fin, lgs, mkt, osg,
 	}
 }
 
+// Generate a page for the a department.
 func generateExecPage(name string, execs []Exec) {
 	generateLog(fmt.Sprintf("%s team", name))
 
+	// Create file for the page and write the header.
 	f, err := os.Create(fmt.Sprintf("./content/team/%s.md", strings.ToLower(name)))
 	if err != nil {
 		generateErrorLog(fmt.Sprintf("%s team", name))
 	}
 	defer f.Close()
-
 	generatePageHeader(f, fmt.Sprintf("%s Department", name), "0001-01-01", "", []string{"Team"})
+
+	// Write a list entry for every member; skip the alumni (retired).
 	for _, exec := range execs {
 		if exec.Retired >= 0 {
 			continue
 		}
 
 		var line string
-
 		if exec.PreferredName != "" {
 			line = fmt.Sprintf("%s (%s) %s",
 				exec.FirstName,
@@ -112,6 +116,7 @@ func generateExecPage(name string, execs []Exec) {
 				exec.LastName)
 		}
 
+		// Pick the first available social media link from the defined order.
 		for i := 0; i < 6; i++ {
 			if str := exec.getLink(i); len(str) > 0 {
 				line = fmt.Sprintf("[%s](%s)", line, str)
@@ -119,31 +124,34 @@ func generateExecPage(name string, execs []Exec) {
 			}
 		}
 
+		// Reformat the line and write it.
 		line = fmt.Sprintf("%s, %s", line, exec.Position)
-
 		if strings.Index(exec.Position, "VP") >= 0 ||
 			strings.Index(exec.Position, "President") >= 0 {
 			line = "**" + line + "**"
 		}
-
 		line = "- " + line
-
 		fmt.Fprintln(f, line)
 	}
 
+	// Try closing the file.
 	if err := f.Close(); err != nil {
 		generateErrorLog(fmt.Sprintf("%s team", name))
 	}
 
 }
 
+// Generate all the department pages.
 func generateExecPages(execs []Exec) {
 	generateGroupLog("exec")
+
+	// Populate the departments with empty exec list.
 	depts := map[string][]Exec{}
 	for _, dept := range getDepartments() {
 		depts[dept] = []Exec{}
 	}
 
+	// Load execs into their department's exec list.
 	for _, exec := range execs {
 		for _, dept := range exec.Departments {
 			if deptList, exists := depts[dept]; exists {
@@ -152,6 +160,7 @@ func generateExecPages(execs []Exec) {
 		}
 	}
 
+	// Generate each department page.
 	for deptName, deptExecs := range depts {
 		generateExecPage(deptName, deptExecs)
 	}

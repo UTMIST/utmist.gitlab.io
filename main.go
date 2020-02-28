@@ -7,5 +7,5 @@ import (
 func main() {
 	events, execs, projects := gen.Fetch()
 	gen.GeneratePages(events, execs, projects)
-	gen.GenerateEventLinks(events)
+	gen.GenerateNavbarEventLinks(events)
 }

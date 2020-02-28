@@ -57,12 +57,14 @@ func Fetch() ([]Event, []Exec, []Project) {
 	execs := []Exec{}
 	projects := []Project{}
 
+	// Populate each list with events, execs, project, respectively.
 	for _, sheetName := range getSheetNameList() {
 		sheet, exists := sheets[sheetName]
 		if !exists {
 			continue
 		}
 
+		// Validate the API response.
 		resp, err := srv.Spreadsheets.Values.Get(sheet.ID, sheet.Range).Do()
 		if err != nil {
 			dataErrorLog(sheetName, err)
@@ -75,6 +77,7 @@ func Fetch() ([]Event, []Exec, []Project) {
 
 		dataSuccessLog(sheetName)
 
+		// Add to the appropriate list.
 		switch sheetName {
 		case EXECS:
 			for _, row := range resp.Values {
@@ -92,6 +95,7 @@ func Fetch() ([]Event, []Exec, []Project) {
 	return events, execs, projects
 }
 
+// Load an event from a spreadsheet row.
 func loadEvent(data []interface{}) Event {
 	for i := len(data); i < eventSheetRange; i++ {
 		data = append(data, "")
@@ -111,6 +115,7 @@ func loadEvent(data []interface{}) Event {
 	return event
 }
 
+// Load an exec from a spreadsheet row.
 func loadExec(data []interface{}) Exec {
 	for i := len(data); i < execSheetRange; i++ {
 		data = append(data, "")
@@ -152,6 +157,7 @@ func loadFetchEnv() (map[string]Sheet, error) {
 	sheetIDRanges := map[string]Sheet{}
 	sheetNames := getSheetNameList()
 
+	// Populates sheet IDs and ranges for each group (events, execs, projects)
 	for _, sheetName := range sheetNames {
 		ID, Range := getSheetKeys(sheetName)
 		sheetID, ok := os.LookupEnv(ID)
@@ -192,28 +198,29 @@ func fetchLog(str string) {
 	log.Println(str)
 }
 
+// Format a date from EST.
 func formatDateEST(dateStr string) time.Time {
+	// UNDOCUMENTED.
 	parts := strings.Split(dateStr, "/")
 	for i := 0; i < 2; i++ {
 		if len(parts[i]) == 1 {
 			parts[i] = fmt.Sprintf("0%s", parts[i])
 		}
 	}
-
 	dateStr = strings.Join(parts, "/")
 
+	// UNDOCUMENTED.
 	parts = strings.Split(dateStr, " ")
 	if parts[1][1] == ':' {
 		parts[1] = fmt.Sprintf("0%s", parts[1])
 	}
-
 	dateStr = strings.Join(parts, " ")
 
+	// Load location and parse the time in that location.
 	toronto, err := time.LoadLocation("America/New_York")
 	if err != nil {
 		return time.Time{}
 	}
-
 	dateTime, err := time.ParseInLocation(parseDateLayout, dateStr, toronto)
 	if err != nil {
 		return time.Time{}

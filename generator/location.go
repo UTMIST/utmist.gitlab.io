@@ -8,6 +8,7 @@ import (
 )
 
 const utsgBuildingsFile = "assets/utsg_buildings.txt"
+const utsgMapLinkBase = "http://map.utoronto.ca/utsg/building"
 
 // Building represents some building at UofT.
 type Building struct {
@@ -16,14 +17,18 @@ type Building struct {
 	number string
 }
 
+// Get list of UofT building structs.
 func getUofTBuildingsList() (map[string]Building, error) {
-	buildings := map[string]Building{}
 
+	// Load the UTSG building file.
 	utsgBuildingsFile, err := os.Open(utsgBuildingsFile)
 	if err != nil {
-		return buildings, err
+		return nil, err
 	}
 
+	buildings := map[string]Building{}
+
+	// Read a building per line, adding the building to the list.
 	utsgReader := bufio.NewScanner(utsgBuildingsFile)
 	for utsgReader.Scan() {
 		buildingParts := strings.SplitN(utsgReader.Text(), " ", 3)
@@ -41,7 +46,11 @@ func getUofTBuildingsList() (map[string]Building, error) {
 	return buildings, nil
 }
 
+// Return building link from map.utoronto.ca
 func (b *Building) getUofTMapsLink(room string) string {
-	return fmt.Sprintf("[%s](http://map.utoronto.ca/utsg/building/%s) %s",
-		b.name, b.number, room)
+	return fmt.Sprintf("[%s](%s/%s) %s",
+		b.name,
+		utsgMapLinkBase,
+		b.number,
+		room)
 }

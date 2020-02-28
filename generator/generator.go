@@ -83,10 +83,6 @@ const navbarShift = 2
 // Dictating how many individual links appear on the navbar list.
 const maxNavbarEvents = 3
 
-// Paths for the event files.
-const eventsDirPath = "./content/events/"
-const eventsFilePath = "./content/events.md"
-
 const breakLine = "---"
 const sidebar = "sidebar: true"
 const sidebarlogo = "sidebarlogo: whiteside"

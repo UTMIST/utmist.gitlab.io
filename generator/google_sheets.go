@@ -26,6 +26,7 @@ type installed struct {
 	RedirectURIs            []string `json:"redirect_uris"`
 }
 
+// Load credentials for Google Sheets from environment variables.
 func getCredentials() ([]byte, error) {
 	var exists bool
 	clientID, exists := os.LookupEnv("CLIENT_ID")
