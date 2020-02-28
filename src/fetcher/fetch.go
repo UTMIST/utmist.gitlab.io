@@ -1,4 +1,4 @@
-package generator
+package fetcher
 
 import (
 	"fmt"
@@ -7,6 +7,10 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"gitlab.com/utmist/utmist.gitlab.io/src/event"
+	"gitlab.com/utmist/utmist.gitlab.io/src/exec"
+	"gitlab.com/utmist/utmist.gitlab.io/src/project"
 
 	"github.com/joho/godotenv"
 	"golang.org/x/oauth2/google"
@@ -21,7 +25,7 @@ const parseDateLayout = "01/02/2006 15:04:05"
 const SCOPE = "https://www.googleapis.com/auth/spreadsheets.readonly"
 
 // Fetch fetches events, projects, recruitment, and exec databases.
-func Fetch() ([]Event, []Exec, []Project) {
+func Fetch() ([]event.Event, []exec.Exec, []project.Project) {
 	if err := godotenv.Load(); err != nil {
 		log.Print("No .env file found")
 	}
@@ -53,9 +57,9 @@ func Fetch() ([]Event, []Exec, []Project) {
 	}
 
 	// Create lists.
-	events := []Event{}
-	execs := []Exec{}
-	projects := []Project{}
+	events := []event.Event{}
+	execs := []exec.Exec{}
+	projects := []project.Project{}
 
 	// Populate each list with events, execs, project, respectively.
 	for _, sheetName := range getSheetNameList() {
@@ -96,12 +100,12 @@ func Fetch() ([]Event, []Exec, []Project) {
 }
 
 // Load an event from a spreadsheet row.
-func loadEvent(data []interface{}) Event {
+func loadEvent(data []interface{}) event.Event {
 	for i := len(data); i < eventSheetRange; i++ {
 		data = append(data, "")
 	}
 
-	event := Event{
+	event := event.Event{
 		Title:     data[0].(string),
 		Type:      data[1].(string),
 		DateTime:  formatDateEST(data[2].(string)),
@@ -116,12 +120,12 @@ func loadEvent(data []interface{}) Event {
 }
 
 // Load an exec from a spreadsheet row.
-func loadExec(data []interface{}) Exec {
+func loadExec(data []interface{}) exec.Exec {
 	for i := len(data); i < execSheetRange; i++ {
 		data = append(data, "")
 	}
 
-	exec := Exec{
+	exec := exec.Exec{
 		Email:         data[0].(string),
 		FirstName:     data[1].(string),
 		PreferredName: data[2].(string),

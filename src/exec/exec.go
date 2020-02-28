@@ -1,9 +1,12 @@
-package generator
+package exec
 
 import (
 	"fmt"
 	"os"
 	"strings"
+
+	"gitlab.com/utmist/utmist.gitlab.io/src/hugo"
+	"gitlab.com/utmist/utmist.gitlab.io/src/logger"
 )
 
 const websiteLink = 0
@@ -88,15 +91,15 @@ func getDepartments() []string {
 
 // Generate a page for the a department.
 func generateExecPage(name string, execs []Exec) {
-	generateLog(fmt.Sprintf("%s team", name))
+	logger.GenerateLog(fmt.Sprintf("%s team", name))
 
 	// Create file for the page and write the header.
 	f, err := os.Create(fmt.Sprintf("./content/team/%s.md", strings.ToLower(name)))
 	if err != nil {
-		generateErrorLog(fmt.Sprintf("%s team", name))
+		logger.GenerateErrorLog(fmt.Sprintf("%s team", name))
 	}
 	defer f.Close()
-	generatePageHeader(f, fmt.Sprintf("%s Department", name), "0001-01-01", "", []string{"Team"})
+	hugo.GeneratePageHeader(f, fmt.Sprintf("%s Department", name), "0001-01-01", "", []string{"Team"})
 
 	// Write a list entry for every member; skip the alumni (retired).
 	for _, exec := range execs {
@@ -136,14 +139,14 @@ func generateExecPage(name string, execs []Exec) {
 
 	// Try closing the file.
 	if err := f.Close(); err != nil {
-		generateErrorLog(fmt.Sprintf("%s team", name))
+		logger.GenerateErrorLog(fmt.Sprintf("%s team", name))
 	}
 
 }
 
-// Generate all the department pages.
-func generateExecPages(execs []Exec) {
-	generateGroupLog("exec")
+// GenerateExecPages generates all the department pages.
+func GenerateExecPages(execs []Exec) {
+	logger.GenerateGroupLog("exec")
 
 	// Populate the departments with empty exec list.
 	depts := map[string][]Exec{}

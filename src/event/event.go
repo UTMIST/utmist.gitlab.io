@@ -1,4 +1,4 @@
-package generator
+package event
 
 import (
 	"bufio"
@@ -7,6 +7,9 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	"gitlab.com/utmist/utmist.gitlab.io/src/hugo"
+	"gitlab.com/utmist/utmist.gitlab.io/src/logger"
 )
 
 // Paths for the event files.
@@ -63,19 +66,19 @@ func (e *Event) getLocation(buildings *map[string]Building) string {
 // Generate a page for an event, including main image, content, location and date/time.
 func generateEventPage(name string, event Event, buildings *map[string]Building) {
 
-	generateLog(fmt.Sprintf("%s", name))
+	logger.GenerateLog(fmt.Sprintf("%s", name))
 
 	// Create and open and defer close file.
 	filename := event.titleToFilename()
 	f, err := os.Create(fmt.Sprintf("./content/events/%s.md", filename))
 	if err != nil {
-		generateErrorLog(fmt.Sprintf("%s", name))
+		logger.GenerateErrorLog(fmt.Sprintf("%s", name))
 	}
 	defer f.Close()
 
 	// Format date and generate page header.
-	dateStr := event.DateTime.Format(fileDateLayout)
-	generatePageHeader(f, name, dateStr, event.Summary, []string{"Event", event.Type})
+	dateStr := event.DateTime.Format(hugo.FileDateLayout)
+	hugo.GeneratePageHeader(f, name, dateStr, event.Summary, []string{"Event", event.Type})
 
 	// If there's an image and/or summary, include them.
 	if len(event.ImageLink) > 0 {
@@ -89,8 +92,8 @@ func generateEventPage(name string, event Event, buildings *map[string]Building)
 	}
 
 	// Clean up the file and add footer with date/time and location.
-	fmt.Fprintln(f, breakLine)
-	printedDateStr := fmt.Sprintf("Date/Time: **%s.**", event.DateTime.Format(printDateLayout))
+	fmt.Fprintln(f, hugo.Breakline)
+	printedDateStr := fmt.Sprintf("Date/Time: **%s.**", event.DateTime.Format(hugo.PrintDateLayout))
 	fmt.Fprintln(f, printedDateStr)
 	if location := event.getLocation(buildings); len(location) > 0 {
 		fmt.Fprintln(f, "")
@@ -99,8 +102,8 @@ func generateEventPage(name string, event Event, buildings *map[string]Building)
 	}
 }
 
-// Generate events main page and each event's page.
-func generateEventPages(events []Event) {
+// GenerateEventPages generates events main page and each event's page.
+func GenerateEventPages(events []Event) {
 	// Get list of UofT buildings.
 	buildings, err := getUofTBuildingsList()
 	if err != nil {
@@ -112,7 +115,7 @@ func generateEventPages(events []Event) {
 
 	// Create folder and generate each event page.
 	os.Mkdir(eventsDirPath, os.ModePerm)
-	generateGroupLog("event")
+	logger.GenerateGroupLog("event")
 	for _, event := range events {
 		generateEventPage(event.Title, event, &buildings)
 	}
@@ -123,7 +126,7 @@ func generateEventPages(events []Event) {
 func GenerateNavbarEventLinks(events []Event) {
 
 	// Open and defer close config_base.yaml as template.
-	configBase, err := os.Open(configBase)
+	configBase, err := os.Open(hugo.ConfigBase)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -139,7 +142,7 @@ func GenerateNavbarEventLinks(events []Event) {
 	// Search for correct place in config_base you'd add event listings.
 	i := 0
 	for i < len(lines) {
-		if lines[i] == navbar {
+		if lines[i] == hugo.Navbar {
 			break
 		}
 		i++
@@ -173,7 +176,7 @@ func GenerateNavbarEventLinks(events []Event) {
 	lines = append(lines, postLines...)
 
 	// Overwrite the config.yaml file.
-	configFile, err := os.Create(config)
+	configFile, err := os.Create(hugo.Config)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -211,7 +214,7 @@ func generateEventList(events []Event, buildings *map[string]Building) {
 	for i := 0; i < len(events); i++ {
 		title := events[i].Title
 		filename := events[i].titleToFilename()
-		dateStr := events[i].DateTime.Format(printDateLayout)
+		dateStr := events[i].DateTime.Format(hugo.PrintDateLayout)
 
 		listItem := fmt.Sprintf("|[%s](%s)|%s|%s|%s|",
 			title,
@@ -224,3 +227,9 @@ func generateEventList(events []Event, buildings *map[string]Building) {
 	}
 	eventsFile.Close()
 }
+
+// Number of lines to shift when identifying navbar entry in config_base.yaml.
+const navbarShift = 2
+
+// Dictating how many individual links appear on the navbar list.
+const maxNavbarEvents = 3

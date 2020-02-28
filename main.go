@@ -1,11 +1,11 @@
 package main
 
 import (
-	gen "gitlab.com/utmist/utmist.gitlab.io/generator"
+	fetcher "gitlab.com/utmist/utmist.gitlab.io/src/fetcher"
+	generator "gitlab.com/utmist/utmist.gitlab.io/src/generator"
 )
 
 func main() {
-	events, execs, projects := gen.Fetch()
-	gen.GeneratePages(events, execs, projects)
-	gen.GenerateNavbarEventLinks(events)
+	events, execs, projects := fetcher.Fetch()
+	generator.GeneratePages(events, execs, projects)
 }
