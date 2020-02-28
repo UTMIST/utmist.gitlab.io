@@ -159,18 +159,13 @@ func GenerateNavbarEventLinks(events []Event) {
 
 	// Add event link lines into config.yaml.
 	eventLines := []string{}
-	for i := len(events) - 1; i >= 0; i-- {
+	for i := maxNavbarEvents - 1; i >= 0; i-- {
 		filename := events[i].titleToFilename()
 		newEvent := []string{
 			fmt.Sprintf("        - title: \"%s\"", events[i].Title),
 			fmt.Sprintf("          url: /events/%s", filename),
 		}
 		eventLines = append(newEvent, eventLines...)
-
-		// Truncate the number of events shown on navbar.
-		if len(eventLines) >= maxNavbarEvents {
-			break
-		}
 	}
 
 	// Stitch config.yaml back together with preLines and postLines.
@@ -197,6 +192,7 @@ func generateEventList(events []Event, buildings *map[string]Building) {
 		log.Fatal(err)
 	}
 
+	// Header of main events page.
 	for _, line := range []string{
 		"---",
 		"title: Events",
@@ -211,6 +207,7 @@ func generateEventList(events []Event, buildings *map[string]Building) {
 		eventsFile.WriteString(line + "\n")
 	}
 
+	// Add each event into the list.
 	for i := 0; i < len(events); i++ {
 		title := events[i].Title
 		filename := events[i].titleToFilename()
