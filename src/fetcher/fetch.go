@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
+	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
 	"gitlab.com/utmist/utmist.gitlab.io/src/event"
-	"gitlab.com/utmist/utmist.gitlab.io/src/exec"
 	"gitlab.com/utmist/utmist.gitlab.io/src/project"
 
 	"github.com/joho/godotenv"
@@ -18,14 +18,14 @@ import (
 )
 
 const eventSheetRange = 8
-const execSheetRange = 17
+const associateSheetRange = 17
 const parseDateLayout = "01/02/2006 15:04:05"
 
 // SCOPE of the sheets API access.
 const SCOPE = "https://www.googleapis.com/auth/spreadsheets.readonly"
 
-// Fetch fetches events, projects, recruitment, and exec databases.
-func Fetch() ([]event.Event, []exec.Exec, []project.Project) {
+// Fetch fetches associate, event, project, recruitment databases.
+func Fetch() ([]event.Event, []associate.Associate, []project.Project) {
 	if err := godotenv.Load(); err != nil {
 		log.Print("No .env file found")
 	}
@@ -58,10 +58,10 @@ func Fetch() ([]event.Event, []exec.Exec, []project.Project) {
 
 	// Create lists.
 	events := []event.Event{}
-	execs := []exec.Exec{}
+	associates := []associate.Associate{}
 	projects := []project.Project{}
 
-	// Populate each list with events, execs, project, respectively.
+	// Populate each list with associates, events, project, respectively.
 	for _, sheetName := range getSheetNameList() {
 		sheet, exists := sheets[sheetName]
 		if !exists {
@@ -83,9 +83,9 @@ func Fetch() ([]event.Event, []exec.Exec, []project.Project) {
 
 		// Add to the appropriate list.
 		switch sheetName {
-		case EXECS:
+		case ASSOCIATES:
 			for _, row := range resp.Values {
-				execs = append(execs, loadExec(row))
+				associates = append(associates, loadAssociate(row))
 			}
 		case EVENTS:
 			for _, row := range resp.Values {
@@ -96,7 +96,7 @@ func Fetch() ([]event.Event, []exec.Exec, []project.Project) {
 		}
 	}
 
-	return events, execs, projects
+	return events, associates, projects
 }
 
 // Load an event from a spreadsheet row.
@@ -119,13 +119,13 @@ func loadEvent(data []interface{}) event.Event {
 	return event
 }
 
-// Load an exec from a spreadsheet row.
-func loadExec(data []interface{}) exec.Exec {
-	for i := len(data); i < execSheetRange; i++ {
+// Load an associate from a spreadsheet row.
+func loadAssociate(data []interface{}) associate.Associate {
+	for i := len(data); i < associateSheetRange; i++ {
 		data = append(data, "")
 	}
 
-	exec := exec.Exec{
+	associate := associate.Associate{
 		Email:         data[0].(string),
 		FirstName:     data[1].(string),
 		PreferredName: data[2].(string),
@@ -148,7 +148,7 @@ func loadExec(data []interface{}) exec.Exec {
 			return retired
 		}(data[16]),
 	}
-	return exec
+	return associate
 }
 func loadProject() {}
 
@@ -161,7 +161,7 @@ func loadFetchEnv() (map[string]Sheet, error) {
 	sheetIDRanges := map[string]Sheet{}
 	sheetNames := getSheetNameList()
 
-	// Populates sheet IDs and ranges for each group (events, execs, projects)
+	// Populates sheet IDs and ranges for each group (associates, vents, projects)
 	for _, sheetName := range sheetNames {
 		ID, Range := getSheetKeys(sheetName)
 		sheetID, ok := os.LookupEnv(ID)

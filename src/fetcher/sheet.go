@@ -2,11 +2,11 @@ package fetcher
 
 import "fmt"
 
+// ASSOCIATES key.
+const ASSOCIATES = "ASSOCIATE"
+
 // EVENTS key.
 const EVENTS = "EVENT"
-
-// EXECS key.
-const EXECS = "EXEC"
 
 // PROJECTS key.
 const PROJECTS = "PROJECT"
@@ -29,7 +29,7 @@ func getSheetKeys(sheetName string) (string, string) {
 func getSheetNameList() []string {
 	return []string{
 		EVENTS,
-		EXECS,
+		ASSOCIATES,
 		PROJECTS,
 		RECRUIT,
 	}

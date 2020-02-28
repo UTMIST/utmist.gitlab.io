@@ -1,4 +1,4 @@
-package exec
+package associate
 
 import (
 	"fmt"
@@ -24,8 +24,8 @@ const lgs = "Logistics"
 const mkt = "Marketing"
 const osg = "Oversight"
 
-// Exec represents an executive member's database row.
-type Exec struct {
+// Associate represents an associateutive member's database row.
+type Associate struct {
 	Email       string
 	PhoneNumber string
 
@@ -51,7 +51,7 @@ type Exec struct {
 }
 
 // Return selected social media link for user.
-func (e *Exec) getLink(link int) string {
+func (e *Associate) getLink(link int) string {
 	switch link {
 	case websiteLink:
 		if len(e.Website) > 0 {
@@ -90,7 +90,7 @@ func getDepartments() []string {
 }
 
 // Generate a page for the a department.
-func generateExecPage(name string, execs []Exec) {
+func generateDepartmentPage(name string, associates []Associate) {
 	logger.GenerateLog(fmt.Sprintf("%s team", name))
 
 	// Create file for the page and write the header.
@@ -102,35 +102,35 @@ func generateExecPage(name string, execs []Exec) {
 	hugo.GeneratePageHeader(f, fmt.Sprintf("%s Department", name), "0001-01-01", "", []string{"Team"})
 
 	// Write a list entry for every member; skip the alumni (retired).
-	for _, exec := range execs {
-		if exec.Retired >= 0 {
+	for _, associate := range associates {
+		if associate.Retired >= 0 {
 			continue
 		}
 
 		var line string
-		if exec.PreferredName != "" {
+		if associate.PreferredName != "" {
 			line = fmt.Sprintf("%s (%s) %s",
-				exec.FirstName,
-				exec.PreferredName,
-				exec.LastName)
+				associate.FirstName,
+				associate.PreferredName,
+				associate.LastName)
 		} else {
 			line = fmt.Sprintf("%s %s",
-				exec.FirstName,
-				exec.LastName)
+				associate.FirstName,
+				associate.LastName)
 		}
 
 		// Pick the first available social media link from the defined order.
 		for i := 0; i < 6; i++ {
-			if str := exec.getLink(i); len(str) > 0 {
+			if str := associate.getLink(i); len(str) > 0 {
 				line = fmt.Sprintf("[%s](%s)", line, str)
 				break
 			}
 		}
 
 		// Reformat the line and write it.
-		line = fmt.Sprintf("%s, %s", line, exec.Position)
-		if strings.Index(exec.Position, "VP") >= 0 ||
-			strings.Index(exec.Position, "President") >= 0 {
+		line = fmt.Sprintf("%s, %s", line, associate.Position)
+		if strings.Index(associate.Position, "VP") >= 0 ||
+			strings.Index(associate.Position, "President") >= 0 {
 			line = "**" + line + "**"
 		}
 		line = "- " + line
@@ -144,27 +144,27 @@ func generateExecPage(name string, execs []Exec) {
 
 }
 
-// GenerateExecPages generates all the department pages.
-func GenerateExecPages(execs []Exec) {
-	logger.GenerateGroupLog("exec")
+// GenerateAssociatePages generates all the department pages.
+func GenerateAssociatePages(associates []Associate) {
+	logger.GenerateGroupLog("associate")
 
-	// Populate the departments with empty exec list.
-	depts := map[string][]Exec{}
+	// Populate the departments with empty associate list.
+	depts := map[string][]Associate{}
 	for _, dept := range getDepartments() {
-		depts[dept] = []Exec{}
+		depts[dept] = []Associate{}
 	}
 
-	// Load execs into their department's exec list.
-	for _, exec := range execs {
-		for _, dept := range exec.Departments {
+	// Load associates into their department's associate list.
+	for _, associate := range associates {
+		for _, dept := range associate.Departments {
 			if deptList, exists := depts[dept]; exists {
-				depts[dept] = append(deptList, exec)
+				depts[dept] = append(deptList, associate)
 			}
 		}
 	}
 
 	// Generate each department page.
-	for deptName, deptExecs := range depts {
-		generateExecPage(deptName, deptExecs)
+	for deptName, deptAssociates := range depts {
+		generateDepartmentPage(deptName, deptAssociates)
 	}
 }

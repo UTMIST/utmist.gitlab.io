@@ -1,6 +1,11 @@
 # utmist.gitlab.io
 
-Club website for the University of Toronto Machine Intelligence Student Team (UTMIST). It's built in **Go**, pulls our "database" sheets from the Google Sheets API, and generates **markdown** content pages. We then use **Hugo** to generate the static site with these pages on the **GitLab CI**.
+Club website for the University of Toronto Machine Intelligence Student Team (UTMIST). It's composed the following parts.
+
+- Google Sheets serve as databases.
+- The **fetcher** package pulls from the databases and populates **Associate**, **Event**, and **Project** objects.
+- The **generator** package uses the objects fetched to generate **markdown** content pages.
+- **Hugo** generates the static site website locally or with **GitLab Pages**.
 
 ## Prerequisites
 
@@ -32,17 +37,17 @@ Club website for the University of Toronto Machine Intelligence Student Team (UT
 
 ## Usage
 
-- `go main.go` will generate the site content using `generator`.
-  - This consists a `fetch` script to pull data from the Google Sheets, and will use `credentials.json` to generate a `token.json` (looking similar to `token.copy.json`) if this file doesn't exist.
+- `go main.go` will generate the site content using `fetcher` and `generator`.
+  - `fetcher` uses credentials from `.env` to create a `token.json` for Google Sheets API access locally. GitLab CI uses environment variables.
   - It will then generate the **markdown** pages stored in `./content`.
 - `hugo server -D` will run the website on `localhost:1313`.
 
-## Development & Planning
+## Rationale
 
 - This new website [utmist.gitlab.io](https://utmist.gitlab.io) is intended to replace [utmist.github.io](utmist.github.io).
 - Instead of having `travis` rebuild the website on GH pages every 24h, we will instead move towards a **Discord/Slack bot**, allowing any member of the UTMIST Workspace to run the GitLab CI using the most recent data at will.
 
 ## Developers
 
-- [Rupert Wu](https://leglesslamb.gitlab.io)
+- **[Rupert Wu](https://leglesslamb.gitlab.io)**
 - [Salim](https://msanvarov.github.io/personal-portfolio)

@@ -6,6 +6,6 @@ import (
 )
 
 func main() {
-	events, execs, projects := fetcher.Fetch()
-	generator.GeneratePages(events, execs, projects)
+	events, associates, projects := fetcher.Fetch()
+	generator.GeneratePages(events, associates, projects)
 }
