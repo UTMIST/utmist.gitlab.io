@@ -4,5 +4,6 @@ public/
 credentials.json
 token.json
 
-content/events/*md
 config.yaml
+content/events/*md
+content/events.md

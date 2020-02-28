@@ -7,11 +7,22 @@ Club website for the University of Toronto Machine Intelligence Student Team (UT
 - The **generator** package uses the objects fetched to generate **markdown** content pages.
 - **Hugo** generates the static site website locally or with **GitLab Pages**.
 
+### Connections
+
+- The fetcher/generator and Hugo are run in GitLab's CI and fed into GitLab Pages.
+- The [UTMIST Assistant (MISTA)](https://gitlab.com/utmist/mista) can trigger a job to regenerate when responding to commands in our Discord Server. If MISTA is offline, jobs must be triggered manually through the [GitLab CI/CD Pipeline Manager](https://gitlab.com/utmist/utmist.gitlab.io/pipelines).
+
 ## Prerequisites
 
 - [Go](https://golang.org/).
 - [Hugo](https://github.com/gohugoio/hugo/releases), `>= 0.61`.
 - See [Google Sheets API for Go](https://developers.google.com/sheets/api/quickstart/go).
+
+## Details
+
+- `.gitlab-ci.yml` defines what the GitLab CI will do when running a pipeline. In particular, it lists the `scripts` the CI will run, and where to look for the static site files (currently in `./public`).
+- We originally utilized `credentials.json` and `token.json` as the Google Sheets API documentation had suggested. However, locally, we now just use the `.env` (similar to `.env.copy`) provided by the team workspace.
+- Associate, Event, and Project pages aren't meant to be remain in the codebase; they are to be generated and used only in local testing and by GitLab CI to push to GitLab Pages.
 
 ## Setup/Housekeeping
 
@@ -27,13 +38,10 @@ Club website for the University of Toronto Machine Intelligence Student Team (UT
   ```
   git clone https://gitlab.com/utmist/utmist.gitlab.io.git
   ```
-
-* Add the `hugo-fresh` theme.
+- Add the `hugo-fresh` theme.
   ```
   git submodule update --init --recursive
   ```
-* `.gitlab-ci.yml` defines what the GitLab CI will do when running a pipeline. In particular, it lists the `scripts` the CI will run, and where to look for the static site files (currently in `./public`).
-* We originally utilized `credentials.json` and `token.json` as the Google Sheets API documentation had suggested. However, locally, we now just use the `.env` (similar to `.env.copy`) provided by the team workspace.
 
 ## Usage
 

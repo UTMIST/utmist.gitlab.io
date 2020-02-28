@@ -17,12 +17,6 @@ const ConfigBase = "config_base.yaml"
 // FileDateLayout defines the layout we write to files.
 const FileDateLayout = "2006-01-02"
 
-// Sidebar is the markdown header property to show the sidebar.
-const Sidebar = "sidebar: true"
-
-// Sidebarlogo is the markdown header property to show the the whiteside logo.
-const Sidebarlogo = "sidebarlogo: whiteside"
-
 // MaxNavbarEvents defines how may events to show on the navbar.
 const MaxNavbarEvents = 3
 
@@ -31,6 +25,12 @@ const Navbar = "  navbar:"
 
 // NavbarShift is number of lines to skip atthe main events page entry.
 const NavbarShift = 2
+
+// Sidebar is the markdown header property to show the sidebar.
+const Sidebar = "sidebar: true"
+
+// Sidebarlogo is the markdown header property to show the the whiteside logo.
+const Sidebarlogo = "sidebarlogo: whiteside"
 
 // PrintDateLayout defines the layout we print out.
 const PrintDateLayout = "Mon, Jan 02 2006, 15:04"

@@ -28,9 +28,9 @@ func getSheetKeys(sheetName string) (string, string) {
 // GetSheetNameList returns a list of constant sheet name strings.
 func getSheetNameList() []string {
 	return []string{
-		EVENTS,
 		ASSOCIATES,
-		PROJECTS,
-		RECRUIT,
+		EVENTS,
+		// PROJECTS,
+		// RECRUIT,
 	}
 }

@@ -53,6 +53,7 @@ func getCredentials() ([]byte, error) {
 	if !exists {
 		return nil, nil
 	}
+
 	redirectURIs := []string{}
 	if redirectURI, exists := os.LookupEnv("REDIRECT_URI1"); exists {
 		redirectURIs = append(redirectURIs, redirectURI)
