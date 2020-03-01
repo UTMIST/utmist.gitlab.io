@@ -9,12 +9,15 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/logger"
 )
 
+// Paths for the event files.
+const assocDirPath = "./content/team/"
+
 // Generate a page for the a department.
 func generateDepartmentPage(name string, associates []Associate) {
 	logger.GenerateLog(fmt.Sprintf("%s team", name))
 
 	// Create file for the page and write the header.
-	f, err := os.Create(fmt.Sprintf("./content/team/%s.md", strings.ToLower(name)))
+	f, err := os.Create(fmt.Sprintf("%s%s.md", assocDirPath, strings.ToLower(name)))
 	if err != nil {
 		logger.GenerateErrorLog(fmt.Sprintf("%s team", name))
 	}
@@ -84,6 +87,7 @@ func GenerateAssociatePages(associates []Associate) {
 	}
 
 	// Generate each department page.
+	os.Mkdir(assocDirPath, os.ModePerm)
 	for deptName, deptAssociates := range depts {
 		generateDepartmentPage(deptName, deptAssociates)
 	}
