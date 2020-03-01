@@ -15,6 +15,9 @@ import (
 const eventsDirPath = "./content/events/"
 const eventsFilePath = "./content/events.md"
 
+// Discord invite link to add to config.yaml.
+const discordBase = "https://discord.gg/"
+
 // Generate a page for an event, including main image, content, location and date/time.
 func generateEventPage(name string, event Event, buildings *map[string]Building) {
 
@@ -84,11 +87,17 @@ func GenerateNavbarEventLinks(events []Event) {
 	}
 	defer configBase.Close()
 
+	discordLink, discordLinkExists := os.LookupEnv("DISCORD_LINK")
+
 	// Read lines from config_base.
 	lines := []string{}
 	scanner := bufio.NewScanner(configBase)
 	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
+		line := scanner.Text()
+		if discordLinkExists && strings.Index(line, discordBase) > -1 {
+			line = fmt.Sprintf("%s%s", line, discordLink)
+		}
+		lines = append(lines, line)
 	}
 
 	// Search for correct place in config_base you'd add event listings.

@@ -13,8 +13,8 @@ params:
   hero:
     title: Clear the Mist
     subtitle: UofT Machine Intelligence Student Team
-    buttontext: Subscribe
-    buttonlink: "https://docs.google.com/forms/d/e/1FAIpQLSdsKdXEbd7cyrb9OvFXKd0Iy7p2-E_0A5i27pm4lEQZ4DG8OA/viewform"
+    buttontext: Join our Discord
+    buttonlink: https://discord.gg/
     image: "logos/bluebottom.svg"
   navbar:
     - title: Events
@@ -45,8 +45,10 @@ params:
           url: /team/oversight
     - title: About
       url: /about
-    - title: Subscribe
-      url: https://docs.google.com/forms/d/e/1FAIpQLSdsKdXEbd7cyrb9OvFXKd0Iy7p2-E_0A5i27pm4lEQZ4DG8OA/viewform
+    - title: GitLab
+      url: https://gitlab.com/utmist/utmist.gitlab.io
+    - title: Discord
+      url: https://discord.gg/
       button: true
   footer:
     logo: white.svg
@@ -58,21 +60,29 @@ params:
       - link: https://github.com/utmist
         icon: github
       - link: https://gitlab.com/utmist
-        icon: git
+        icon: gitlab
       - link: https://medium.com/@utorontomist
         icon: medium
       - link: https://twitter.com/UTMIST1
         icon: twitter
+      - link: https://discord.gg/
+        icon: discord
     bulmalogo: true
     quicklinks:
       column1:
         title: "Events"
         links:
+          - text: Our Events
+            link: /events
+          - text: Organizing an Event
+            link: /events-organizing
       column2:
-        title: "Our Projects"
+        title: "Projects"
         links:
-          - text: Projects
+          - text: Our Projects
             link: /projects
+          - text: Work with Us
+            link: /projects-collaboration
       column3:
         title: "About Us"
         links:
