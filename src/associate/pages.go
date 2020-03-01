@@ -5,6 +5,8 @@ import (
 	"os"
 	"strings"
 
+	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
+
 	"gitlab.com/utmist/utmist.gitlab.io/src/hugo"
 	"gitlab.com/utmist/utmist.gitlab.io/src/logger"
 )
@@ -14,15 +16,9 @@ const assocDirPath = "./content/team/"
 
 // Generate a page for the a department.
 func generateDepartmentPage(name string, associates []Associate) {
-	logger.GenerateLog(fmt.Sprintf("%s team", name))
+	logger.GenerateLog(fmt.Sprintf("%s department", name))
 
-	// Create file for the page and write the header.
-	f, err := os.Create(fmt.Sprintf("%s%s.md", assocDirPath, strings.ToLower(name)))
-	if err != nil {
-		logger.GenerateErrorLog(fmt.Sprintf("%s team", name))
-	}
-	defer f.Close()
-	hugo.GeneratePageHeader(f, fmt.Sprintf("%s Department", name), "0001-01-01", "", []string{"Team"})
+	lines := hugo.GeneratePageHeader(fmt.Sprintf("%s Department", name), "0001-01-01", "", []string{"Team"})
 
 	// Write a list entry for every member; skip the alumni (retired).
 	for _, associate := range associates {
@@ -30,17 +26,15 @@ func generateDepartmentPage(name string, associates []Associate) {
 			continue
 		}
 
-		var line string
-		if associate.PreferredName != "" {
-			line = fmt.Sprintf("%s (%s) %s",
-				associate.FirstName,
-				associate.PreferredName,
-				associate.LastName)
-		} else {
-			line = fmt.Sprintf("%s %s",
-				associate.FirstName,
-				associate.LastName)
-		}
+		line := fmt.Sprintf("%s%s%s",
+			associate.FirstName,
+			func() string {
+				if associate.PreferredName == "" {
+					return " "
+				}
+				return fmt.Sprintf(" (%s) ", associate.PreferredName)
+			}(),
+			associate.LastName)
 
 		// Pick the first available social media link from the defined order.
 		for i := 0; i < 6; i++ {
@@ -57,14 +51,11 @@ func generateDepartmentPage(name string, associates []Associate) {
 			line = "**" + line + "**"
 		}
 		line = "- " + line
-		fmt.Fprintln(f, line)
+		lines = append(lines, line)
 	}
 
-	// Try closing the file.
-	if err := f.Close(); err != nil {
-		logger.GenerateErrorLog(fmt.Sprintf("%s team", name))
-	}
-
+	filename := fmt.Sprintf("%s%s.md", assocDirPath, strings.ToLower(name))
+	helpers.OverwriteWithLines(filename, lines)
 }
 
 // GenerateAssociatePages generates all the department pages.

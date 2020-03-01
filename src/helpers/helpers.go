@@ -2,6 +2,8 @@ package helpers
 
 import (
 	"fmt"
+	"log"
+	"os"
 	"strings"
 	"time"
 )
@@ -37,4 +39,17 @@ func FormatDateEST(dateStr string) time.Time {
 	}
 
 	return dateTime
+}
+
+// OverwriteWithLines overwrites the given file at <path> with <lines>.
+func OverwriteWithLines(path string, lines []string) {
+	// Overwrite the config.yaml file.
+	file, err := os.Create(path)
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, line := range lines {
+		file.WriteString(line + "\n")
+	}
+	file.Close()
 }

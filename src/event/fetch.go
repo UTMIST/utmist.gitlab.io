@@ -56,7 +56,7 @@ func (e *Event) getLocation(buildings *map[string]Building) string {
 	return e.Location
 }
 
-// Load an event from a spreadsheet row.
+// LoadEvent loads an event from a spreadsheet row.
 func LoadEvent(data []interface{}) Event {
 	for i := len(data); i < eventsSheetRange; i++ {
 		data = append(data, "")

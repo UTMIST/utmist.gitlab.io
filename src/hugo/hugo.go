@@ -2,7 +2,6 @@ package hugo
 
 import (
 	"fmt"
-	"os"
 )
 
 // Breakline denotes the linebreak in a markdown file.
@@ -51,8 +50,8 @@ func getTagsListStr(tags []string) string {
 
 }
 
-// GeneratePageHeader writes a header to file given the page's front matter.
-func GeneratePageHeader(f *os.File, title, date, summary string, tags []string) {
+// GeneratePageHeader writes lines for an event page header.
+func GeneratePageHeader(title, date, summary string, tags []string) []string {
 	header := []string{
 		Breakline,
 		fmt.Sprintf("title: \"%s\"", title),
@@ -65,8 +64,5 @@ func GeneratePageHeader(f *os.File, title, date, summary string, tags []string) 
 		Breakline,
 		"",
 	}
-
-	for _, line := range header {
-		fmt.Fprintln(f, line)
-	}
+	return header
 }
