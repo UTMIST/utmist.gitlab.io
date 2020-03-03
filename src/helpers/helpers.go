@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -52,4 +53,12 @@ func OverwriteWithLines(path string, lines []string) {
 		file.WriteString(line + "\n")
 	}
 	file.Close()
+}
+
+// InterfaceToYear produces a year A.E. from an interface (usually a string).
+func InterfaceToYear(yearObj interface{}) int {
+	if year, err := strconv.Atoi(yearObj.(string)); err == nil {
+		return year
+	}
+	return -1
 }

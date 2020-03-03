@@ -11,6 +11,7 @@ import (
 )
 
 const eventsFilePath = "./content/events.md"
+const eventsBasePath = "./assets/events.md"
 
 // Generate the main events list page (events.md).
 func generateEventList(events []Event, buildings *map[string]Building) {
@@ -38,7 +39,7 @@ func generateEventList(events []Event, buildings *map[string]Building) {
 
 // Reads the existing events.md and truncates it to the header.
 func readEventsFileBase() []string {
-	eventsFile, err := os.Open(eventsFilePath)
+	eventsFile, err := os.Open(eventsBasePath)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sort"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
 	"gitlab.com/utmist/utmist.gitlab.io/src/event"
@@ -88,6 +89,8 @@ func Fetch() ([]event.Event, []associate.Associate, []project.Project) {
 			fmt.Printf("Fetch for %s not yet implemented.\n", sheetName)
 		}
 	}
+
+	sort.Sort(event.EventList(events))
 
 	return events, associates, projects
 }

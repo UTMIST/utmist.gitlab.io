@@ -23,8 +23,11 @@ Club website for the University of Toronto Machine Intelligence Student Team (UT
 - `.gitlab-ci.yml` defines what the GitLab CI will do when running a pipeline. In particular, it lists the `scripts` the CI will run, and where to look for the static site files (currently in `./public`).
 - We originally utilized `credentials.json` and `token.json` as the Google Sheets API documentation had suggested. However, locally, we now just use the `.env` (similar to `.env.copy`) provided by the team workspace.
 - Associate, Event, and Project pages aren't meant to be remain in the codebase; they are to be generated and used only in local testing and by GitLab CI to push to GitLab Pages.
+- There is a `Makefile` with useful scripts.
+- This new website [utmist.gitlab.io](https://utmist.gitlab.io) is intended to replace [utmist.github.io](utmist.github.io).
+- Instead of having `travis` rebuild the website on GH pages every 24h, we have instead moved towards a **Discord/Slack bot**, allowing some members of the UTMIST Workspace to run the GitLab CI using the most recent data at will.
 
-## Setup/Housekeeping
+### Setup/Housekeeping
 
 - Clone into the `GOPATH` using `SSH` or `HTTPS`.
   ```
@@ -43,17 +46,16 @@ Club website for the University of Toronto Machine Intelligence Student Team (UT
   git submodule update --init --recursive
   ```
 
-## Usage
+### Usage
 
 - `go main.go` will generate the site content using `fetcher` and `generator`.
   - `fetcher` uses credentials from `.env` to create a `token.json` for Google Sheets API access locally. GitLab CI uses environment variables.
   - It will then generate the **markdown** pages stored in `./content`.
 - `hugo server -D` will run the website on `localhost:1313`.
 
-## Rationale
+### Cleanup
 
-- This new website [utmist.gitlab.io](https://utmist.gitlab.io) is intended to replace [utmist.github.io](utmist.github.io).
-- Instead of having `travis` rebuild the website on GH pages every 24h, we will instead move towards a **Discord/Slack bot**, allowing any member of the UTMIST Workspace to run the GitLab CI using the most recent data at will.
+- Run `make clean`.
 
 ## Developers
 

@@ -46,7 +46,7 @@ params:
     - title: About
       url: /about
     - title: GitLab
-      url: https://gitlab.com/utmist/utmist.gitlab.io
+      url: https://gitlab.com/utmist/
     - title: Discord
       url: https://discord.gg/
       button: true

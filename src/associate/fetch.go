@@ -2,8 +2,9 @@ package associate
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
+
+	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
 const associatesSheetRange = 17
@@ -111,13 +112,7 @@ func LoadAssociate(data []interface{}) Associate {
 		LinkedIn:      data[13].(string),
 		GitHub:        data[14].(string),
 		GitLab:        data[15].(string),
-		Retired: func(yearObj interface{}) int {
-			retired, err := strconv.Atoi(yearObj.(string))
-			if err != nil {
-				retired = -1
-			}
-			return retired
-		}(data[16]),
+		Retired:       helpers.InterfaceToYear(data[16]),
 	}
 	return associate
 }

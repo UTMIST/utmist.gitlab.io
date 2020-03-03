@@ -3,6 +3,6 @@ test:
 	hugo server -D
 
 clean:
-	rm -rf content/events
+	rm -rf content/events content/team content/events.md
 	rm config.yaml
 
