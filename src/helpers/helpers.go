@@ -44,7 +44,6 @@ func FormatDateEST(dateStr string) time.Time {
 
 // OverwriteWithLines overwrites the given file at <path> with <lines>.
 func OverwriteWithLines(path string, lines []string) {
-	// Overwrite the config.yaml file.
 	file, err := os.Create(path)
 	if err != nil {
 		log.Fatal(err)
@@ -61,4 +60,10 @@ func InterfaceToYear(yearObj interface{}) int {
 		return year
 	}
 	return -1
+}
+
+// PadDateWithIndex pads a year with 0s and Jan 1st.
+func PadDateWithIndex(index int) string {
+	padded := fmt.Sprintf("%04d-01-01\n", index)
+	return padded
 }

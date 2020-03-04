@@ -10,13 +10,15 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/hugo"
 )
 
-const eventsFilePath = "./content/events.md"
+const eventsFilePath = "./content/events/list.md"
 const eventsBasePath = "./assets/events.md"
+const tablePadder = "   "
+const blankDate = "date:"
 
 // Generate the main events list page (events.md).
 func generateEventList(events []Event, buildings *map[string]Building) {
 	// Get header lines of events.md.
-	lines := readEventsFileBase()
+	lines := readEventsFileBase(len(events))
 
 	// Add each event into the list.
 	for i := 0; i < len(events); i++ {
@@ -24,12 +26,19 @@ func generateEventList(events []Event, buildings *map[string]Building) {
 		filename := events[i].titleToFilename()
 		dateStr := events[i].DateTime.Format(hugo.PrintDateLayout)
 
-		listItem := fmt.Sprintf("|[%s](%s)|%s|%s|%s|",
+		location, room := events[i].getLocation(buildings)
+
+		listItem := fmt.Sprintf("|[%s](../%s)|%s|%s|%s|%s|%s|%s|%s|%s|",
 			title,
 			filename,
+			tablePadder,
 			dateStr[:len(dateStr)-6],
+			tablePadder,
 			dateStr[len(dateStr)-6:],
-			events[i].getLocation(buildings),
+			tablePadder,
+			location,
+			tablePadder,
+			room,
 		)
 		lines = append(lines, listItem)
 	}
@@ -38,7 +47,7 @@ func generateEventList(events []Event, buildings *map[string]Building) {
 }
 
 // Reads the existing events.md and truncates it to the header.
-func readEventsFileBase() []string {
+func readEventsFileBase(num int) []string {
 	eventsFile, err := os.Open(eventsBasePath)
 	if err != nil {
 		log.Fatal(err)
@@ -49,7 +58,11 @@ func readEventsFileBase() []string {
 	lines := []string{}
 	scanner := bufio.NewScanner(eventsFile)
 	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
+		line := scanner.Text()
+		if len(line) >= len(blankDate) && line[:len(blankDate)] == blankDate {
+			line = fmt.Sprintf("%s %s", blankDate, helpers.PadDateWithIndex(num+1))
+		}
+		lines = append(lines, line)
 	}
 
 	return lines[:11]

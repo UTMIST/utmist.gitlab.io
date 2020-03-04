@@ -90,7 +90,7 @@ func Fetch() ([]event.Event, []associate.Associate, []project.Project) {
 		}
 	}
 
-	sort.Sort(event.EventList(events))
+	sort.Sort(event.List(events))
 
 	return events, associates, projects
 }

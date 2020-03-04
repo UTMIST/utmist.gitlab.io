@@ -16,13 +16,12 @@ import (
 const eventsDirPath = "./content/events/"
 
 // Generate a page for an event, including main image, content, location and date/time.
-func generateEventPage(name string, event Event, buildings *map[string]Building) {
+func generateEventPage(name string, event Event, buildings *map[string]Building, index int) {
 
 	logger.GenerateLog(fmt.Sprintf("%s", name))
 
 	// Format date and generate page header.
-	dateStr := event.DateTime.Format(hugo.FileDateLayout)
-	lines := hugo.GeneratePageHeader(name, dateStr, event.Summary, []string{"Event", event.Type})
+	lines := hugo.GeneratePageHeader(name, helpers.PadDateWithIndex(index), event.Summary, []string{"Event", event.Type})
 
 	// If there's an image and/or summary, include them.
 	if len(event.ImageLink) > 0 {
@@ -39,9 +38,9 @@ func generateEventPage(name string, event Event, buildings *map[string]Building)
 	lines = append(lines, hugo.Breakline)
 	printedDateStr := fmt.Sprintf("Date/Time: **%s.**", event.DateTime.Format(hugo.PrintDateLayout))
 	lines = append(lines, printedDateStr)
-	if location := event.getLocation(buildings); len(location) > 0 {
+	if location, room := event.getLocation(buildings); len(location) > 0 {
 		lines = append(lines, "")
-		printedLocStr := fmt.Sprintf("Location: **%s.**", location)
+		printedLocStr := fmt.Sprintf("Location: **%s %s.**", location, room)
 		lines = append(lines, printedLocStr)
 	}
 
@@ -57,14 +56,14 @@ func GenerateEventPages(events []Event) {
 		log.Fatal(err)
 	}
 
+	logger.GenerateGroupLog("event")
+	os.Mkdir(eventsDirPath, os.ModePerm)
+
 	// Generate events main page.
 	generateEventList(events, &buildings)
 
-	// Create folder and generate each event page.
-	os.Mkdir(eventsDirPath, os.ModePerm)
-	logger.GenerateGroupLog("event")
-	for _, event := range events {
-		generateEventPage(event.Title, event, &buildings)
+	// Generate each event page.
+	for i, event := range events {
+		generateEventPage(event.Title, event, &buildings, len(events)-i)
 	}
-
 }

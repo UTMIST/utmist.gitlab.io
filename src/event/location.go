@@ -48,9 +48,8 @@ func getUofTBuildingsList() (map[string]Building, error) {
 
 // Return building link from map.utoronto.ca
 func (b *Building) getUofTMapsLink(room string) string {
-	return fmt.Sprintf("[%s](%s/%s) %s",
+	return fmt.Sprintf("[%s](%s/%s)",
 		b.name,
 		utsgMap,
-		b.number,
-		room)
+		b.number)
 }

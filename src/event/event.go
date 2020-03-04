@@ -18,18 +18,21 @@ type Event struct {
 	PostLink  string
 }
 
-type EventList []Event
+// List defines a list of events.
+type List []Event
 
-// To implement sort.
-func (e EventList) Len() int {
+// Method Len() to implement sort.Sort.
+func (e List) Len() int {
 	return len(e)
 }
 
-func (e EventList) Less(i, j int) bool {
+// Method Less() to implement sort.Sort.
+func (e List) Less(i, j int) bool {
 	return e[j].DateTime.Before(e[i].DateTime)
 }
 
-func (e EventList) Swap(i, j int) {
+// Method Swap() to implement sort.Sort.
+func (e List) Swap(i, j int) {
 	e[i], e[j] = e[j], e[i]
 }
 
@@ -50,19 +53,19 @@ func (e *Event) titleToFilename() string {
 }
 
 // Parse location from event, for something familiar like a UofT building.
-func (e *Event) getLocation(buildings *map[string]Building) string {
+func (e *Event) getLocation(buildings *map[string]Building) (string, string) {
 
 	// Definitely not building code.
 	if len(e.Location) <= 2 {
-		return e.Location
+		return e.Location, ""
 	}
 
 	// Try to find a UofT building code
 	bldgCode := e.Location[:2]
 	bldg, exists := (*buildings)[bldgCode]
 	if exists && bldgCode == strings.ToUpper(bldgCode) {
-		return bldg.getUofTMapsLink(e.Location)
+		return bldg.getUofTMapsLink(e.Location), e.Location
 	}
 
-	return e.Location
+	return e.Location, ""
 }

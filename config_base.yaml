@@ -20,11 +20,11 @@ params:
     - title: Events
       sublinks:
         - title: More Events...
-          url: /events
+          url: /events/list
     - title: Projects
       sublinks:
         - title: More Projects...
-          url: /projects
+          url: /projects/list
     - title: Team
       sublinks:
         - title: Our Team
@@ -75,14 +75,14 @@ params:
           - text: Our Events
             link: /events
           - text: Organizing an Event
-            link: /events-organizing
+            link: /events/organizing
       column2:
         title: "Projects"
         links:
           - text: Our Projects
             link: /projects
           - text: Work with Us
-            link: /projects-collaboration
+            link: /projects/collaboration
       column3:
         title: "About Us"
         links:
