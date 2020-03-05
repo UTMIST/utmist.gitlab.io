@@ -35,7 +35,9 @@ func generateEventPage(name string, event Event, buildings *map[string]Building,
 	}
 
 	// Clean up the file and add footer with date/time and location.
+	lines = append(lines, "")
 	lines = append(lines, hugo.Breakline)
+	lines = append(lines, "")
 	printedDateStr := fmt.Sprintf("Date/Time: **%s.**", event.DateTime.Format(hugo.PrintDateLayout))
 	lines = append(lines, printedDateStr)
 	if location, room := event.getLocation(buildings); len(location) > 0 {
