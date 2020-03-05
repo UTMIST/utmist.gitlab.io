@@ -1,21 +1,21 @@
 # utmist.gitlab.io
 
-Club website for the University of Toronto Machine Intelligence Student Team (UTMIST). It's composed the following parts.
+Club website for the [University of Toronto Machine Intelligence Student Team (UTMIST)](https://utmist.gitlab.io). It's composed the following parts.
 
-- Google Sheets serve as databases.
+- [Google Sheets](https://developers.google.com/sheets) serve as databases.
 - The **fetcher** package pulls from the databases and populates **Associate**, **Event**, and **Project** objects.
 - The **generator** package uses the objects fetched to generate **markdown** content pages.
 - **Hugo** generates the static site website locally or with **GitLab Pages**.
 
 ### Connections
 
-- The fetcher/generator and Hugo are run in GitLab's CI and fed into GitLab Pages.
-- The [UTMIST Assistant (MISTA)](https://gitlab.com/utmist/mista) can trigger a job to regenerate when responding to commands in our Discord Server. If MISTA is offline, jobs must be triggered manually through the [GitLab CI/CD Pipeline Manager](https://gitlab.com/utmist/utmist.gitlab.io/pipelines).
+- The fetcher/generator and Hugo are run in [GitLab CI](https://docs.gitlab.com/ce/ci/) and fed into [GitLab Pages](https://docs.gitlab.com/ce/user/project/pages/).
+- The [UTMIST Assistant (MISTA)](https://gitlab.com/utmist/mista) can trigger a job to regenerate when responding to commands in our [Discord Server](https://discord.gg/88mSPw8). If MISTA is offline, jobs must be triggered manually through the [GitLab CI/CD Pipeline Manager](https://gitlab.com/utmist/utmist.gitlab.io/pipelines).
 
 ## Prerequisites
 
 - [Go](https://golang.org/).
-- [Hugo](https://github.com/gohugoio/hugo/releases), `>= 0.61`.
+- [Hugo](https://github.com/gohugoio/hugo/releases), `>= 0.61`. GitLab CI uses `0.66`.
 - See [Google Sheets API for Go](https://developers.google.com/sheets/api/quickstart/go).
 
 ## Details
@@ -26,6 +26,7 @@ Club website for the University of Toronto Machine Intelligence Student Team (UT
 - There is a `Makefile` with useful scripts.
 - This new website [utmist.gitlab.io](https://utmist.gitlab.io) is intended to replace [utmist.github.io](utmist.github.io).
 - Instead of having `travis` rebuild the website on GH pages every 24h, we have instead moved towards a **Discord/Slack bot**, allowing some members of the UTMIST Workspace to run the GitLab CI using the most recent data at will.
+- The GitLab CI is using the `leglesslamb/golang-hugo:v0.66.0` Docker image.
 
 ### Setup/Housekeeping
 
