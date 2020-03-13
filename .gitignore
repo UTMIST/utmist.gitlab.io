@@ -4,7 +4,9 @@ public/
 credentials.json
 token.json
 
-config.yaml
+./config.yaml
 content/events/*.md
 content/team/*.md
 content/events.md
+
+resources
