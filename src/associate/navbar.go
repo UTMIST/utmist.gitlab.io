@@ -5,9 +5,10 @@ import (
 )
 
 // Where the department list starts in the config.
-const start = "        - title: Our Team"
+const start = "        - title: Our Alumni"
 
 // GenerateNavbarDeptLinks generates event links for the navbar dropdown menu.
 func GenerateNavbarDeptLinks(lines *[]string) {
-	helpers.StitchIntoConfig(lines, GetDepartmentNames(), "team", start)
+	depts := GetDepartmentNames()
+	helpers.StitchIntoConfig(lines, depts[:len(depts)-1], "team", start)
 }

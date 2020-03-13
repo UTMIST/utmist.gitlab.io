@@ -35,22 +35,22 @@ params:
       sublinks:
         - title: Our Team
           url: /team/list
-        - title: "Administration"
-          url: /team/administration
+        - title: Our Alumni
+          url: /team/alumni
         - title: "Academics"
           url: /team/academics
-        - title: "Industry Relations"
-          url: /team/industry-relations
-        - title: "Infrastructure"
-          url: /team/infrastructure
+        - title: "Communications"
+          url: /team/communications
+        - title: "External"
+          url: /team/external
+        - title: "Finance"
+          url: /team/finance
+        - title: "Logistics"
+          url: /team/logistics
         - title: "Marketing"
           url: /team/marketing
-        - title: "Projects"
-          url: /team/projects
-        - title: "Technical Writing"
-          url: /team/technical-writing
-        - title: "Alumni"
-          url: /team/alumni
+        - title: "Oversight"
+          url: /team/oversight
     - title: About
       url: /about
     - title: GitLab

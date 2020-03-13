@@ -29,6 +29,8 @@ params:
       sublinks:
         - title: Our Team
           url: /team/list
+        - title: Our Alumni
+          url: /team/alumni
     - title: About
       url: /about
     - title: GitLab

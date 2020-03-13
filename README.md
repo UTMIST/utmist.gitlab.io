@@ -7,56 +7,70 @@ Club website for the [University of Toronto Machine Intelligence Student Team (U
 - The **generator** package uses the objects fetched to generate **markdown** content pages.
 - **Hugo** generates the static site website locally or with **GitLab Pages**.
 
-### Connections
+## Connections
 
 - The fetcher/generator and Hugo are run in [GitLab CI](https://docs.gitlab.com/ce/ci/) and fed into [GitLab Pages](https://docs.gitlab.com/ce/user/project/pages/).
 - The [UTMIST Assistant (MISTA)](https://gitlab.com/utmist/mista) can trigger a job to regenerate when responding to commands in our [Discord Server](https://discord.gg/88mSPw8). If MISTA is offline, jobs must be triggered manually through the [GitLab CI/CD Pipeline Manager](https://gitlab.com/utmist/utmist.gitlab.io/pipelines).
 
 ## Prerequisites
 
-- [Go](https://golang.org/).
+- [Go](https://golang.org/). Remember to set the GOPATH.
 - [Hugo](https://github.com/gohugoio/hugo/releases), `>= 0.61`. GitLab CI uses `0.66`.
 - See [Google Sheets API for Go](https://developers.google.com/sheets/api/quickstart/go).
 
 ## Details
 
-- `.gitlab-ci.yml` defines what the GitLab CI will do when running a pipeline. In particular, it lists the `scripts` the CI will run, and where to look for the static site files (currently in `./public`).
-- We originally utilized `credentials.json` and `token.json` as the Google Sheets API documentation had suggested. However, locally, we now just use the `.env` (similar to `.env.copy`) provided by the team workspace.
-- Associate, Event, and Project pages aren't meant to be remain in the codebase; they are to be generated and used only in local testing and by GitLab CI to push to GitLab Pages.
-- There is a `Makefile` with useful scripts.
-- This new website [utmist.gitlab.io](https://utmist.gitlab.io) is intended to replace [utmist.github.io](utmist.github.io).
-- Instead of having `travis` rebuild the website on GH pages every 24h, we have instead moved towards a **Discord/Slack bot**, allowing some members of the UTMIST Workspace to run the GitLab CI using the most recent data at will.
-- The GitLab CI is using the `leglesslamb/golang-hugo:v0.66.0` Docker image.
+- `.env` contains our secrets and other variables. Refer to `.env.copy` for the required variables.
+  - Credentials for the Google Sheets API.
+  - Google Sheet IDs and ranges.
+  - Discord server invite link.
+  - List of departments to show on the webiste. This will matter if department structures change or are listed differently.
+    - A year might have a different list. Use the `DEPARTMENTS_YEAR` variable to specify which year you're using.
+- `main.go` is the driver package and utilizes packages (including `fetcher` and `generator`) under `./src`.
+- Associate/Event/Project pages are generated in generated folders `associate`/`events`/`projects` under `./contents`.
+  - These files are not meant to be committed to the repository as they should be generated with fresh content each time. Be sure these are in `.gitignore`.
+- `./assets` contains some data and templates files we copy and stitch content into.
+  - `./assets/config.yaml => config.yaml`
+  - `./assets/team.md => content/team/list.md`
+  - `./assets/events.md => content/events/list.md`
+  - `./assets/utsg_buildings.txt` contains the codes and numbers for buildings on the UofT St. George campus.
+- `config.yaml` configures what the website looks like.
+  - It defines the Docker image we use for `Go` and `Hugo`.
+  - The `generator` stitches several links into a copy of `./assets/config.yaml`.
 
-### Setup/Housekeeping
+### GitLab
 
-- Clone into the `GOPATH` using `SSH` or `HTTPS`.
-  ```
-  cd $GOPATH/src/gitlab.com/utmist
-  ```
-  `SSH`
-  ```
-  git clone git@gitlab.com:utmist/utmist.gitlab.io.git
-  ```
-  `HTTPS`
-  ```
-  git clone https://gitlab.com/utmist/utmist.gitlab.io.git
-  ```
-- Add the `hugo-fresh` theme.
-  ```
-  git submodule update --init --recursive
-  ```
+- We use GitLab CI and GitLab Pages to host this website.
+  - GitLab CI has its own environment registry.
 
 ### Usage
 
-- `go main.go` will generate the site content using `fetcher` and `generator`.
-  - `fetcher` uses credentials from `.env` to create a `token.json` for Google Sheets API access locally. GitLab CI uses environment variables.
-  - It will then generate the **markdown** pages stored in `./content`.
-- `hugo server -D` will run the website on `localhost:1313`.
+- Clone the repository under `$GOPATH/gitlab.com/utmist/` and initialize theme submodule.
 
-### Cleanup
+  ```sh
+  git clone https://gitlab.com/utmist/utmist.gitlab.io.git
+  git submodule update --init --recursive
+  ```
 
-- Run `make clean`.
+- Paste the environment variables. Refer to `.env.copy` for the required variables.
+- Run the `fetcher/generator` script.
+
+  ```sh
+  go run main.go
+  ```
+
+  Or if you prefer to compile first.
+
+  ```sh
+  go build
+  ./utmist.gitlab.io
+  ```
+
+- Run `hugo` in debugging mode to host the website on `localhost:1313`.
+
+  ```sh
+  hugo server -D
+  ```
 
 ## Developers
 

@@ -10,7 +10,6 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/event"
 	"gitlab.com/utmist/utmist.gitlab.io/src/project"
 
-	"github.com/joho/godotenv"
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/sheets/v4"
 )
@@ -20,10 +19,6 @@ const SCOPE = "https://www.googleapis.com/auth/spreadsheets.readonly"
 
 // Fetch fetches associate, event, project, recruitment databases.
 func Fetch() ([]event.Event, []associate.Associate, []project.Project) {
-	if err := godotenv.Load(); err != nil {
-		log.Print("No .env file found")
-	}
-
 	b, err := getCredentials()
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
@@ -97,10 +92,6 @@ func Fetch() ([]event.Event, []associate.Associate, []project.Project) {
 
 // LoadFetchEnv loads environment variables from .env for fetching.
 func loadFetchEnv() (map[string]Sheet, error) {
-	if err := godotenv.Load(); err != nil {
-		log.Print("No .env file found")
-	}
-
 	sheetIDRanges := map[string]Sheet{}
 	sheetNames := getSheetNameList()
 

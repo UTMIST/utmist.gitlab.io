@@ -5,22 +5,6 @@ import (
 	"strings"
 )
 
-const adm = "Administration"
-const acd = "Academics"
-const ind = "Industry Relations"
-const inf = "Infrastructure"
-const mkt = "Marketing"
-const prj = "Projects"
-const twr = "Technical Writing"
-const alm = "Alumni"
-
-// GetDepartmentNames returns a list of department names.
-func GetDepartmentNames() []string {
-	return []string{
-		adm, acd, ind, inf, mkt, prj, twr, alm,
-	}
-}
-
 // Associate represents an associateutive member's database row.
 type Associate struct {
 	Email       string
@@ -58,6 +42,7 @@ func (a List) Len() int {
 // Method Less() to implement sort.Sort.
 func (a List) Less(i, j int) bool {
 
+	// First compare positions.
 	switch strings.Compare(a[i].Position, a[j].Position) {
 	case -1:
 		return true
@@ -65,6 +50,7 @@ func (a List) Less(i, j int) bool {
 		return false
 	}
 
+	// Then compare last names.
 	switch strings.Compare(a[i].LastName, a[j].LastName) {
 	case -1:
 		return true
@@ -72,6 +58,7 @@ func (a List) Less(i, j int) bool {
 		return false
 	}
 
+	// Finally compare first names.
 	switch strings.Compare(a[i].FirstName, a[j].FirstName) {
 	case -1:
 		return true
@@ -87,38 +74,31 @@ func (a List) Swap(i, j int) {
 	a[i], a[j] = a[j], a[i]
 }
 
-// Return selected social media link for user.
-func (a *Associate) getLink(link int) string {
-	switch link {
-	case websiteLink:
-		if len(a.Website) > 0 {
-			return a.Website
-		}
-	case linkedinLink:
-		if len(a.LinkedIn) > 0 {
-			return fmt.Sprintf("https://linkedin.com/in/%s/", a.LinkedIn)
-		}
-	case gitlabLink:
-		if len(a.GitLab) > 0 {
-			return fmt.Sprintf("https://www.gitlab.com/%s/", a.GitLab)
-		}
-	case gitlhubLink:
-		if len(a.GitHub) > 0 {
-			return fmt.Sprintf("https://www.github.com/%s/", a.GitHub)
-		}
-	case facebookLink:
-		if len(a.Facebook) > 0 {
-			return fmt.Sprintf("https://www.facebook.com/%s/", a.Facebook)
-		}
-	case twitterLink:
-		if len(a.Twitter) > 0 {
-			return fmt.Sprintf("https://www.twitter.com/%s/", a.Twitter)
+const website = ""
+const linkedin = "https://linkedin.com/in"
+const gitlab = "https://www.github.com"
+const github = "https://www.gitlab.com"
+const facebook = "https://www.facebook.com"
+const twitter = "https://www.twitter.com"
+
+// Return personal link for associate.
+func (a *Associate) getLink() string {
+
+	bases := []string{website, linkedin, gitlab, github, facebook, twitter}
+	links := []string{
+		a.Website, a.LinkedIn, a.GitLab, a.GitHub, a.Facebook, a.Twitter}
+
+	// Return the first link found.
+	for i, link := range links {
+		if len(link) > 0 {
+			return fmt.Sprintf("%s/%s/", bases[i], links[i])
 		}
 	}
 
 	return ""
 }
 
+// Create line entry for associate.
 func (a *Associate) getLine(section string, bold bool) string {
 	line := fmt.Sprintf("%s%s%s",
 		a.FirstName,
@@ -131,11 +111,8 @@ func (a *Associate) getLine(section string, bold bool) string {
 		a.LastName)
 
 	// Pick the first available social media link from the defined order.
-	for i := 0; i < 6; i++ {
-		if str := a.getLink(i); len(str) > 0 {
-			line = fmt.Sprintf("[%s](%s)", line, str)
-			break
-		}
+	if str := a.getLink(); len(str) > 0 {
+		line = fmt.Sprintf("[%s](%s)", line, str)
 	}
 
 	// Reformat the line and write it.
