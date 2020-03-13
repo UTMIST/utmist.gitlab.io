@@ -8,7 +8,6 @@ import (
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 
-	"gitlab.com/utmist/utmist.gitlab.io/src/hugo"
 	"gitlab.com/utmist/utmist.gitlab.io/src/logger"
 )
 
@@ -21,7 +20,7 @@ func generateEventPage(name string, event Event, buildings *map[string]Building,
 	logger.GenerateLog(fmt.Sprintf("%s", name))
 
 	// Format date and generate page header.
-	lines := hugo.GeneratePageHeader(name, helpers.PadDateWithIndex(index), event.Summary, []string{"Event", event.Type})
+	lines := helpers.GenerateHugoPageHeader(name, helpers.PadDateWithIndex(index), event.Summary, []string{"Event", event.Type})
 
 	// If there's an image and/or summary, include them.
 	if len(event.ImageLink) > 0 {
@@ -36,9 +35,9 @@ func generateEventPage(name string, event Event, buildings *map[string]Building,
 
 	// Clean up the file and add footer with date/time and location.
 	lines = append(lines, "")
-	lines = append(lines, hugo.Breakline)
+	lines = append(lines, helpers.Breakline)
 	lines = append(lines, "")
-	printedDateStr := fmt.Sprintf("Date/Time: **%s.**", event.DateTime.Format(hugo.PrintDateLayout))
+	printedDateStr := fmt.Sprintf("Date/Time: **%s.**", event.DateTime.Format(helpers.PrintDateLayout))
 	lines = append(lines, printedDateStr)
 	if location, room := event.getLocation(buildings); len(location) > 0 {
 		lines = append(lines, "")
@@ -46,7 +45,7 @@ func generateEventPage(name string, event Event, buildings *map[string]Building,
 		lines = append(lines, printedLocStr)
 	}
 
-	filename := fmt.Sprintf("./content/events/%s.md", event.titleToFilename())
+	filename := fmt.Sprintf("./content/events/%s.md", helpers.StringToFileName(event.Title))
 	helpers.OverwriteWithLines(filename, lines)
 }
 

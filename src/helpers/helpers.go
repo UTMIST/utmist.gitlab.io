@@ -2,8 +2,6 @@ package helpers
 
 import (
 	"fmt"
-	"log"
-	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -42,18 +40,6 @@ func FormatDateEST(dateStr string) time.Time {
 	return dateTime
 }
 
-// OverwriteWithLines overwrites the given file at <path> with <lines>.
-func OverwriteWithLines(path string, lines []string) {
-	file, err := os.Create(path)
-	if err != nil {
-		log.Fatal(err)
-	}
-	for _, line := range lines {
-		file.WriteString(line + "\n")
-	}
-	file.Close()
-}
-
 // InterfaceToYear produces a year A.E. from an interface (usually a string).
 func InterfaceToYear(yearObj interface{}) int {
 	if year, err := strconv.Atoi(yearObj.(string)); err == nil {
@@ -66,4 +52,12 @@ func InterfaceToYear(yearObj interface{}) int {
 func PadDateWithIndex(index int) string {
 	padded := fmt.Sprintf("%04d-01-01\n", index)
 	return padded
+}
+
+// PositionNumber returns the number of positions open for a position from a string.
+func PositionNumber(numStr string) int {
+	if num, err := strconv.Atoi(numStr); err == nil {
+		return num
+	}
+	return 1
 }

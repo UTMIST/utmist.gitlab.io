@@ -36,22 +36,6 @@ func (e List) Swap(i, j int) {
 	e[i], e[j] = e[j], e[i]
 }
 
-// Determine the appropriate filename for this event.
-func (e *Event) titleToFilename() string {
-	// We use lowercase page paths.
-	filename := strings.ToLower(strings.ToLower(e.Title))
-
-	// Remove illegal characters from filenames.
-	strsToRemove := []string{"'", ":", ",", "(", ")"}
-	for _, strToRemove := range strsToRemove {
-		filename = strings.Replace(filename, strToRemove, "", -1)
-	}
-	filename = strings.Replace(filename, " - ", " ", -1)
-	filename = strings.Replace(filename, " ", "-", -1)
-
-	return filename
-}
-
 // Parse location from event, for something familiar like a UofT building.
 func (e *Event) getLocation(buildings *map[string]Building) (string, string) {
 

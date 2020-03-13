@@ -5,7 +5,7 @@ sidebar: true
 sidebarlogo: whiteside
 ---
 
-![AGM 2019 Photo](/images/agm2019exec.png)
+![AGM 2019 Photo](/images/intel.jpg)
 
 ---
 

@@ -3,11 +3,10 @@ package associate
 import (
 	"fmt"
 	"os"
+	"sort"
 	"strings"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
-
-	"gitlab.com/utmist/utmist.gitlab.io/src/hugo"
 	"gitlab.com/utmist/utmist.gitlab.io/src/logger"
 )
 
@@ -18,41 +17,27 @@ const assocDirPath = "./content/team/"
 func generateDepartmentPage(name string, associates []Associate) {
 	logger.GenerateLog(fmt.Sprintf("%s department", name))
 
-	lines := hugo.GeneratePageHeader(fmt.Sprintf("%s Department", name), "0001-01-01", "", []string{"Team"})
-
-	// Write a list entry for every member; skip the alumni (retired).
-	for _, associate := range associates {
-		if associate.Retired >= 0 {
-			continue
-		}
-
-		line := fmt.Sprintf("%s%s%s",
-			associate.FirstName,
-			func() string {
-				if associate.PreferredName == "" {
-					return " "
-				}
-				return fmt.Sprintf(" (%s) ", associate.PreferredName)
-			}(),
-			associate.LastName)
-
-		// Pick the first available social media link from the defined order.
-		for i := 0; i < 6; i++ {
-			if str := associate.getLink(i); len(str) > 0 {
-				line = fmt.Sprintf("[%s](%s)", line, str)
-				break
+	lines := helpers.GenerateHugoPageHeader(
+		func() string {
+			if name == alm {
+				return alm
 			}
-		}
+			return fmt.Sprintf("%s Department", name)
+		}(), "0001-01-01", "", []string{"Team"})
 
-		// Reformat the line and write it.
-		line = fmt.Sprintf("%s, %s", line, associate.Position)
-		if strings.Index(associate.Position, "VP") >= 0 ||
-			strings.Index(associate.Position, "President") >= 0 {
-			line = "**" + line + "**"
+	// Write a list entry for every member.
+	assocLines := []string{}
+	execLines := []string{}
+	for _, associate := range associates {
+		if associate.isExec() && !associate.hasGraduated() {
+			execLines = append(execLines, associate.getLine(name, true))
+		} else {
+			assocLines = append(assocLines, associate.getLine(name, true))
 		}
-		line = "- " + line
-		lines = append(lines, line)
 	}
+
+	lines = append(lines, execLines...)
+	lines = append(lines, assocLines...)
 
 	filename := fmt.Sprintf("%s%s.md", assocDirPath, strings.ToLower(name))
 	helpers.OverwriteWithLines(filename, lines)
@@ -64,22 +49,21 @@ func GenerateAssociatePages(associates []Associate) {
 
 	// Populate the departments with empty associate list.
 	depts := map[string][]Associate{}
-	for _, dept := range getDepartments() {
+	for _, dept := range GetDepartmentNames() {
 		depts[dept] = []Associate{}
 	}
 
 	// Load associates into their department's associate list.
 	for _, associate := range associates {
-		for _, dept := range associate.Departments {
-			if deptList, exists := depts[dept]; exists {
-				depts[dept] = append(deptList, associate)
-			}
+		if deptList, exists := depts[associate.Department]; exists {
+			depts[associate.Department] = append(deptList, associate)
 		}
 	}
 
 	// Generate each department page.
 	os.Mkdir(assocDirPath, os.ModePerm)
 	for deptName, deptAssociates := range depts {
+		sort.Sort(List(deptAssociates))
 		generateDepartmentPage(deptName, deptAssociates)
 	}
 }

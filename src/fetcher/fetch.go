@@ -79,7 +79,7 @@ func Fetch() ([]event.Event, []associate.Associate, []project.Project) {
 		switch sheetName {
 		case ASSOCIATES:
 			for _, row := range resp.Values {
-				associates = append(associates, associate.LoadAssociate(row))
+				associates = append(associates, associate.LoadAssociate(row)...)
 			}
 		case EVENTS:
 			for _, row := range resp.Values {
