@@ -1,5 +1,6 @@
 ---
 title: Our Team
+date: 0000-01-03
 sidebar: true
 sidebarlogo: whiteside
 ---

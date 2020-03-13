@@ -14,33 +14,37 @@ import (
 const assocDirPath = "./content/team/"
 
 // Generate a page for the a department.
-func generateDepartmentPage(name string, associates []Associate) {
-	logger.GenerateLog(fmt.Sprintf("%s department", name))
+func generateDepartmentPage(title string, associates []Associate) {
+	logger.GenerateLog(fmt.Sprintf("%s department", title))
 
+	// Get page title and date and generate the header.
+	title, yearStr := func() (string, string) {
+		if title == alm {
+			return fmt.Sprintf("Our %s", alm), "0000-01-02"
+		}
+		return title, "0000-01-01"
+	}()
 	lines := helpers.GenerateHugoPageHeader(
-		func() string {
-			if name == alm {
-				return alm
-			}
-			return fmt.Sprintf("%s Department", name)
-		}(), "0001-01-01", "", []string{"Team"})
+		title, yearStr, "", []string{"Team"})
 
 	// Write a list entry for every member.
 	assocLines := []string{}
 	execLines := []string{}
 	for _, associate := range associates {
 		if associate.isExec() && !associate.hasGraduated() {
-			execLines = append(execLines, associate.getLine(name, true))
+			execLines = append(execLines, associate.getLine(title, true))
 		} else {
-			assocLines = append(assocLines, associate.getLine(name, true))
+			assocLines = append(assocLines, associate.getLine(title, true))
 		}
 	}
 
+	// Stitch the new lines back in.
 	lines = append(lines, execLines...)
 	lines = append(lines, assocLines...)
 
-	filename := fmt.Sprintf("%s%s.md", assocDirPath, strings.ToLower(name))
-	helpers.OverwriteWithLines(filename, lines)
+	// Write to the new file path.
+	filepath := fmt.Sprintf("%s%s.md", assocDirPath, strings.ToLower(title))
+	helpers.OverwriteWithLines(filepath, lines)
 }
 
 // GenerateAssociatePages generates all the department pages.
