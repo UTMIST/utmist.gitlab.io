@@ -5,12 +5,15 @@ import (
 	"sort"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
+	"gitlab.com/utmist/utmist.gitlab.io/src/position"
 )
 
 const teamFileBase = "./assets/team.md"
-const tablePadder = "   "
 const deptListStart = "## **Departments**"
 const execListStart = "## **Leadership**"
+
+const teamCopyFilename = "assets/team.md"
+const teamFilename = "content/team.md"
 
 // GenerateDeptList generates the list of departments into team.md.
 func GenerateDeptList(lines *[]string) {
@@ -28,10 +31,10 @@ func GenerateDeptList(lines *[]string) {
 }
 
 // GenerateVPList generates a list of VPs into team.md.
-func GenerateVPList(lines *[]string, associates []Associate) {
+func GenerateVPList(lines *[]string, associates *[]Associate) {
 	// Add each dept to the list.
 	execs := []Associate{}
-	for _, associate := range associates {
+	for _, associate := range *associates {
 		if associate.isExec() && !associate.hasGraduated() {
 			execs = append(execs, associate)
 		}
@@ -45,4 +48,15 @@ func GenerateVPList(lines *[]string, associates []Associate) {
 
 	newLines = append(newLines, "")
 	helpers.StitchIntoLines(lines, &newLines, execListStart, 1)
+}
+
+// GenerateTeamPage generates a page for the UTMIST team and open positions.
+func GenerateTeamPage(associates *[]Associate, positions *[]position.Position) {
+	lines := helpers.ReadContentLines(teamCopyFilename)
+	GenerateDeptList(&lines)
+	GenerateVPList(&lines, associates)
+	lines = append(lines, position.MakeList(positions, false)...)
+
+	helpers.InsertDiscordLink(&lines)
+	helpers.OverwriteWithLines(teamFilename, lines)
 }

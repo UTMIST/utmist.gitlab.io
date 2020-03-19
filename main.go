@@ -14,5 +14,6 @@ func main() {
 	}
 
 	events, associates, positions, projects, pastProjects := fetcher.Fetch()
-	generator.GeneratePages(events, associates, positions, projects, pastProjects)
+	generator.GeneratePages(&events, &associates, &positions, &projects, &pastProjects)
+	generator.GenerateConfig(&events, &projects)
 }

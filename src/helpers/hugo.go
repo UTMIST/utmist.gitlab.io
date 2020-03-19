@@ -29,7 +29,7 @@ const Sidebar = "sidebar: true"
 const Sidebarlogo = "sidebarlogo: whiteside"
 
 // TablePadder is the ghost column content for displaying tables.
-const TablePadder = "   "
+const TablePadder = " "
 
 // Format list of tags into a front matter string.
 func getTagsListStr(tags []string) string {

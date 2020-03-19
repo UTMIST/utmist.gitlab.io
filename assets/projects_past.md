@@ -1,5 +1,5 @@
 ## **Past Projects**
 
-| Title |     | Description |     | Department |     | Joining |
-| ----- | --- | ----------- | --- | ---------- | --- | ------- |
+| Title |     | Description |     | Joining |
+| ----- | --- | ----------- | --- | ------- |
 

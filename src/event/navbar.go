@@ -9,10 +9,10 @@ const start = "    - title: Events"
 const max = 3
 
 // GenerateNavbarEventLinks generates event links for the navbar dropdown menu.
-func GenerateNavbarEventLinks(events []Event, lines *[]string) {
+func GenerateNavbarEventLinks(events *[]Event, lines *[]string) {
 	eventTitles := []string{}
 	for i := max - 1; i > -1; i-- {
-		eventTitles = append([]string{events[i].Title}, eventTitles...)
+		eventTitles = append([]string{(*events)[i].Title}, eventTitles...)
 	}
 
 	helpers.StitchPageLink(lines, eventTitles, "/events/", start)

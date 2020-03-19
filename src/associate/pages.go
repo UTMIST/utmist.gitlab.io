@@ -17,8 +17,8 @@ const assocDirPath = "./content/team/"
 // Generate a page for the a department.
 func generateDepartmentPage(
 	title string,
-	associates []Associate,
-	positions []position.Position) {
+	associates *[]Associate,
+	positions *[]position.Position) {
 
 	logger.GenerateLog(title)
 
@@ -35,7 +35,7 @@ func generateDepartmentPage(
 	// Write a list entry for every member.
 	assocLines := []string{}
 	execLines := []string{}
-	for _, associate := range associates {
+	for _, associate := range *associates {
 		if associate.isExec() && !associate.hasGraduated() {
 			execLines = append(execLines, associate.getLine(title, true))
 		} else {
@@ -46,7 +46,7 @@ func generateDepartmentPage(
 	// Stitch the new lines back in with any existing open positions.
 	lines = append(lines, execLines...)
 	lines = append(lines, assocLines...)
-	lines = append(lines, position.MakeTable(positions)...)
+	lines = append(lines, position.MakeList(positions, true)...)
 
 	// Write to the new file path.
 	filepath := fmt.Sprintf("%s%s.md", assocDirPath, strings.ToLower(title))
@@ -54,7 +54,7 @@ func generateDepartmentPage(
 }
 
 // GenerateAssociatePages generates all the department pages.
-func GenerateAssociatePages(associates []Associate, positions []position.Position) {
+func GenerateAssociatePages(associates *[]Associate, positions *[]position.Position) {
 	logger.GenerateGroupLog("associate")
 
 	// Populate the departments with empty associate list.
@@ -66,14 +66,14 @@ func GenerateAssociatePages(associates []Associate, positions []position.Positio
 	}
 
 	// Load associates into their department's associate list.
-	for _, associate := range associates {
+	for _, associate := range *associates {
 		if deptList, exists := departments[associate.Department]; exists {
 			departments[associate.Department] = append(deptList, associate)
 		}
 	}
 
 	// Load positions into their department's associate list.
-	for _, position := range positions {
+	for _, position := range *positions {
 		if posList, exists := deptPositions[position.Department]; exists {
 			deptPositions[position.Department] = append(posList, position)
 		}
@@ -82,8 +82,13 @@ func GenerateAssociatePages(associates []Associate, positions []position.Positio
 	// Generate each department page.
 	os.Mkdir(assocDirPath, os.ModePerm)
 	for deptName, deptAssociates := range departments {
-
 		sort.Sort(List(deptAssociates))
-		generateDepartmentPage(deptName, deptAssociates, deptPositions[deptName])
+
+		generateDepartmentPage(deptName, &deptAssociates, func() *[]position.Position {
+			if pos, exists := deptPositions[deptName]; exists {
+				return &pos
+			}
+			return nil
+		}())
 	}
 }

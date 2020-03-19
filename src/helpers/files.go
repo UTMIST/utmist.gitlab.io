@@ -2,10 +2,13 @@ package helpers
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
 	"strings"
 )
+
+const discordBase = "https://discord.gg/"
 
 // StringToFileName formats a given string to a filename.
 func StringToFileName(str string) string {
@@ -77,8 +80,8 @@ func StitchIntoLines(lines, newLines *[]string, start string, shift int) {
 	}
 
 	// Stitch config.yaml back together with preLines and postLines.
-	(*lines) = append(preLines, (*newLines)...)
-	(*lines) = append(*lines, postLines...)
+	*lines = append(preLines, (*newLines)...)
+	*lines = append(*lines, postLines...)
 }
 
 // ReadFileBase an existing file and truncates it to the header.
@@ -94,4 +97,16 @@ func ReadFileBase(filename string, num, trunc int) []string {
 	}
 
 	return lines[:trunc]
+}
+
+// InsertDiscordLink appends the server invite link to Discord links.
+func InsertDiscordLink(lines *[]string) {
+	discordLink, exists := os.LookupEnv("DISCORD_LINK")
+	if !exists {
+		return
+	}
+
+	for i := range *lines {
+		(*lines)[i] = strings.Replace((*lines)[i], discordBase, fmt.Sprintf("%s%s", discordBase, discordLink), -1)
+	}
 }
