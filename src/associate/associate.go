@@ -3,6 +3,7 @@ package associate
 import (
 	"fmt"
 	"strings"
+	"time"
 )
 
 // Associate represents an associateutive member's database row.
@@ -136,5 +137,5 @@ func (a *Associate) isExec() bool {
 }
 
 func (a *Associate) hasGraduated() bool {
-	return a.Graduated >= 0
+	return 0 <= a.Graduated && a.Graduated < time.Now().Year()
 }

@@ -10,5 +10,5 @@ const start = "        - title: Our Team"
 // GenerateNavbarDeptLinks generates event links for the navbar dropdown menu.
 func GenerateNavbarDeptLinks(lines *[]string) {
 	depts := GetDepartmentNames()
-	helpers.StitchIntoConfig(lines, depts[:len(depts)-1], "team", start)
+	helpers.StitchPageLink(lines, depts[:len(depts)-1], "/team/", start)
 }

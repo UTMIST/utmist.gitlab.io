@@ -76,3 +76,5 @@ params:
             link: /about
           - text: Team
             link: /team
+          - text: Alumni
+            link: /team/alumni

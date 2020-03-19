@@ -3,7 +3,7 @@ package event
 import "gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 
 // Where the event list starts in the config.
-const start = "        - title: More Events..."
+const start = "    - title: Events"
 
 // Dictating how many individual links appear on the navbar list.
 const max = 3
@@ -15,5 +15,5 @@ func GenerateNavbarEventLinks(events []Event, lines *[]string) {
 		eventTitles = append([]string{events[i].Title}, eventTitles...)
 	}
 
-	helpers.StitchIntoConfig(lines, eventTitles, "events", start)
+	helpers.StitchPageLink(lines, eventTitles, "/events/", start)
 }

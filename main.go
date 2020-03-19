@@ -13,6 +13,6 @@ func main() {
 		log.Print("No .env file found")
 	}
 
-	events, associates, positions, projects := fetcher.Fetch()
-	generator.GeneratePages(events, associates, positions, projects)
+	events, associates, positions, projects, pastProjects := fetcher.Fetch()
+	generator.GeneratePages(events, associates, positions, projects, pastProjects)
 }

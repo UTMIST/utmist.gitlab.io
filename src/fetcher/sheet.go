@@ -11,8 +11,8 @@ const EVENTS = "EVENT"
 // PROJECTS key.
 const PROJECTS = "PROJECT"
 
-// RECRUIT key.
-const RECRUIT = "RECRUIT"
+// POSITIONS key.
+const POSITIONS = "POSITION"
 
 // Sheet represents the config data for a given sheet.
 type Sheet struct {
@@ -30,7 +30,7 @@ func getSheetNameList() []string {
 	return []string{
 		ASSOCIATES,
 		EVENTS,
-		// PROJECTS,
-		RECRUIT,
+		POSITIONS,
+		PROJECTS,
 	}
 }

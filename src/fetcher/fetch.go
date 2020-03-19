@@ -19,7 +19,13 @@ import (
 const SCOPE = "https://www.googleapis.com/auth/spreadsheets.readonly"
 
 // Fetch fetches associate, event, project, recruitment databases.
-func Fetch() ([]event.Event, []associate.Associate, []position.Position, []project.Project) {
+func Fetch() (
+	[]event.Event,
+	[]associate.Associate,
+	[]position.Position,
+	[]project.Project,
+	[]project.Project) {
+
 	b, err := getCredentials()
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
@@ -50,7 +56,8 @@ func Fetch() ([]event.Event, []associate.Associate, []position.Position, []proje
 	events := []event.Event{}
 	associates := []associate.Associate{}
 	positions := []position.Position{}
-	projects := []project.Project{}
+	activeProjects := []project.Project{}
+	pastProjects := []project.Project{}
 
 	// Populate each list with associates, events, project, respectively.
 	for _, sheetName := range getSheetNameList() {
@@ -82,9 +89,18 @@ func Fetch() ([]event.Event, []associate.Associate, []position.Position, []proje
 			for _, row := range resp.Values {
 				events = append(events, event.LoadEvent(row))
 			}
-		case RECRUIT:
+		case POSITIONS:
 			for _, row := range resp.Values {
 				positions = append(positions, position.LoadPosition(row))
+			}
+		case PROJECTS:
+			for _, row := range resp.Values {
+				proj := project.LoadProject(row)
+				if proj.Status == project.ActiveStatus {
+					activeProjects = append(activeProjects, proj)
+				} else {
+					pastProjects = append(pastProjects, proj)
+				}
 			}
 		default:
 			fmt.Printf("Fetch for %s not yet implemented.\n", sheetName)
@@ -93,7 +109,7 @@ func Fetch() ([]event.Event, []associate.Associate, []position.Position, []proje
 
 	sort.Sort(event.List(events))
 
-	return events, associates, positions, projects
+	return events, associates, positions, activeProjects, pastProjects
 }
 
 // LoadFetchEnv loads environment variables from .env for fetching.

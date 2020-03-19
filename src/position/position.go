@@ -19,7 +19,7 @@ type Position struct {
 	Instructions string
 }
 
-// LoadPosition loads an associate from a spreadsheet row.
+// LoadPosition loads a position from a spreadsheet row.
 func LoadPosition(data []interface{}) Position {
 
 	// Pad the columns with blanks to avoid index-out-of-range.
@@ -45,7 +45,7 @@ func MakeTable(positions []Position) []string {
 		return []string{}
 	}
 
-	lines := helpers.ReadFileBase(recruitBasePath, len(positions), 8)
+	lines := helpers.ReadFileBase(recruitBasePath, len(positions), 6)
 
 	for _, pos := range positions {
 		posListing := fmt.Sprintf("|%s|%s|[%s](%s)|%s|%s|%s|%s|%s|%s|",

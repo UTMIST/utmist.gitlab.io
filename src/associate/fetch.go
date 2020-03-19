@@ -2,7 +2,6 @@ package associate
 
 import (
 	"strings"
-	"time"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
@@ -44,7 +43,7 @@ func LoadAssociate(data []interface{}) []Associate {
 	}
 
 	// Add a single entry for any alumni.
-	if 0 <= associate.Graduated && associate.Graduated < time.Now().Year() {
+	if associate.hasGraduated() {
 		associate.Department = "Alumni"
 		return []Associate{associate}
 	}

@@ -63,8 +63,8 @@ func GenerateHugoPageHeader(title, date, summary string, tags []string) []string
 	return header
 }
 
-// StitchIntoConfig stitches new lines into the config.
-func StitchIntoConfig(lines *[]string, objects []string, section, start string) {
+// StitchPageLink stitches new lines into the config.
+func StitchPageLink(lines *[]string, objects []string, section, start string) {
 
 	// Add new objects into config.
 	newLines := []string{}
@@ -72,7 +72,25 @@ func StitchIntoConfig(lines *[]string, objects []string, section, start string) 
 		filename := StringToFileName(objects[i])
 		newObj := []string{
 			fmt.Sprintf("        - title: \"%s\"", objects[i]),
-			fmt.Sprintf("          url: /%s/%s", section, filename),
+			fmt.Sprintf("          url: %s%s", section, filename),
+		}
+
+		newLines = append(newLines, newObj...)
+	}
+
+	StitchIntoLines(lines, &newLines, start, 1)
+}
+
+// StitchExternalLink stitches new lines into the config.
+func StitchExternalLink(lines *[]string, titles, links []string, start string) {
+
+	// Add new objects into config.
+	newLines := []string{}
+	for i := 0; i < len(titles); i++ {
+		link := links[i]
+		newObj := []string{
+			fmt.Sprintf("        - title: \"%s\"", titles[i]),
+			fmt.Sprintf("          url: %s", link),
 		}
 
 		newLines = append(newLines, newObj...)
