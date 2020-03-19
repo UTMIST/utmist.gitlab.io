@@ -6,15 +6,14 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
-const eventsFilePath = "./content/events/list.md"
+const eventsFilePath = "./content/events.md"
 const eventsBasePath = "./assets/events.md"
 const tablePadder = "   "
-const blankDate = "date:"
 
 // Generate the main events list page (events.md).
 func generateEventList(events []Event, buildings *map[string]Building) {
 	// Get header lines of events.md.
-	lines := readEventsFileBase(len(events))
+	lines := helpers.ReadFileBase(eventsBasePath, len(events), 11)
 
 	// Add each event to the list.
 	for i := 0; i < len(events); i++ {
@@ -24,7 +23,7 @@ func generateEventList(events []Event, buildings *map[string]Building) {
 
 		location, room := events[i].getLocation(buildings)
 
-		listItem := fmt.Sprintf("|[%s](../%s)|%s|%s|%s|%s|%s|%s|%s|%s|",
+		eventListing := fmt.Sprintf("|[%s](../%s)|%s|%s|%s|%s|%s|%s|%s|%s|",
 			title,
 			filename,
 			tablePadder,
@@ -36,23 +35,8 @@ func generateEventList(events []Event, buildings *map[string]Building) {
 			tablePadder,
 			room,
 		)
-		lines = append(lines, listItem)
+		lines = append(lines, eventListing)
 	}
 
 	helpers.OverwriteWithLines(eventsFilePath, lines)
-}
-
-// Reads the existing events.md and truncates it to the header.
-func readEventsFileBase(num int) []string {
-
-	lines := helpers.ReadContentLines(eventsBasePath)
-	for i, line := range lines {
-		if len(line) >= len(blankDate) && line[:len(blankDate)] == blankDate {
-			line = fmt.Sprintf("%s %s", blankDate, helpers.PadDateWithIndex(num+1))
-		}
-
-		lines[i] = line
-	}
-
-	return lines[:11]
 }

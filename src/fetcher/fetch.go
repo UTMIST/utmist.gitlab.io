@@ -8,6 +8,7 @@ import (
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
 	"gitlab.com/utmist/utmist.gitlab.io/src/event"
+	"gitlab.com/utmist/utmist.gitlab.io/src/position"
 	"gitlab.com/utmist/utmist.gitlab.io/src/project"
 
 	"golang.org/x/oauth2/google"
@@ -18,7 +19,7 @@ import (
 const SCOPE = "https://www.googleapis.com/auth/spreadsheets.readonly"
 
 // Fetch fetches associate, event, project, recruitment databases.
-func Fetch() ([]event.Event, []associate.Associate, []project.Project) {
+func Fetch() ([]event.Event, []associate.Associate, []position.Position, []project.Project) {
 	b, err := getCredentials()
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
@@ -48,6 +49,7 @@ func Fetch() ([]event.Event, []associate.Associate, []project.Project) {
 	// Create lists.
 	events := []event.Event{}
 	associates := []associate.Associate{}
+	positions := []position.Position{}
 	projects := []project.Project{}
 
 	// Populate each list with associates, events, project, respectively.
@@ -80,6 +82,10 @@ func Fetch() ([]event.Event, []associate.Associate, []project.Project) {
 			for _, row := range resp.Values {
 				events = append(events, event.LoadEvent(row))
 			}
+		case RECRUIT:
+			for _, row := range resp.Values {
+				positions = append(positions, position.LoadPosition(row))
+			}
 		default:
 			fmt.Printf("Fetch for %s not yet implemented.\n", sheetName)
 		}
@@ -87,7 +93,7 @@ func Fetch() ([]event.Event, []associate.Associate, []project.Project) {
 
 	sort.Sort(event.List(events))
 
-	return events, associates, projects
+	return events, associates, positions, projects
 }
 
 // LoadFetchEnv loads environment variables from .env for fetching.

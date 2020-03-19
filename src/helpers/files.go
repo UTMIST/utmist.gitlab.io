@@ -80,3 +80,18 @@ func StitchIntoLines(lines, newLines *[]string, start string, shift int) {
 	(*lines) = append(preLines, (*newLines)...)
 	(*lines) = append(*lines, postLines...)
 }
+
+// ReadFileBase an existing file and truncates it to the header.
+func ReadFileBase(filename string, num, trunc int) []string {
+
+	lines := ReadContentLines(filename)
+	for i, line := range lines {
+		lines[i] = line
+	}
+
+	if trunc == -1 {
+		return lines
+	}
+
+	return lines[:trunc]
+}

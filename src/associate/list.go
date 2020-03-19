@@ -17,6 +17,9 @@ func GenerateDeptList(lines *[]string) {
 	// Add each dept to the list.
 	newLines := []string{}
 	for _, dept := range GetDepartmentNames() {
+		if dept == alm {
+			continue
+		}
 		line := fmt.Sprintf("- [%s](../%s)", dept, helpers.StringToFileName(dept))
 		newLines = append(newLines, line)
 	}

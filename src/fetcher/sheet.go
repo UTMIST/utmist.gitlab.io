@@ -31,6 +31,6 @@ func getSheetNameList() []string {
 		ASSOCIATES,
 		EVENTS,
 		// PROJECTS,
-		// RECRUIT,
+		RECRUIT,
 	}
 }

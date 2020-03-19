@@ -6,6 +6,6 @@ theme:
 	git submodule update --init --recursive
 
 clean:
-	rm -rf content/events content/team
+	rm -rf content/event* content/team*
 	rm config.yaml
 

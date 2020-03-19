@@ -8,6 +8,7 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
 	"gitlab.com/utmist/utmist.gitlab.io/src/event"
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
+	"gitlab.com/utmist/utmist.gitlab.io/src/position"
 	"gitlab.com/utmist/utmist.gitlab.io/src/project"
 )
 
@@ -15,13 +16,14 @@ import (
 const configCopyFilename = "assets/config.yaml"
 const configFilename = "config.yaml"
 const teamCopyFilename = "assets/team.md"
-const teamFilename = "content/team/list.md"
+const teamFilename = "content/team.md"
 const discordBase = "https://discord.gg/"
 
 // GeneratePages generates the content pages for Events, Associates, and Projects.
 func GeneratePages(
 	events []event.Event,
 	associates []associate.Associate,
+	positions []position.Position,
 	projects []project.Project) {
 
 	// Start with config copy.
@@ -29,10 +31,13 @@ func GeneratePages(
 	teamFileLines := helpers.ReadContentLines(teamCopyFilename)
 
 	// Generate associate pages and department navbar links.
-	associate.GenerateAssociatePages(associates)
+	associate.GenerateAssociatePages(associates, positions)
 	associate.GenerateNavbarDeptLinks(&configLines)
 	associate.GenerateDeptList(&teamFileLines)
 	associate.GenerateVPList(&teamFileLines, associates)
+
+	// Load table of open positions.
+	teamFileLines = append(teamFileLines, position.MakeTable(positions)...)
 
 	// Generate event pages navbar links.
 	event.GenerateEventPages(events)

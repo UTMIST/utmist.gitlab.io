@@ -20,21 +20,19 @@ params:
     - title: Events
       sublinks:
         - title: More Events...
-          url: /events/list
+          url: /events
     - title: Projects
       sublinks:
         - title: More Projects...
-          url: /projects/list
+          url: /projects
     - title: Team
       sublinks:
         - title: Our Team
-          url: /team/list
-        - title: Our Alumni
-          url: /team/alumni
+          url: /team
+    - title: Alumni
+      url: /team/alumni
     - title: About
       url: /about
-    - title: GitLab
-      url: https://gitlab.com/utmist/
     - title: Discord
       url: https://discord.gg/
       button: true
@@ -48,7 +46,7 @@ params:
       - link: https://github.com/utmist
         icon: github
       - link: https://gitlab.com/utmist
-        icon: gitlab
+        icon: git
       - link: https://medium.com/@utorontomist
         icon: medium
       - link: https://twitter.com/UTMIST1
@@ -77,4 +75,4 @@ params:
           - text: About
             link: /about
           - text: Team
-            link: /team/list
+            link: /team

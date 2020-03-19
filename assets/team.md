@@ -1,6 +1,6 @@
 ---
 title: Our Team
-date: 0000-01-03
+date: 0001-01-01
 sidebar: true
 sidebarlogo: whiteside
 ---
@@ -15,12 +15,10 @@ sidebarlogo: whiteside
 
 ---
 
+## **Joining Us**
+
 UTMIST is committed to being an accessible school club. Membership is open to any UofT student regardless of faculty or campus affiliation.
 
 - [Join our Discord server](https://discord.gg/)
 - [Attend one of our events](../../events/list)
 - [Browser/contribute to one of our projects](../../projects/list)
-
-## **Recruitment**
-
-If you'd like to become more involved, you might be interested in becoming an associate or executive member. We'll be loading postiing positions soon.

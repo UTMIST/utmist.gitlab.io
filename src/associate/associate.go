@@ -75,11 +75,11 @@ func (a List) Swap(i, j int) {
 }
 
 const website = ""
-const linkedin = "https://linkedin.com/in"
-const gitlab = "https://www.github.com"
-const github = "https://www.gitlab.com"
-const facebook = "https://www.facebook.com"
-const twitter = "https://www.twitter.com"
+const linkedin = "https://linkedin.com/in/"
+const gitlab = "https://www.github.com/"
+const github = "https://www.gitlab.com/"
+const facebook = "https://www.facebook.com/"
+const twitter = "https://www.twitter.com/"
 
 // Return personal link for associate.
 func (a *Associate) getLink() string {
@@ -90,9 +90,10 @@ func (a *Associate) getLink() string {
 
 	// Return the first link found.
 	for i, link := range links {
-		if len(link) > 0 {
-			return fmt.Sprintf("%s/%s/", bases[i], links[i])
+		if len(link) == 0 {
+			continue
 		}
+		return fmt.Sprintf("%s%s/", bases[i], links[i])
 	}
 
 	return ""
@@ -115,11 +116,16 @@ func (a *Associate) getLine(section string, bold bool) string {
 		line = fmt.Sprintf("[%s](%s)", line, str)
 	}
 
-	// Reformat the line and write it.
-	line = fmt.Sprintf("%s, %s", line, a.Position)
-	if bold && section != alm && a.isExec() {
-		line = "**" + line + "**"
+	// Reformat the line and write it. List just graduation on alumni page.
+	if section == alm {
+		line = fmt.Sprintf("%s, %s", line, a.Discipline)
+	} else {
+		line = fmt.Sprintf("%s, %s", line, a.Position)
+		if bold && a.isExec() {
+			line = "**" + line + "**"
+		}
 	}
+
 	line = "- " + line
 
 	return line

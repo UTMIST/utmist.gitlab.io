@@ -4,6 +4,9 @@ import (
 	"fmt"
 )
 
+// BlankDate is the dateless header line.
+const BlankDate = "date:"
+
 // Breakline denotes the linebreak in a markdown file.
 const Breakline = "---"
 
@@ -13,14 +16,20 @@ const FileDateLayout = "2006-01-02"
 // MaxNavbarEvents defines how may events to show on the navbar.
 const MaxNavbarEvents = 3
 
+// OpenPositions denotes the header for the open position list.
+const OpenPositions = "## **Open Positions**"
+
+// PrintDateLayout defines the layout we print out.
+const PrintDateLayout = "Mon, Jan 02 2006, 15:04"
+
 // Sidebar is the markdown header property to show the sidebar.
 const Sidebar = "sidebar: true"
 
 // Sidebarlogo is the markdown header property to show the the whiteside logo.
 const Sidebarlogo = "sidebarlogo: whiteside"
 
-// PrintDateLayout defines the layout we print out.
-const PrintDateLayout = "Mon, Jan 02 2006, 15:04"
+// TablePadder is the ghost column content for displaying tables.
+const TablePadder = "   "
 
 // Format list of tags into a front matter string.
 func getTagsListStr(tags []string) string {
