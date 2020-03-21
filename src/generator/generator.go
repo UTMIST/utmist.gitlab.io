@@ -9,6 +9,8 @@ import (
 )
 
 // File locations.
+const aboutCopyFilename = "assets/about.md"
+const aboutFilename = "content/about.md"
 const configCopyFilename = "assets/config.yaml"
 const configFilename = "config.yaml"
 
@@ -21,25 +23,37 @@ func GeneratePages(
 	pastProjects *[]project.Project) {
 
 	// Generate associate/event/project pages.
-	associate.GenerateAssociatePages(associates, positions)
+	associate.GenerateAssociatePages(associates, positions, projects, pastProjects)
 	associate.GenerateTeamPage(associates, positions)
 	event.GenerateEventPages(events)
 	project.GenerateProjectListPage(projects, pastProjects)
+
+	// Generate about page.
+	GenerateAboutPage(positions)
 }
 
 // GenerateConfig generates the configuration file for Hugo site.
 func GenerateConfig(events *[]event.Event, projects *[]project.Project) {
 	// Start with config copy.
-	configLines := helpers.ReadContentLines(configCopyFilename)
+	lines := helpers.ReadContentLines(configCopyFilename)
 
 	// Generate associate/event/project navbar links.
-	associate.GenerateNavbarDeptLinks(&configLines)
-	event.GenerateNavbarEventLinks(events, &configLines)
-	project.GenerateNavbarProjectLinks(projects, &configLines)
+	associate.GenerateNavbarDeptLinks(&lines)
+	event.GenerateNavbarEventLinks(events, &lines)
+	project.GenerateNavbarProjectLinks(projects, &lines)
 
 	// Insert discord link.
-	helpers.InsertDiscordLink(&configLines)
+	helpers.InsertDiscordLink(&lines)
 
 	// Overwrite config.
-	helpers.OverwriteWithLines(configFilename, configLines)
+	helpers.OverwriteWithLines(configFilename, lines)
+}
+
+// GenerateAboutPage generates the about page.
+func GenerateAboutPage(positions *[]position.Position) {
+	lines := helpers.ReadContentLines(aboutCopyFilename)
+	lines = append(lines, position.MakeList(positions, false)...)
+
+	helpers.InsertDiscordLink(&lines)
+	helpers.OverwriteWithLines(aboutFilename, lines)
 }

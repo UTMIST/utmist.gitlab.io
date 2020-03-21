@@ -25,18 +25,18 @@ func generateEventList(events *[]Event, buildings *map[string]Building) {
 		eventListing := fmt.Sprintf("|[%s](%s)|%s|%s|%s|%s|\n|%s|%s|%s|%s|%s|",
 			title,
 			filename,
-			helpers.TablePadder,
+			helpers.TablePad(1),
 			dateStr[:len(dateStr)-6],
-			helpers.TablePadder,
+			helpers.TablePad(1),
 			location,
 			"",
-			helpers.TablePadder,
+			helpers.TablePad(1),
 			dateStr[len(dateStr)-6:],
-			helpers.TablePadder,
+			helpers.TablePad(1),
 			room,
 		)
 		lines = append(lines, eventListing)
-		lines = append(lines, fmt.Sprintf("||%s||%s||", helpers.TablePadder, helpers.TablePadder))
+		lines = append(lines, fmt.Sprintf("||%s||%s||", helpers.TablePad(1), helpers.TablePad(1)))
 	}
 
 	helpers.OverwriteWithLines(eventsFilePath, lines)

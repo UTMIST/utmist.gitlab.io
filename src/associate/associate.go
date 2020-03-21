@@ -43,30 +43,18 @@ func (a List) Len() int {
 // Method Less() to implement sort.Sort.
 func (a List) Less(i, j int) bool {
 
-	// First compare positions.
-	switch strings.Compare(a[i].Position, a[j].Position) {
-	case -1:
-		return true
-	case 1:
-		return false
+	// Compare positions, then last names, then first names.
+	for _, criteria := range []int{
+		strings.Compare(a[i].Position, a[j].Position),
+		strings.Compare(a[i].LastName, a[j].LastName),
+		strings.Compare(a[i].FirstName, a[j].FirstName)} {
+		switch criteria {
+		case -1:
+			return true
+		case 1:
+			return false
+		}
 	}
-
-	// Then compare last names.
-	switch strings.Compare(a[i].LastName, a[j].LastName) {
-	case -1:
-		return true
-	case 1:
-		return false
-	}
-
-	// Finally compare first names.
-	switch strings.Compare(a[i].FirstName, a[j].FirstName) {
-	case -1:
-		return true
-	case 1:
-		return false
-	}
-
 	return false
 }
 
@@ -101,7 +89,7 @@ func (a *Associate) getLink() string {
 }
 
 // Create line entry for associate.
-func (a *Associate) getLine(section string, bold bool) string {
+func (a *Associate) getLine(section string, bold, list bool) string {
 	line := fmt.Sprintf("%s%s%s",
 		a.FirstName,
 		func() string {
@@ -127,9 +115,10 @@ func (a *Associate) getLine(section string, bold bool) string {
 		}
 	}
 
-	line = "- " + line
-
-	return line
+	if !list {
+		return line
+	}
+	return "- " + line
 }
 
 func (a *Associate) isExec() bool {
@@ -138,4 +127,17 @@ func (a *Associate) isExec() bool {
 
 func (a *Associate) hasGraduated() bool {
 	return 0 <= a.Graduated && a.Graduated < time.Now().Year()
+}
+
+// GroupByDept groups associates into their own department list.
+func GroupByDept(associates *[]Associate) map[string][]Associate {
+	deptAssociates := map[string][]Associate{}
+	for _, assoc := range *associates {
+		assocList, exists := deptAssociates[assoc.Department]
+		if !exists {
+			deptAssociates[assoc.Department] = []Associate{}
+		}
+		deptAssociates[assoc.Department] = append(assocList, assoc)
+	}
+	return deptAssociates
 }

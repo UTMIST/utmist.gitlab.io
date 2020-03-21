@@ -11,28 +11,17 @@ import (
 const teamFileBase = "./assets/team.md"
 const deptListStart = "## **Departments**"
 const execListStart = "## **Leadership**"
+const orgListStart = "| Departments |     | Leadership |"
 
 const teamCopyFilename = "assets/team.md"
 const teamFilename = "content/team.md"
 
-// GenerateDeptList generates the list of departments into team.md.
-func GenerateDeptList(lines *[]string) {
-	// Add each dept to the list.
-	newLines := []string{}
-	for _, dept := range GetDepartmentNames() {
-		if dept == alm {
-			continue
-		}
-		line := fmt.Sprintf("- [%s](../%s)", dept, helpers.StringToFileName(dept))
-		newLines = append(newLines, line)
-	}
-	newLines = append(newLines, "")
-	helpers.StitchIntoLines(lines, &newLines, deptListStart, 1)
-}
+// GenerateOrgList generates a table if columns of departments and execs.
+func GenerateOrgList(lines *[]string, associates *[]Associate) {
+	// Get list of departments.
+	depts := GetDepartmentNames(false)
 
-// GenerateVPList generates a list of VPs into team.md.
-func GenerateVPList(lines *[]string, associates *[]Associate) {
-	// Add each dept to the list.
+	// Add each exec to the list.
 	execs := []Associate{}
 	for _, associate := range *associates {
 		if associate.isExec() && !associate.hasGraduated() {
@@ -42,19 +31,33 @@ func GenerateVPList(lines *[]string, associates *[]Associate) {
 	sort.Sort(List(execs))
 
 	newLines := []string{}
-	for _, exec := range execs {
-		newLines = append(newLines, exec.getLine("", false))
+	for index := 0; index < len(depts) || index < len(execs); index++ {
+		line := fmt.Sprintf("|%s|%s|%s|",
+			func() string {
+				if index >= len(depts) {
+					return ""
+				}
+				return fmt.Sprintf("[%s](%s)",
+					depts[index],
+					helpers.StringToFileName(depts[index]))
+			}(),
+			helpers.TablePad(12),
+			func() string {
+				if index >= len(execs) {
+					return ""
+				}
+				return execs[index].getLine("", false, false)
+			}())
+		newLines = append(newLines, line)
 	}
-
 	newLines = append(newLines, "")
-	helpers.StitchIntoLines(lines, &newLines, execListStart, 1)
+	helpers.StitchIntoLines(lines, &newLines, orgListStart, 1)
 }
 
 // GenerateTeamPage generates a page for the UTMIST team and open positions.
 func GenerateTeamPage(associates *[]Associate, positions *[]position.Position) {
 	lines := helpers.ReadContentLines(teamCopyFilename)
-	GenerateDeptList(&lines)
-	GenerateVPList(&lines, associates)
+	GenerateOrgList(&lines, associates)
 	lines = append(lines, position.MakeList(positions, false)...)
 
 	helpers.InsertDiscordLink(&lines)

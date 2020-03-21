@@ -33,3 +33,16 @@ func LoadProject(data []interface{}) Project {
 
 	return project
 }
+
+// GroupByDept groups projects into their own department list.
+func GroupByDept(projects *[]Project) map[string][]Project {
+	deptProjects := map[string][]Project{}
+	for _, proj := range *projects {
+		projList, exists := deptProjects[proj.Department]
+		if !exists {
+			deptProjects[proj.Department] = []Project{}
+		}
+		deptProjects[proj.Department] = append(projList, proj)
+	}
+	return deptProjects
+}

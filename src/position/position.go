@@ -32,3 +32,16 @@ func LoadPosition(data []interface{}) Position {
 
 	return position
 }
+
+// GroupByDept groups positions into their own department list.
+func GroupByDept(positions *[]Position) map[string][]Position {
+	deptPositions := map[string][]Position{}
+	for _, pos := range *positions {
+		posList, exists := deptPositions[pos.Department]
+		if !exists {
+			deptPositions[pos.Department] = []Position{}
+		}
+		deptPositions[pos.Department] = append(posList, pos)
+	}
+	return deptPositions
+}

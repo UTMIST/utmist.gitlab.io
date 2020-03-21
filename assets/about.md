@@ -13,4 +13,10 @@ The [University of Toronto](https://utoronto.ca), one of the top education insti
 
 ---
 
-University of Toronto Machine Intelligence Student Team (UTMIST) is an officially certified student organization within the [University of Toronto](https://utoronto.ca). Our mission is to let more people get to know about AI, “Clear the mist”!
+## **Joining Us**
+
+UTMIST is committed to being an accessible school club. Membership is open to any UofT student regardless of faculty or campus affiliation.
+
+- [Join our Discord server](https://discord.gg/88mSPw8).
+- [Attend one of our events](../../events/list).
+- [Browser/contribute to one of our projects](../../projects/list).

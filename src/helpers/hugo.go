@@ -98,3 +98,12 @@ func StitchExternalLink(lines *[]string, titles, links []string, start string) {
 
 	StitchIntoLines(lines, &newLines, start, 1)
 }
+
+// TablePad returns a string with <num> padders.
+func TablePad(num int) string {
+	padding := ""
+	for i := 0; i < num; i++ {
+		padding += TablePadder
+	}
+	return padding
+}

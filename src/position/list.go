@@ -23,7 +23,7 @@ func MakeList(positions *[]Position, deptPage bool) []string {
 	for _, pos := range *positions {
 		posListing := fmt.Sprintf("|%s|%s|%s%s|%s|%s|%s|%s|",
 			pos.Title,
-			helpers.TablePadder,
+			helpers.TablePad(1),
 			func() string {
 				if deptPage {
 					return ""
@@ -31,12 +31,12 @@ func MakeList(positions *[]Position, deptPage bool) []string {
 				return fmt.Sprintf("[%s](%s)|%s|",
 					pos.Department,
 					helpers.StringToFileName(pos.Department),
-					helpers.TablePadder)
+					helpers.TablePad(1))
 			}(),
 			pos.Description,
-			helpers.TablePadder,
+			helpers.TablePad(1),
 			pos.Requirements,
-			helpers.TablePadder,
+			helpers.TablePad(1),
 			pos.Instructions,
 		)
 		lines = append(lines, posListing)

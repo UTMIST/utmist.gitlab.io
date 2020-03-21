@@ -30,9 +30,9 @@ func MakeList(projects *[]Project, active bool) []string {
 		projListing := fmt.Sprintf("|[%s](%s)|%s|%s|%s|%s|",
 			proj.Title,
 			proj.Link,
-			helpers.TablePadder,
+			helpers.TablePad(1),
 			proj.Description,
-			helpers.TablePadder,
+			helpers.TablePad(1),
 			proj.Instructions,
 		)
 		lines = append(lines, projListing)
