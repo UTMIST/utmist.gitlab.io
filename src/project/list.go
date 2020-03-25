@@ -27,14 +27,16 @@ func MakeList(projects *[]Project, active bool) []string {
 	}(), len(*projects), 4)
 
 	for _, proj := range *projects {
-		projListing := fmt.Sprintf("|[%s](%s)|%s|%s|%s|%s|",
+		projListing := fmt.Sprintf("|[%s](%s)|%s|%s|",
 			proj.Title,
 			proj.Link,
 			helpers.TablePad(1),
 			proj.Description,
-			helpers.TablePad(1),
-			proj.Instructions,
 		)
+		if active {
+			projListing = fmt.Sprintf("%s%s|%s|",
+				projListing, helpers.TablePad(1), proj.Instructions)
+		}
 		lines = append(lines, projListing)
 	}
 
