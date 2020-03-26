@@ -4,6 +4,8 @@
 
 Club website for the [University of Toronto Machine Intelligence Student Team (UTMIST)](https://utmist.gitlab.io).
 
+Need help? [Read the Wiki](https://gitlab.com/utmist/utmist.gitlab.io/-/wikis).
+
 ## Overview
 
 - [Google Sheets](https://developers.google.com/sheets) serve as databases.
@@ -28,23 +30,11 @@ Club website for the [University of Toronto Machine Intelligence Student Team (U
 
 ## Details
 
-- `.env` contains our secrets and other variables. Refer to `.env.copy` for the required variables.
-  - Credentials for the Google Sheets API.
-  - Google Sheet IDs and ranges.
-  - Discord server invite link.
-  - List of departments to show on the webiste. This will matter if department structures change or are listed differently.
-    - A year might have a different list. Use the `DEPARTMENTS_YEAR` variable to specify which year you're using.
-- `main.go` is the driver package and utilizes packages (including `fetcher` and `generator`) under `./src`.
-- Associate/Event/Project pages are generated in generated folders `associate`/`events`/`projects` under `./contents`.
-  - These files are not meant to be committed to the repository as they should be generated with fresh content each time. Be sure these are in `.gitignore`.
-- `./assets` contains some data and templates files we copy and stitch content into.
-  - `./assets/config.yaml => config.yaml`
-  - `./assets/team.md => content/team/list.md`
-  - `./assets/events.md => content/events/list.md`
-  - `./assets/utsg_buildings.txt` contains the codes and numbers for buildings on the UofT St. George campus.
-- `config.yaml` configures what the website looks like.
-  - It defines the Docker image we use for `Go` and `Hugo`.
-  - The `generator` stitches several links into a copy of `./assets/config.yaml`.
+Full details can be found on [our Wiki](https://gitlab.com/utmist/utmist.gitlab.io/-/wikis).
+
+- [Content Management](https://gitlab.com/utmist/utmist.gitlab.io/-/wikis/Content-Management)
+- [Development](https://gitlab.com/utmist/utmist.gitlab.io/-/wikis/Development)
+- [Website Updates](https://gitlab.com/utmist/utmist.gitlab.io/-/wikis/Website-Updates)
 
 ### GitLab
 

@@ -16,11 +16,12 @@ func StringToFileName(str string) string {
 	filename := strings.ToLower(strings.ToLower(str))
 
 	// Remove illegal characters from filenames.
-	strsToRemove := []string{"'", ":", ",", "(", ")"}
+	strsToRemove := []string{"'", ":", ",", "(", ")", "@"}
 	for _, strToRemove := range strsToRemove {
 		filename = strings.Replace(filename, strToRemove, "", -1)
 	}
 	filename = strings.Replace(filename, " - ", " ", -1)
+	filename = strings.Replace(filename, "  ", " ", -1)
 	filename = strings.Replace(filename, " ", "-", -1)
 
 	return filename

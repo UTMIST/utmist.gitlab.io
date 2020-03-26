@@ -20,7 +20,7 @@ func generateEventPage(name string, event Event, buildings *map[string]Building,
 	logger.GenerateLog(fmt.Sprintf("%s", name))
 
 	// Format date and generate page header.
-	lines := helpers.GenerateHugoPageHeader(name, helpers.PadDateWithIndex(index), event.Summary, []string{"Event", event.Type})
+	lines := helpers.GenerateHugoPageHeader(name, helpers.PadDateWithIndex(index), event.Title, []string{"Event", event.Type})
 
 	// If there's an image and/or summary, include them.
 	if len(event.ImageLink) > 0 {
@@ -41,7 +41,19 @@ func generateEventPage(name string, event Event, buildings *map[string]Building,
 	lines = append(lines, printedDateStr)
 	if location, room := event.getLocation(buildings); len(location) > 0 {
 		lines = append(lines, "")
-		printedLocStr := fmt.Sprintf("Location: **%s %s.**", location, room)
+		printedLocStr := fmt.Sprintf("Location: **%s%s.**", location, func() string {
+			if len(room) == 0 {
+				return ""
+			}
+			return fmt.Sprintf(" %s", room)
+		}())
+		lines = append(lines, printedLocStr)
+	}
+
+	// If there's a post-link, include it.
+	if len(event.PostLink) > 0 {
+		lines = append(lines, "")
+		printedLocStr := fmt.Sprintf("Slides/Feedback: [%s](%s)", event.PostLink, event.PostLink)
 		lines = append(lines, printedLocStr)
 	}
 

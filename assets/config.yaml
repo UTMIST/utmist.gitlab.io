@@ -74,7 +74,9 @@ params:
         links:
           - text: About
             link: /about
-          - text: Team
-            link: /team
           - text: Alumni
             link: /team/alumni
+          - text: Team
+            link: /team
+          - text: Wiki
+            link: https://gitlab.com/utmist/utmist.gitlab.io/-/wikis

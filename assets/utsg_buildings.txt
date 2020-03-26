@@ -1,6 +1,7 @@
 BA 080 Bahen Centre for IT
 ES 062 Earth Sciences Centre
 GB 070 Galbraith Building
+MC 022 Mechanical Engineering Building
 MY 087 Myhal Centre for Engineering Innovation and Entrepreneurship
 SF 009 Sanford Fleming Building
 SS 033 Sidney Smith Hall

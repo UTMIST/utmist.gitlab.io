@@ -7,22 +7,29 @@ import (
 	"time"
 )
 
-const parseDateLayout = "01/02/2006 15:04:05"
+const parseDateLayout = "01/02/2006"
+const parseDateTimeLayout = "01/02/2006 15:04:05"
 
 // FormatDateEST formats a date from EST.
 func FormatDateEST(dateStr string) time.Time {
+
+	layout := parseDateLayout
+
 	// UNDOCUMENTED.
 	parts := strings.Split(dateStr, "/")
-	for i := 0; i < 2; i++ {
+	for i := 0; i < len(parts); i++ {
 		if len(parts[i]) == 1 {
 			parts[i] = fmt.Sprintf("0%s", parts[i])
+		}
+		if i == 1 {
+			layout = parseDateTimeLayout
 		}
 	}
 	dateStr = strings.Join(parts, "/")
 
 	// UNDOCUMENTED.
 	parts = strings.Split(dateStr, " ")
-	if parts[1][1] == ':' {
+	if len(parts) > 1 && parts[1][1] == ':' {
 		parts[1] = fmt.Sprintf("0%s", parts[1])
 	}
 	dateStr = strings.Join(parts, " ")
@@ -32,7 +39,7 @@ func FormatDateEST(dateStr string) time.Time {
 	if err != nil {
 		return time.Time{}
 	}
-	dateTime, err := time.ParseInLocation(parseDateLayout, dateStr, toronto)
+	dateTime, err := time.ParseInLocation(layout, dateStr, toronto)
 	if err != nil {
 		return time.Time{}
 	}
