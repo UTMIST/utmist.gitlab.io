@@ -5,7 +5,7 @@ import (
 )
 
 // Where the department list starts in the config.
-const start = "        - title: Our Team"
+const start = "        - title: Our Team (Join Us)"
 
 // GenerateNavbarDeptLinks generates event links for the navbar dropdown menu.
 func GenerateNavbarDeptLinks(lines *[]string) {

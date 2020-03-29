@@ -9,4 +9,4 @@ sidebarlogo: whiteside
 
 ---
 
-UTMIST is involved in several projects; some are in collaboration with professors, developers, organizations, and/or other students.
+UTMIST is involved in several projects; some are in collaboration with professors, developers, organizations, and/or other students. Most projects involve the [Projects Department](/team/projects) or [Infrastructure Department](/team/infrastructure).

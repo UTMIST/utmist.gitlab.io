@@ -8,18 +8,14 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/position"
 )
 
-const teamFileBase = "./assets/team.md"
 const deptListStart = "## **Departments**"
 const execListStart = "## **Leadership**"
-const orgListStart = "| Departments |     | Leadership |"
 
 const teamCopyFilename = "assets/team.md"
 const teamFilename = "content/team.md"
 
-// GenerateOrgList generates a table if columns of departments and execs.
-func GenerateOrgList(lines *[]string, associates *[]Associate) {
-	// Get list of departments.
-	depts := GetDepartmentNames(false)
+// GenerateExecList generates a list of executive members.
+func GenerateExecList(lines *[]string, associates *[]Associate) {
 
 	// Add each exec to the list.
 	execs := []Associate{}
@@ -31,33 +27,33 @@ func GenerateOrgList(lines *[]string, associates *[]Associate) {
 	sort.Sort(List(execs))
 
 	newLines := []string{}
-	for index := 0; index < len(depts) || index < len(execs); index++ {
-		line := fmt.Sprintf("|%s|%s|%s|",
-			func() string {
-				if index >= len(depts) {
-					return ""
-				}
-				return fmt.Sprintf("[%s](%s)",
-					depts[index],
-					helpers.StringToFileName(depts[index]))
-			}(),
-			helpers.TablePad(12),
-			func() string {
-				if index >= len(execs) {
-					return ""
-				}
-				return execs[index].getLine("", false, false)
-			}())
-		newLines = append(newLines, line)
+	for _, exec := range execs {
+		execLine := exec.getLine("", false, true)
+		newLines = append(newLines, execLine)
 	}
 	newLines = append(newLines, "")
-	helpers.StitchIntoLines(lines, &newLines, orgListStart, 1)
+	helpers.StitchIntoLines(lines, &newLines, execListStart, 1)
+}
+
+// GenerateDeptList generates a list of departments.
+func GenerateDeptList(lines *[]string) {
+
+	newLines := []string{}
+	// Get list of departments and generate a line for each.
+	for _, dept := range GetDepartmentNames(false) {
+		deptLine := fmt.Sprintf("- [%s](%s)", dept, helpers.StringToFileName(dept))
+		newLines = append(newLines, deptLine)
+	}
+
+	helpers.StitchIntoLines(lines, &newLines, deptListStart, 1)
+
 }
 
 // GenerateTeamPage generates a page for the UTMIST team and open positions.
 func GenerateTeamPage(associates *[]Associate, positions *[]position.Position) {
 	lines := helpers.ReadContentLines(teamCopyFilename)
-	GenerateOrgList(&lines, associates)
+	GenerateDeptList(&lines)
+	GenerateExecList(&lines, associates)
 	lines = append(lines, position.MakeList(positions, false)...)
 
 	helpers.InsertDiscordLink(&lines)

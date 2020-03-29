@@ -6,14 +6,14 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
-const activeProjectTableBasePath = "./assets/projects_active.md"
-const pastProjectTableBasePath = "./assets/projects_past.md"
+const activeProjectListBasePath = "./assets/projects_active.md"
+const pastProjectListBasePath = "./assets/projects_past.md"
 
 const projectCopyFilename = "assets/projects.md"
 const projectFilename = "content/projects.md"
 
 // MakeList creates a list of project lines.
-func MakeList(projects *[]Project, active bool) []string {
+func MakeList(projects *[]Project, active, deptPage bool) []string {
 
 	if len(*projects) == 0 {
 		return []string{}
@@ -21,23 +21,38 @@ func MakeList(projects *[]Project, active bool) []string {
 
 	lines := helpers.ReadFileBase(func() string {
 		if active {
-			return activeProjectTableBasePath
+			return activeProjectListBasePath
 		}
-		return pastProjectTableBasePath
-	}(), len(*projects), 4)
+		return pastProjectListBasePath
+	}(), len(*projects), 1)
 
 	for _, proj := range *projects {
-		projListing := fmt.Sprintf("|[%s](%s)|%s|%s|",
-			proj.Title,
-			proj.Link,
-			helpers.TablePad(1),
-			proj.Description,
-		)
-		if active {
-			projListing = fmt.Sprintf("%s%s|%s|",
-				projListing, helpers.TablePad(1), proj.Instructions)
-		}
-		lines = append(lines, projListing)
+		head := fmt.Sprintf("##### **%s**",
+			func() string {
+				if len(proj.Link) == 0 {
+					return proj.Title
+				}
+				return fmt.Sprintf("[%s](%s)", proj.Title, proj.Link)
+			}())
+
+		dept := func() string {
+			if deptPage {
+				return ""
+			}
+			return fmt.Sprintf("- _Department_: [%s](%s)",
+				proj.Department,
+				helpers.StringToFileName(proj.Department))
+		}()
+		desc := fmt.Sprintf("- _Description_: %s", proj.Description)
+		join := func() string {
+			if proj.Status != ActiveStatus {
+				return ""
+			}
+			return fmt.Sprintf("- _Joining_: %s", proj.Instructions)
+		}()
+
+		lines = append(lines, []string{head, dept, desc, join}...)
+
 	}
 
 	return lines
@@ -48,9 +63,12 @@ func MakeList(projects *[]Project, active bool) []string {
 func GenerateProjectListPage(projects, pastProjects *[]Project) {
 	lines := helpers.ReadContentLines(projectCopyFilename)
 
-	// Load tables of active/past projects.
-	lines = append(lines, MakeList(projects, true)...)
-	lines = append(lines, MakeList(pastProjects, false)...)
+	// Load lists of active/past projects.
+	lines = append(lines, MakeList(projects, true, false)...)
+	if len(*projects) > 0 && len(*pastProjects) > 0 {
+		lines = append(lines, helpers.Breakline)
+	}
+	lines = append(lines, MakeList(pastProjects, false, false)...)
 
 	helpers.OverwriteWithLines(projectFilename, lines)
 }

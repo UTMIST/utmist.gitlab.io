@@ -13,33 +13,23 @@ func MakeList(positions *[]Position, deptPage bool) []string {
 		return []string{}
 	}
 
-	lines := helpers.ReadFileBase(func() string {
-		if deptPage {
-			return positionDeptBasePath
-		}
-		return positionBasePath
-	}(), len(*positions), 6)
+	lines := helpers.ReadFileBase(positionBasePath, len(*positions), 5)
 
 	for _, pos := range *positions {
-		posListing := fmt.Sprintf("|%s|%s|%s%s|%s|%s|%s|%s|",
-			pos.Title,
-			helpers.TablePad(1),
-			func() string {
-				if deptPage {
-					return ""
-				}
-				return fmt.Sprintf("[%s](%s)|%s|",
-					pos.Department,
-					helpers.StringToFileName(pos.Department),
-					helpers.TablePad(1))
-			}(),
-			pos.Description,
-			helpers.TablePad(1),
-			pos.Requirements,
-			helpers.TablePad(1),
-			pos.Instructions,
-		)
-		lines = append(lines, posListing)
+		head := fmt.Sprintf("##### **%s**%s", pos.Title, func() string {
+			if deptPage {
+				return ""
+			}
+			return fmt.Sprintf(", [%s](%s)",
+				pos.Department,
+				helpers.StringToFileName(pos.Department))
+		}())
+
+		desc := fmt.Sprintf("- _Description_: %s", pos.Description)
+		reqs := fmt.Sprintf("- _Requirements_: %s", pos.Requirements)
+		inst := fmt.Sprintf("- _Instructions_: %s", pos.Instructions)
+
+		lines = append(lines, []string{head, desc, reqs, inst, "\n"}...)
 	}
 
 	return lines

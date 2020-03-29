@@ -25,9 +25,9 @@ params:
       sublinks:
         - title: More Projects...
           url: /projects
-    - title: Team
+    - title: Team (Join Us)
       sublinks:
-        - title: Our Team
+        - title: Our Team (Join Us)
           url: /team
     - title: Alumni
       url: /team/alumni
@@ -76,7 +76,7 @@ params:
             link: /about
           - text: Alumni
             link: /team/alumni
-          - text: Team
+          - text: Team (Join Us)
             link: /team
           - text: Wiki
             link: https://gitlab.com/utmist/utmist.gitlab.io/-/wikis

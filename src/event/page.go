@@ -53,7 +53,7 @@ func generateEventPage(name string, event Event, buildings *map[string]Building,
 	// If there's a post-link, include it.
 	if len(event.PostLink) > 0 {
 		lines = append(lines, "")
-		printedLocStr := fmt.Sprintf("Slides/Feedback: [%s](%s)", event.PostLink, event.PostLink)
+		printedLocStr := fmt.Sprintf("Slides/Feedback: [%s](%s).", event.PostLink, event.PostLink)
 		lines = append(lines, printedLocStr)
 	}
 

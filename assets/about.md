@@ -18,5 +18,5 @@ The [University of Toronto](https://utoronto.ca), one of the top education insti
 UTMIST is committed to being an accessible school club. Membership is open to any UofT student regardless of faculty or campus affiliation.
 
 - [Join our Discord server](https://discord.gg/88mSPw8).
-- [Attend one of our events](../../events/list).
-- [Browser/contribute to one of our projects](../../projects/list).
+- [Attend one of our events](../../events).
+- [Browser/contribute to one of our projects](../../projects).

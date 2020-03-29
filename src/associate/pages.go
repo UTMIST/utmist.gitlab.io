@@ -51,8 +51,8 @@ func generateDepartmentPage(
 	if len(projects)+len(pastProjects) > 0 {
 		lines = append(lines, helpers.Breakline)
 	}
-	lines = append(lines, project.MakeList(&projects, true)...)
-	lines = append(lines, project.MakeList(&pastProjects, false)...)
+	lines = append(lines, project.MakeList(&projects, true, true)...)
+	lines = append(lines, project.MakeList(&pastProjects, false, true)...)
 	lines = append(lines, position.MakeList(&positions, true)...)
 
 	// Write to the new file path.

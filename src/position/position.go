@@ -3,7 +3,6 @@ package position
 const positionSheetRange = 5
 
 const positionBasePath = "./assets/positions.md"
-const positionDeptBasePath = "./assets/positions_dept.md"
 
 // Position represents an open associate position at UTMIST.
 type Position struct {

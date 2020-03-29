@@ -1,5 +1,1 @@
-## **Past Projects**
-
-| Title |     | Description |
-| ----- | --- | ----------- |
-
+### **Past Projects**
