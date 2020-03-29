@@ -1,4 +1,4 @@
-package associate
+package department
 
 import (
 	"fmt"
@@ -6,6 +6,7 @@ import (
 	"sort"
 	"strings"
 
+	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 	"gitlab.com/utmist/utmist.gitlab.io/src/logger"
 	"gitlab.com/utmist/utmist.gitlab.io/src/position"
@@ -15,10 +16,11 @@ import (
 // Paths for the event files.
 const assocDirPath = "./content/team/"
 
-// Generate a page for the a department.
-func generateDepartmentPage(
+// GenerateDeptPage generates a page for the a department.
+func GenerateDeptPage(
 	title string,
-	associates []Associate,
+	associates []associate.Associate,
+	description string,
 	positions []position.Position,
 	projects []project.Project,
 	pastProjects []project.Project) {
@@ -27,21 +29,21 @@ func generateDepartmentPage(
 
 	// Get page title and date and generate the header.
 	displayTitle, yearStr := func() (string, string) {
-		if title == alm {
-			return fmt.Sprintf("Our %s", alm), "0000-01-02"
+		if title == associate.ALM {
+			return fmt.Sprintf("Our %s", associate.ALM), "0000-01-02"
 		}
 		return title, "0000-01-01"
 	}()
-	lines := helpers.GenerateHugoPageHeader(
-		displayTitle, yearStr, "", []string{"Team"})
+	lines := append(helpers.GenerateHugoPageHeader(
+		displayTitle, yearStr, "", []string{"Team"}), description)
 
 	// Write a list entry for every member.
 	assocLines, execLines := []string{}, []string{}
 	for _, associate := range associates {
-		if associate.isExec() && !associate.hasGraduated() {
-			execLines = append(execLines, associate.getLine(title, true, true))
+		if associate.IsExec() && !associate.HasGraduated() {
+			execLines = append(execLines, associate.GetLine(title, true, true))
 		} else {
-			assocLines = append(assocLines, associate.getLine(title, true, true))
+			assocLines = append(assocLines, associate.GetLine(title, true, true))
 		}
 	}
 
@@ -60,16 +62,18 @@ func generateDepartmentPage(
 	helpers.OverwriteWithLines(filepath, lines)
 }
 
-// GenerateAssociatePages generates all the department pages.
-func GenerateAssociatePages(
-	associates *[]Associate,
+// GenerateDeptPages generates all the department pages.
+func GenerateDeptPages(
+	associates *[]associate.Associate,
+	descriptions *map[string]string,
 	positions *[]position.Position,
 	projects *[]project.Project,
 	pastProjects *[]project.Project) {
+
 	logger.GenerateGroupLog("associate")
 
 	// Populate the departments with empty associate/position/project lists.
-	deptAssocMap := GroupByDept(associates)
+	deptAssocMap := associate.GroupByDept(associates)
 	deptPosMap := position.GroupByDept(positions)
 	deptProjMap := project.GroupByDept(projects)
 	deptPastProjMap := project.GroupByDept(pastProjects)
@@ -78,11 +82,17 @@ func GenerateAssociatePages(
 	os.Mkdir(assocDirPath, os.ModePerm)
 
 	for deptName, deptAssociates := range deptAssocMap {
-		sort.Sort(List(deptAssociates))
+		sort.Sort(associate.List(deptAssociates))
 
-		generateDepartmentPage(
+		description, exists := (*descriptions)[deptName]
+		if !exists {
+			description = ""
+		}
+
+		GenerateDeptPage(
 			deptName,
 			deptAssociates,
+			description,
 			deptPosMap[deptName],
 			deptProjMap[deptName],
 			deptPastProjMap[deptName])

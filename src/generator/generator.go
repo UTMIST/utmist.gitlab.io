@@ -2,6 +2,7 @@ package generator
 
 import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
+	"gitlab.com/utmist/utmist.gitlab.io/src/department"
 	"gitlab.com/utmist/utmist.gitlab.io/src/event"
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 	"gitlab.com/utmist/utmist.gitlab.io/src/logger"
@@ -17,33 +18,34 @@ const configFilename = "config.yaml"
 
 // GeneratePages generates the content pages for Events, Associates, and Projects.
 func GeneratePages(
+	assocs *[]associate.Associate,
+	deptDescriptions *map[string]string,
 	events *[]event.Event,
-	associates *[]associate.Associate,
 	positions *[]position.Position,
-	projects *[]project.Project,
-	pastProjects *[]project.Project) {
+	pastProjs *[]project.Project,
+	projs *[]project.Project) {
 
 	// Generate associate/event/project pages.
-	associate.GenerateAssociatePages(associates, positions, projects, pastProjects)
-	associate.GenerateTeamPage(associates, positions)
+	department.GenerateDeptPages(assocs, deptDescriptions, positions, projs, pastProjs)
+	department.GenerateTeamPage(assocs, positions)
 	event.GenerateEventPages(events)
-	project.GenerateProjectListPage(projects, pastProjects)
+	project.GenerateProjectListPage(projs, pastProjs)
 
 	// Generate about page.
 	GenerateAboutPage(positions)
 }
 
 // GenerateConfig generates the configuration file for Hugo site.
-func GenerateConfig(events *[]event.Event, projects *[]project.Project) {
+func GenerateConfig(events *[]event.Event, projs *[]project.Project) {
 	logger.GenerateLog("config")
 
 	// Start with config copy.
 	lines := helpers.ReadContentLines(configCopyFilename)
 
 	// Generate associate/event/project navbar links.
-	associate.GenerateNavbarDeptLinks(&lines)
+	department.GenerateNavbarDeptLinks(&lines)
 	event.GenerateNavbarEventLinks(events, &lines)
-	project.GenerateNavbarProjectLinks(projects, &lines)
+	project.GenerateNavbarProjectLinks(projs, &lines)
 
 	// Insert discord link.
 	helpers.InsertDiscordLink(&lines)

@@ -15,6 +15,9 @@ const gitlhubLink = 3
 const facebookLink = 4
 const twitterLink = 5
 
+// ALM is the header for the Alumni page.
+const ALM = "Alumni"
+
 // LoadAssociate loads an associate from a spreadsheet row.
 func LoadAssociate(data []interface{}) []Associate {
 
@@ -43,8 +46,8 @@ func LoadAssociate(data []interface{}) []Associate {
 	}
 
 	// Add a single entry for any alumni.
-	if associate.hasGraduated() {
-		associate.Department = "Alumni"
+	if associate.HasGraduated() {
+		associate.Department = ALM
 		return []Associate{associate}
 	}
 

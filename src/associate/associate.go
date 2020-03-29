@@ -88,8 +88,8 @@ func (a *Associate) getLink() string {
 	return ""
 }
 
-// Create line entry for associate.
-func (a *Associate) getLine(section string, bold, list bool) string {
+// GetLine creates a line entry for associate.
+func (a *Associate) GetLine(section string, bold, list bool) string {
 	line := fmt.Sprintf("%s%s%s",
 		a.FirstName,
 		func() string {
@@ -106,11 +106,11 @@ func (a *Associate) getLine(section string, bold, list bool) string {
 	}
 
 	// Reformat the line and write it. List just graduation on alumni page.
-	if section == alm {
+	if section == ALM {
 		line = fmt.Sprintf("%s, %s", line, a.Discipline)
 	} else {
 		line = fmt.Sprintf("%s, %s", line, a.Position)
-		if bold && a.isExec() {
+		if bold && a.IsExec() {
 			line = "**" + line + "**"
 		}
 	}
@@ -121,11 +121,13 @@ func (a *Associate) getLine(section string, bold, list bool) string {
 	return "- " + line
 }
 
-func (a *Associate) isExec() bool {
+// IsExec returns whether this associate is an executive member.
+func (a *Associate) IsExec() bool {
 	return strings.Index(a.Position, "VP") >= 0 || strings.Index(a.Position, "President") >= 0
 }
 
-func (a *Associate) hasGraduated() bool {
+// HasGraduated returns whether this associate has graduated or left.
+func (a *Associate) HasGraduated() bool {
 	return 0 <= a.Graduated && a.Graduated < time.Now().Year()
 }
 
@@ -140,4 +142,9 @@ func GroupByDept(associates *[]Associate) map[string][]Associate {
 		deptAssociates[assoc.Department] = append(assocList, assoc)
 	}
 	return deptAssociates
+}
+
+// Dept implements hasDepartment().
+func (a Associate) Dept() string {
+	return a.Department
 }

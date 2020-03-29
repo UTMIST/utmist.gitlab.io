@@ -7,6 +7,7 @@ import (
 	"sort"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
+	"gitlab.com/utmist/utmist.gitlab.io/src/department"
 	"gitlab.com/utmist/utmist.gitlab.io/src/event"
 	"gitlab.com/utmist/utmist.gitlab.io/src/position"
 	"gitlab.com/utmist/utmist.gitlab.io/src/project"
@@ -20,8 +21,9 @@ const SCOPE = "https://www.googleapis.com/auth/spreadsheets.readonly"
 
 // Fetch fetches associate, event, project, recruitment databases.
 func Fetch() (
-	[]event.Event,
 	[]associate.Associate,
+	map[string]string,
+	[]event.Event,
 	[]position.Position,
 	[]project.Project,
 	[]project.Project) {
@@ -53,11 +55,12 @@ func Fetch() (
 	}
 
 	// Create lists.
-	events := []event.Event{}
 	associates := []associate.Associate{}
+	deptDescs := map[string]string{}
+	events := []event.Event{}
 	positions := []position.Position{}
-	activeProjects := []project.Project{}
 	pastProjects := []project.Project{}
+	projects := []project.Project{}
 
 	// Populate each list with associates, events, project, respectively.
 	for _, sheetName := range getSheetNameList() {
@@ -85,6 +88,10 @@ func Fetch() (
 			for _, row := range resp.Values {
 				associates = append(associates, associate.LoadAssociate(row)...)
 			}
+		case DEPARTMENTS:
+			for _, row := range resp.Values {
+				department.LoadDeptDescs(&deptDescs, row)
+			}
 		case EVENTS:
 			for _, row := range resp.Values {
 				events = append(events, event.LoadEvent(row))
@@ -97,19 +104,19 @@ func Fetch() (
 			for _, row := range resp.Values {
 				proj := project.LoadProject(row)
 				if proj.Status == project.ActiveStatus {
-					activeProjects = append(activeProjects, proj)
-				} else {
-					pastProjects = append(pastProjects, proj)
+					projects = append(projects, proj)
+					continue
 				}
+				pastProjects = append(pastProjects, proj)
 			}
 		default:
-			fmt.Printf("Fetch for %s not yet implemented.\n", sheetName)
+			log.Printf("Fetch for %s not yet implemented.\n", sheetName)
 		}
 	}
 
 	sort.Sort(event.List(events))
 
-	return events, associates, positions, activeProjects, pastProjects
+	return associates, deptDescs, events, positions, pastProjects, projects
 }
 
 // LoadFetchEnv loads environment variables from .env for fetching.
