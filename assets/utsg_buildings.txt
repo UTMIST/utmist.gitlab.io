@@ -1,7 +1,173 @@
-BA 080 Bahen Centre for IT
+AN 506 Annesley Hall
+AP 079 Anthropology Building
+AB 036 Astronomy & Astrophysics Building
+BK 094 Back Campus Fields
+BA 080 Bahen Centre for Information Technology
+BF 057 Bancroft Building
+BI 016 Banting Institute
+CB 052 Best Institute (Demolished 2020/01)
+BC 503 Birge-Carnegie Library
+FE 014 Bloor Street West-371
+NB 61A Borden Building North
+SB 061 Borden Building South
+BR 411 Brennan Hall
+BW 504 Burwash Hall
+LB 505 Burwash Residence (Lower Houses)
+UB 05A Burwash Residence (Upper Houses)
+NL 011 C. David Naylor Building
+CG 047 Canadiana Gallery
+CR 426 Carr Hall
+ST 018 Central Steam Plant
+C1 790 Charles St. West-30
+C2 791 Charles St. West-35
+LH 516 Charles Street West-65
+CN 158 Chestnut Residence and Conference Centre
+BN 068 Clara Benson Building
+BL 06A Claude T. Bissell Building
+CZ 179 College Street-229
+ZC 090 College Street-88
+CX 092 Communications House
+CH 10A Convocation Hall
+CU 026 Cumberland House
+PT 08A D.L. Pratt Building
+DA 054 Daniels Building
+DN 065 Dentistry Building
+WR 053 Dr. Eric Jackman Institute of Child Study
+PR 514 E.J. Pratt Library
+ER 129 Early Learning Centre
 ES 062 Earth Sciences Centre
+EJ 051 Edward Johnson Building
+ED 193 Edward Street-123
+EL 093 Electrometallurgy Lab
+EH 405 Elmsley Hall
+EM 502 Emmanuel College
+EA 021 Engineering Annex
+AD 127 Enrolment Services
+EX 155 Exam Centre
+SK 111 Factor-Inwentash Faculty of Social Work
+FC 075 Faculty Club
+LW 040 Faculty of Law
+FH 050 Falconer Hall
+LG 151 Fasken Martineau Building
+FI 105 Fields Inst for Research in Math Science
+FS 420 Fisher House
+FG 025 FitzGerald Building (Under Renovation)
+BH 428 Founders House
+|  107 Future Devonshire Building
+GA 082 Gage Building
 GB 070 Galbraith Building
+GI 603 George Ignatieff Theatre
+LA 602 Gerald Larkin Building
+SM 003 Gerstein Science Information Centre in the Sigmund Samuel Library Bldg
+GH 422 Gilson House
+GO 042 Goldring Centre for High Performance Sport
+GC 507 Goldring Student Centre
+GD 064 Graduate House
+GU 056 Graduate Students' Union
+HH 002 Hart House
+HA 024 Haultain Building
+HS 154 Health Sciences Building
+HU 067 Huron Street-215
+CA 138 Huron Street-370
+IN 132 Innis College
+IS 133 Innis College Student Residence
+BT 509 Isabel Bader Theatre
+KL 429 J. M. Kelly Library
+DR 019 J. Robert S. Prichard Alumni House
+JH 128 Jackman Humanities Building
+RL 006 John P. Robarts Library Building
+KX 575 Knox College
+KP 145 Koffler House
+KS 143 Koffler Student Services Centre
+LM 073 Lash Miller Chemical Laboratories
+MB 007 Lassonde Mining Building
+PB 161 Leslie L. Dan Pharmacy Building
+LI 528 Lillian Massey Building
+LC 401 Loretto College
+SO 120 Louis B. Stewart Observatory (UTSU)
+GM 091 Luella Massey Studio Theatre
+MM 172 Macdonald-Mowat House
+MG 508 Margaret Addison Hall
+|  423 Maritain House
+M2 195 MARS 2
+MA 034 Massey College
+GE 104 Max Gluskin House
+RM 083 McCaul Street-254/256
+OA 156 McCaul Street-263
+MZ 427 McCorkell House
+MP 078 McLennan Physical Laboratories
+MR 004 McMurrich Building
 MC 022 Mechanical Engineering Building
+MS 005 Medical Sciences Building
+MH 419 More House
+MO 101 Morrison Hall
+MU 12C Munk School of Global Affairs & Public Policy - Graham Library
+MK 089 Munk School of Global Affairs & Public Policy at the Observatory
+MU 12A Munk School of Global Affairs & Public Policy at Trinity
+MU 12B Munk School of Global Affairs & Public Policy at Trinity
+AH 407 Muzzo Family Alumni Hall
 MY 087 Myhal Centre for Engineering Innovation and Entrepreneurship
-SF 009 Sanford Fleming Building
+NR 131 New College III
+VI 75A Nona Macdonald Visitors Centre
+NW 122 North West Chiller Plant
+NF 515 Northrop Frye Hall
+OH 415 Odette (Louis) Hall
+OI 123 Ontario Institute for Studies in Education
+PH 417 Phelan House
+ME 097 Queen's Park Crescent East-39
+XQ 433 Queen's Park Crescent East-43
+PI 418 Queen's Park Crescent East-59
+ML 97A Queen's Park Crsc. E.-39A
+RW 072 Ramsay Wright Laboratories
+RG 478 Regis College
+RU 152 Rehabilitation Sciences Building
+RS 020 Rosebrugh Building
+RT 134 Rotman School of Management
+RJ 518 Rowell Jackman Hall
+SR 435 Sam Sorbara Hall Student Residence
+SF 009 Sandford Fleming Building
+CS 103 School of Continuing Studies
+GS 043 School of Graduate Studies
 SS 033 Sidney Smith Hall
+SI 010 Simcoe Hall
+SD 029 Sir Daniel Wilson Residence
+TR 102 Soldiers' Tower
+TT 171 Spadina Ave-455
+SA 142 Spadina Ave-713 (Demolished March 2019)
+XG 066 Spadina Avenue-665
+IA 125 Spadina Avenue-703
+FA 189 Spadina Avenue-720
+BS 413 St. Basil's Church
+IR 110 St. George Street-121
+WA 088 St. George Street-123
+CO 106 St. George Street-162
+PG 027 St. George Street-45
+HI 608 St. Hilda's College
+SN 513 Stephenson House
+EP 192 Stewart Building
+SU 028 Student Commons (Under Renovation)
+SV 425 Sullivan House
+SX 146 Sussex Avenue-40
+SC 077 Sussex Court
+TF 421 Teefy Hall
+DC 160 Terrence Donnelly Ctr for Cellular & Biomolecular Res
+RB 06B Thomas Fisher Rare Book Library Building
+TH 434 Toronto School of Theology
+TC 600 Trinity College
+KT 194 TWH - Krembil Discovery Tower
+UC 001 University College
+UP 023 University College Union
+VA 30A Varsity Centre
+VP 041 Varsity Pavilion
+VC 501 Victoria College
+WB 008 Wallberg Building
+WS 68A Warren Stevens Building
+JP 98B Wellesley Street West-90
+JP 98C Wellesley Street West-90
+WE 032 Wetmore Hall-New College
+WT 013 Whitney Hall
+WI 32A Wilson Hall-New College
+WN 416 Windle House
+WW 038 Woodsworth College
+WO 130 Woodsworth College Residence
+WY 675 Wycliffe College
