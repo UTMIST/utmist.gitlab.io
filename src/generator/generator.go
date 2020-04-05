@@ -16,20 +16,21 @@ const aboutFilename = "content/about.md"
 const configCopyFilename = "assets/config.yaml"
 const configFilename = "config.yaml"
 
-// GeneratePages generates the content pages for Events, Associates, and Projects.
+// GeneratePages generates pages for Associates/Events/Positions/Projects.
 func GeneratePages(
 	assocs *[]associate.Associate,
-	deptDescriptions *map[string]string,
+	deptDescs *map[string]string,
 	events *[]event.Event,
 	positions *[]position.Position,
 	pastProjs *[]project.Project,
 	projs *[]project.Project) {
 
 	// Generate associate/event/project pages.
-	department.GenerateDeptPages(assocs, deptDescriptions, positions, projs, pastProjs)
+	department.GeneratePages(assocs, deptDescs, positions, projs, pastProjs)
 	department.GenerateTeamPage(assocs, positions)
-	event.GenerateEventPages(events)
-	project.GenerateProjectListPage(projs, pastProjs)
+	event.GeneratePages(events)
+	position.GeneratePage(positions)
+	project.GeneratePages(projs, pastProjs)
 
 	// Generate about page.
 	GenerateAboutPage(positions)
@@ -59,8 +60,7 @@ func GenerateAboutPage(positions *[]position.Position) {
 	logger.GenerateLog("about")
 
 	lines := helpers.ReadContentLines(aboutCopyFilename)
-	lines = append(lines, position.MakeList(positions, false)...)
+	lines = append(lines, helpers.GetJoinLines()...)
 
-	helpers.InsertDiscordLink(&lines)
 	helpers.OverwriteWithLines(aboutFilename, lines)
 }

@@ -1,5 +1,7 @@
 package project
 
+import "gitlab.com/utmist/utmist.gitlab.io/src/helpers"
+
 const projectSheetRange = 6
 
 // ActiveStatus string for an active project status.
@@ -37,6 +39,10 @@ func LoadProject(data []interface{}) Project {
 // GroupByDept groups projects into their own department list.
 func GroupByDept(projects *[]Project) map[string][]Project {
 	deptProjects := map[string][]Project{}
+	for _, dept := range helpers.GetDeptNames(false) {
+		deptProjects[dept] = []Project{}
+	}
+
 	for _, proj := range *projects {
 		projList, exists := deptProjects[proj.Department]
 		if !exists {

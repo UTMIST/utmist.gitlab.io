@@ -25,10 +25,12 @@ params:
       sublinks:
         - title: More Projects...
           url: /projects
-    - title: Team (Join Us)
+    - title: Team
       sublinks:
-        - title: Our Team (Join Us)
+        - title: Our Team
           url: /team
+    - title: Join Us
+      url: /recruitment
     - title: Alumni
       url: /team/alumni
     - title: About
@@ -56,27 +58,25 @@ params:
     bulmalogo: true
     quicklinks:
       column1:
-        title: "Events"
+        title: "Events/Projects"
         links:
           - text: Our Events
             link: /events
-          - text: Organizing an Event
-            link: /events/organizing
-      column2:
-        title: "Projects"
-        links:
           - text: Our Projects
             link: /projects
           - text: Work with Us
             link: /projects/collaboration
-      column3:
-        title: "About Us"
+      column2:
+        title: "Team"
         links:
-          - text: About
+          - text: Our Team
+            link: /team
+          - text: Join Us
+            link: /recruitment
+      column3:
+        title: "About"
+        links:
+          - text: About Us
             link: /about
           - text: Alumni
             link: /team/alumni
-          - text: Team (Join Us)
-            link: /team
-          - text: Wiki
-            link: https://gitlab.com/utmist/utmist.gitlab.io/-/wikis

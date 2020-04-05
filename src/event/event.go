@@ -1,8 +1,11 @@
 package event
 
 import (
+	"fmt"
 	"strings"
 	"time"
+
+	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
 // Event represents an entry in the Events Google Sheet
@@ -52,4 +55,27 @@ func (e *Event) getLocation(buildings *map[string]Building) (string, string) {
 	}
 
 	return e.Location, ""
+}
+
+func (e *Event) insertListEntry(lines *[]string, bldgs *map[string]Building) {
+	title := e.Title
+	filename := helpers.StringToFileName(e.Title)
+	dateStr := e.DateTime.Format(helpers.PrintDateTimeLayout)
+
+	// Add lines for event name and date/time.
+	*lines = append(*lines, fmt.Sprintf("##### **[%s](%s)**", title, filename))
+	*lines = append(*lines, fmt.Sprintf("- _Date/Time_: %s", dateStr))
+
+	// If location is given, include a line for it.
+	location, room := e.getLocation(bldgs)
+	if len(location) > 0 {
+		*lines = append(*lines, fmt.Sprintf("- _Location_: %s%s", location,
+			func() string {
+				if len(room) == 0 {
+					return ""
+				}
+				return fmt.Sprintf(" %s", room)
+			}()))
+	}
+	*lines = append(*lines, helpers.Breakline)
 }

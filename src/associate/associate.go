@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strings"
 	"time"
+
+	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
 // Associate represents an associateutive member's database row.
@@ -65,14 +67,15 @@ func (a List) Swap(i, j int) {
 
 const website = ""
 const linkedin = "https://linkedin.com/in/"
-const gitlab = "https://www.github.com/"
-const github = "https://www.gitlab.com/"
+const github = "https://www.github.com/"
+const gitlab = "https://www.gitlab.com/"
 const facebook = "https://www.facebook.com/"
 const twitter = "https://www.twitter.com/"
 
 // Return personal link for associate.
 func (a *Associate) getLink() string {
 
+	// Order of links.
 	bases := []string{website, linkedin, gitlab, github, facebook, twitter}
 	links := []string{
 		a.Website, a.LinkedIn, a.GitLab, a.GitHub, a.Facebook, a.Twitter}
@@ -90,6 +93,8 @@ func (a *Associate) getLink() string {
 
 // GetLine creates a line entry for associate.
 func (a *Associate) GetLine(section string, bold, list bool) string {
+
+	// Set up associate's name.
 	line := fmt.Sprintf("%s%s%s",
 		a.FirstName,
 		func() string {
@@ -106,7 +111,7 @@ func (a *Associate) GetLine(section string, bold, list bool) string {
 	}
 
 	// Reformat the line and write it. List just graduation on alumni page.
-	if section == ALM {
+	if section == helpers.ALM {
 		line = fmt.Sprintf("%s, %s", line, a.Discipline)
 	} else {
 		line = fmt.Sprintf("%s, %s", line, a.Position)
@@ -123,7 +128,8 @@ func (a *Associate) GetLine(section string, bold, list bool) string {
 
 // IsExec returns whether this associate is an executive member.
 func (a *Associate) IsExec() bool {
-	return strings.Index(a.Position, "VP") >= 0 || strings.Index(a.Position, "President") >= 0
+	return strings.Index(a.Position, "VP") >= 0 ||
+		strings.Index(a.Position, "President") >= 0
 }
 
 // HasGraduated returns whether this associate has graduated or left.
@@ -133,11 +139,18 @@ func (a *Associate) HasGraduated() bool {
 
 // GroupByDept groups associates into their own department list.
 func GroupByDept(associates *[]Associate) map[string][]Associate {
+
+	// Populate an empty list for every department.
 	deptAssociates := map[string][]Associate{}
+	for _, dept := range helpers.GetDeptNames(false) {
+		deptAssociates[dept] = []Associate{}
+	}
+
+	// Insert associates into their appropriate department, if it exists.
 	for _, assoc := range *associates {
 		assocList, exists := deptAssociates[assoc.Department]
 		if !exists {
-			deptAssociates[assoc.Department] = []Associate{}
+			continue
 		}
 		deptAssociates[assoc.Department] = append(assocList, assoc)
 	}

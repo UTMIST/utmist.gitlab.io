@@ -2,11 +2,14 @@ package helpers
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
 	"time"
 )
 
+// ALM is the header for the Alumni page.
+const ALM = "Alumni"
 const parseDateLayout = "01/02/2006"
 const parseDateTimeLayout = "01/02/2006 15:04:05"
 
@@ -21,9 +24,9 @@ func FormatDateEST(dateStr string) time.Time {
 		if len(parts[i]) == 1 {
 			parts[i] = fmt.Sprintf("0%s", parts[i])
 		}
-		if i == 1 {
-			layout = parseDateTimeLayout
-		}
+	}
+	if strings.Count(dateStr, " ") == 1 {
+		layout = parseDateTimeLayout
 	}
 	dateStr = strings.Join(parts, "/")
 
@@ -61,10 +64,22 @@ func PadDateWithIndex(index int) string {
 	return padded
 }
 
-// PositionNumber returns the number of positions open for a position from a string.
-func PositionNumber(numStr string) int {
-	if num, err := strconv.Atoi(numStr); err == nil {
-		return num
+// GetDeptNames returns a list of department names.
+func GetDeptNames(alumni bool) []string {
+	year, exists := os.LookupEnv(("DEPTS_YEAR"))
+	if !exists {
+		year = fmt.Sprintf("%d", time.Now().Year())
 	}
-	return 1
+
+	depts := []string{}
+	envDepts, exists := os.LookupEnv(fmt.Sprintf("DEPTS_%s", year))
+	if exists {
+		for _, d := range strings.Split(envDepts, ",") {
+			depts = append(depts, d)
+		}
+	}
+	if alumni {
+		depts = append(depts, ALM)
+	}
+	return depts
 }

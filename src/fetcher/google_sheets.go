@@ -45,7 +45,7 @@ func getCredentials() ([]byte, error) {
 	if !exists {
 		return nil, nil
 	}
-	authProviderX509CertURL, exists := os.LookupEnv("AUTH_PROVIDER_X509_CERT_URL")
+	authProvCertURL, exists := os.LookupEnv("AUTH_PROVIDER_X509_CERT_URL")
 	if !exists {
 		return nil, nil
 	}
@@ -68,7 +68,7 @@ func getCredentials() ([]byte, error) {
 			ProjectID:               projectID,
 			AuthURI:                 authURI,
 			TokenURI:                tokenURI,
-			AuthProviderX509CertURL: authProviderX509CertURL,
+			AuthProviderX509CertURL: authProvCertURL,
 			ClientSecret:            clientSecret,
 			RedirectURIs:            redirectURIs,
 		},
@@ -79,9 +79,9 @@ func getCredentials() ([]byte, error) {
 
 // Retrieve a token, saves the token, then returns the generated client.
 func getClient(config *oauth2.Config) *http.Client {
-	// The file token.json stores the user's access and refresh tokens, and is
-	// created automatically when the authorization flow completes for the first
-	// time.
+	// The file token.json stores the user's access and refresh tokens,
+	// and is created automatically when the authorization flow completes
+	// for the first time.
 	tokFile := "token.json"
 	tok := tokenFromFile(tokFile)
 	if tok == nil {

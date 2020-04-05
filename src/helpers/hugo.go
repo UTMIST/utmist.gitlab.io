@@ -19,8 +19,11 @@ const MaxNavbarEvents = 3
 // OpenPositions denotes the header for the open position list.
 const OpenPositions = "## **Open Positions**"
 
+// PrintDateTimeLayout defines the layout we print out.
+const PrintDateTimeLayout = "Monday, January 2, 2006, 15:04"
+
 // PrintDateLayout defines the layout we print out.
-const PrintDateLayout = "Mon, Jan 02 2006, 15:04"
+const PrintDateLayout = "Monday, January 2, 2006"
 
 // Sidebar is the markdown header property to show the sidebar.
 const Sidebar = "sidebar: true"
@@ -43,8 +46,10 @@ func getTagsListStr(tags []string) string {
 	return tagsStr
 }
 
-// GenerateHugoPageHeader writes lines for a page header.
-func GenerateHugoPageHeader(title, date, summary string, tags []string) []string {
+// GenerateFrontMatter writes lines for a page header.
+func GenerateFrontMatter(title, date, summary string,
+	tags []string) []string {
+
 	header := []string{
 		Breakline,
 		fmt.Sprintf("title: \"%s\"", title),
@@ -61,7 +66,8 @@ func GenerateHugoPageHeader(title, date, summary string, tags []string) []string
 }
 
 // StitchPageLink stitches new lines into the config.
-func StitchPageLink(lines *[]string, objects []string, section, start string) {
+func StitchPageLink(lines *[]string,
+	objects []string, section, start string) {
 
 	// Add new objects into config.
 	newLines := []string{}
@@ -79,7 +85,8 @@ func StitchPageLink(lines *[]string, objects []string, section, start string) {
 }
 
 // StitchExternalLink stitches new lines into the config.
-func StitchExternalLink(lines *[]string, titles, links []string, start string) {
+func StitchExternalLink(lines *[]string,
+	titles, links []string, start string) {
 
 	// Add new objects into config.
 	newLines := []string{}

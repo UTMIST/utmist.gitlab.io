@@ -6,8 +6,8 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
-const activeProjectListBasePath = "./assets/projects_active.md"
-const pastProjectListBasePath = "./assets/projects_past.md"
+const activeProjectHeader = "## **Active Projects**"
+const pastProjectHeader = "## **Past Projects**"
 
 const projectCopyFilename = "assets/projects.md"
 const projectFilename = "content/projects.md"
@@ -19,12 +19,12 @@ func MakeList(projects *[]Project, active, deptPage bool) []string {
 		return []string{}
 	}
 
-	lines := helpers.ReadFileBase(func() string {
+	lines := []string{func() string {
 		if active {
-			return activeProjectListBasePath
+			return activeProjectHeader
 		}
-		return pastProjectListBasePath
-	}(), len(*projects), 1)
+		return pastProjectHeader
+	}()}
 
 	for _, proj := range *projects {
 		lines = append(lines, fmt.Sprintf("##### **%s**",
@@ -39,12 +39,14 @@ func MakeList(projects *[]Project, active, deptPage bool) []string {
 			lines = append(lines, proj.Description)
 		}
 		if len(proj.Department) > 0 && !deptPage {
-			lines = append(lines, fmt.Sprintf("- _Department_: [%s](%s)",
-				proj.Department,
-				helpers.StringToFileName(proj.Department)))
+			lines = append(lines,
+				fmt.Sprintf("- _Department_: [%s](%s)",
+					proj.Department,
+					helpers.StringToFileName(proj.Department)))
 		}
 		if len(proj.Instructions) > 0 && proj.Status == ActiveStatus {
-			lines = append(lines, fmt.Sprintf("- _Joining_: %s", proj.Instructions))
+			lines = append(lines,
+				fmt.Sprintf("- _Joining_: %s", proj.Instructions))
 		}
 
 	}
@@ -53,8 +55,8 @@ func MakeList(projects *[]Project, active, deptPage bool) []string {
 
 }
 
-// GenerateProjectListPage generates a page for the project list.
-func GenerateProjectListPage(projects, pastProjects *[]Project) {
+// GeneratePages generates a page for the project list.
+func GeneratePages(projects, pastProjects *[]Project) {
 	lines := helpers.ReadContentLines(projectCopyFilename)
 
 	// Load lists of active/past projects.

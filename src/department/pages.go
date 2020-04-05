@@ -16,8 +16,8 @@ import (
 // Paths for the event files.
 const assocDirPath = "./content/team/"
 
-// GenerateDeptPage generates a page for the a department.
-func GenerateDeptPage(
+// GeneratePage generates a page for the a department.
+func GeneratePage(
 	title string,
 	associates []associate.Associate,
 	description string,
@@ -29,25 +29,29 @@ func GenerateDeptPage(
 
 	// Get page title and date and generate the header.
 	displayTitle, yearStr := func() (string, string) {
-		if title == associate.ALM {
-			return fmt.Sprintf("Our %s", associate.ALM), "0000-01-02"
+		if title == helpers.ALM {
+			return fmt.Sprintf("Our %s", helpers.ALM), "0000-01-02"
 		}
 		return title, "0000-01-01"
 	}()
-	lines := append(helpers.GenerateHugoPageHeader(
-		displayTitle, yearStr, "", []string{"Team"}), description)
+	lines := append(
+		helpers.GenerateFrontMatter(
+			displayTitle, yearStr, "", []string{"Team"}),
+		[]string{description, ""}...)
 
 	// Write a list entry for every member.
 	assocLines, execLines := []string{}, []string{}
 	for _, associate := range associates {
 		if associate.IsExec() && !associate.HasGraduated() {
-			execLines = append(execLines, associate.GetLine(title, true, true))
+			execLines = append(execLines,
+				associate.GetLine(title, true, true))
 		} else {
-			assocLines = append(assocLines, associate.GetLine(title, true, true))
+			assocLines = append(assocLines,
+				associate.GetLine(title, true, true))
 		}
 	}
 
-	// Stitch the new lines back in with any existing open positions.
+	// Stitch the new lines back in with projects and positions.
 	lines = append(lines, execLines...)
 	lines = append(lines, assocLines...)
 	if len(projects)+len(pastProjects) > 0 {
@@ -55,15 +59,15 @@ func GenerateDeptPage(
 	}
 	lines = append(lines, project.MakeList(&projects, true, true)...)
 	lines = append(lines, project.MakeList(&pastProjects, false, true)...)
-	lines = append(lines, position.MakeList(&positions, true)...)
+	lines = append(lines, position.MakeList(&positions, true, "")...)
 
 	// Write to the new file path.
 	filepath := fmt.Sprintf("%s%s.md", assocDirPath, strings.ToLower(title))
 	helpers.OverwriteWithLines(filepath, lines)
 }
 
-// GenerateDeptPages generates all the department pages.
-func GenerateDeptPages(
+// GeneratePages generates all the department pages.
+func GeneratePages(
 	associates *[]associate.Associate,
 	descriptions *map[string]string,
 	positions *[]position.Position,
@@ -72,15 +76,15 @@ func GenerateDeptPages(
 
 	logger.GenerateGroupLog("associate")
 
-	// Populate the departments with empty associate/position/project lists.
+	// Populate the departments with associate/position/project maps.
 	deptAssocMap := associate.GroupByDept(associates)
 	deptPosMap := position.GroupByDept(positions)
 	deptProjMap := project.GroupByDept(projects)
 	deptPastProjMap := project.GroupByDept(pastProjects)
 
-	// Generate each department page.
 	os.Mkdir(assocDirPath, os.ModePerm)
 
+	// Generate each department page.
 	for deptName, deptAssociates := range deptAssocMap {
 		sort.Sort(associate.List(deptAssociates))
 
@@ -89,7 +93,7 @@ func GenerateDeptPages(
 			description = ""
 		}
 
-		GenerateDeptPage(
+		GeneratePage(
 			deptName,
 			deptAssociates,
 			description,

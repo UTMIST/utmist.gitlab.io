@@ -1,8 +1,6 @@
 package event
 
 import (
-	"fmt"
-
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
@@ -15,24 +13,8 @@ func generateEventList(events *[]Event, buildings *map[string]Building) {
 	lines := helpers.ReadFileBase(eventsBasePath, len(*events), 10)
 
 	// Add each event to the list.
-	for i := 0; i < len(*events); i++ {
-		title := (*events)[i].Title
-		filename := helpers.StringToFileName((*events)[i].Title)
-		dateStr := (*events)[i].DateTime.Format(helpers.PrintDateLayout)
-
-		location, room := (*events)[i].getLocation(buildings)
-		head := fmt.Sprintf("##### **[%s](%s)**", title, filename)
-		date := fmt.Sprintf("- _Date/Time_: %s", dateStr)
-		if len(location) > 0 {
-			location = fmt.Sprintf("- _Location_: %s%s", location, func() string {
-				if len(room) == 0 {
-					return ""
-				}
-				return fmt.Sprintf(" %s", room)
-			}())
-		}
-
-		lines = append(lines, []string{head, date, location, helpers.Breakline}...)
+	for _, event := range *events {
+		event.insertListEntry(&lines, buildings)
 	}
 
 	helpers.OverwriteWithLines(eventsFilePath, lines)

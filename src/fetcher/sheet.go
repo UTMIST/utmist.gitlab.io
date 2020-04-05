@@ -25,7 +25,8 @@ type Sheet struct {
 
 // GetSheetKeys returns a sheet ID and range corresponding to sheetname.
 func getSheetKeys(sheetName string) (string, string) {
-	return fmt.Sprintf("%s_SHEET_ID", sheetName), fmt.Sprintf("%s_SHEET_RANGE", sheetName)
+	return fmt.Sprintf("%s_SHEET_ID", sheetName),
+		fmt.Sprintf("%s_SHEET_RANGE", sheetName)
 }
 
 // GetSheetNameList returns a list of constant sheet name strings.

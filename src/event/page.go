@@ -14,55 +14,65 @@ import (
 // Paths for the event files.
 const eventsDirPath = "./content/events/"
 
-// Generate a page for an event, including main image, content, location and date/time.
-func generateEventPage(name string, event Event, buildings *map[string]Building, index int) {
+// Generate a page for event, including image, content, location, date/time.
+func (e *Event) generatePage(buildings *map[string]Building, index int) {
 
-	logger.GenerateLog(fmt.Sprintf("%s", name))
+	logger.GenerateLog(fmt.Sprintf("%s", e.Title))
 
 	// Format date and generate page header.
-	lines := helpers.GenerateHugoPageHeader(name, helpers.PadDateWithIndex(index), event.Title, []string{"Event", event.Type})
+	lines := helpers.GenerateFrontMatter(
+		e.Title,
+		helpers.PadDateWithIndex(index),
+		e.Title,
+		[]string{"Event", e.Type})
 
 	// If there's an image and/or summary, include them.
-	if len(event.ImageLink) > 0 {
-		displayLink := strings.Replace(event.ImageLink, "open?", "u/0/uc?", 1)
+	if len(e.ImageLink) > 0 {
+		displayLink := strings.Replace(e.ImageLink, "open?", "u/0/uc?", 1)
 
-		imageLine := fmt.Sprintf("![%s](%s)", event.Title, displayLink)
+		imageLine := fmt.Sprintf("![%s](%s)", e.Title, displayLink)
 		lines = append(lines, imageLine)
 	}
-	if len(event.Summary) > 0 {
-		lines = append(lines, fmt.Sprintf("\n%s", event.Summary))
+	if len(e.Summary) > 0 {
+		lines = append(lines, fmt.Sprintf("\n%s", e.Summary))
 	}
 
 	// Clean up the file and add footer with date/time and location.
 	lines = append(lines, "")
 	lines = append(lines, helpers.Breakline)
 	lines = append(lines, "")
-	printedDateStr := fmt.Sprintf("Date/Time: **%s.**", event.DateTime.Format(helpers.PrintDateLayout))
+	printedDateStr := fmt.Sprintf("Date/Time: **%s.**",
+		e.DateTime.Format(helpers.PrintDateTimeLayout))
 	lines = append(lines, printedDateStr)
-	if location, room := event.getLocation(buildings); len(location) > 0 {
+	if location, room := e.getLocation(buildings); len(location) > 0 {
 		lines = append(lines, "")
-		printedLocStr := fmt.Sprintf("Location: **%s%s.**", location, func() string {
-			if len(room) == 0 {
-				return ""
-			}
-			return fmt.Sprintf(" %s", room)
-		}())
+		printedLocStr := fmt.Sprintf("Location: **%s%s.**",
+			location,
+			func() string {
+				if len(room) == 0 {
+					return ""
+				}
+				return fmt.Sprintf(" %s", room)
+			}())
 		lines = append(lines, printedLocStr)
 	}
 
 	// If there's a post-link, include it.
-	if len(event.PostLink) > 0 {
+	if len(e.PostLink) > 0 {
 		lines = append(lines, "")
-		printedLocStr := fmt.Sprintf("Slides/Feedback: [%s](%s).", event.PostLink, event.PostLink)
+		printedLocStr := fmt.Sprintf("Slides/Feedback: [%s](%s).",
+			e.PostLink,
+			e.PostLink)
 		lines = append(lines, printedLocStr)
 	}
 
-	filename := fmt.Sprintf("./content/events/%s.md", helpers.StringToFileName(event.Title))
+	filename := fmt.Sprintf("./content/events/%s.md",
+		helpers.StringToFileName(e.Title))
 	helpers.OverwriteWithLines(filename, lines)
 }
 
-// GenerateEventPages generates events main page and each event's page.
-func GenerateEventPages(events *[]Event) {
+// GeneratePages generates events main page and each event's page.
+func GeneratePages(events *[]Event) {
 	// Get list of UofT buildings.
 	buildings, err := getUofTBuildingsList()
 	if err != nil {
@@ -77,6 +87,6 @@ func GenerateEventPages(events *[]Event) {
 
 	// Generate each event page.
 	for i, event := range *events {
-		generateEventPage(event.Title, event, &buildings, len(*events)-i)
+		event.generatePage(&buildings, len(*events)-i)
 	}
 }
