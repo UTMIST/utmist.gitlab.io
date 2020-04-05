@@ -5,10 +5,12 @@ import (
 	"log"
 	"os"
 	"sort"
+	"time"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
 	"gitlab.com/utmist/utmist.gitlab.io/src/department"
 	"gitlab.com/utmist/utmist.gitlab.io/src/event"
+	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 	"gitlab.com/utmist/utmist.gitlab.io/src/position"
 	"gitlab.com/utmist/utmist.gitlab.io/src/project"
 
@@ -72,7 +74,8 @@ func Fetch() (
 		// Validate the API response.
 		resp, err := srv.Spreadsheets.Values.Get(sheet.ID, sheet.Range).Do()
 		if err != nil {
-			log.Println(fmt.Sprintf("Unable to retrieve %s data from sheet: ", sheetName))
+			log.Println(fmt.Sprintf("Unable to retrieve %s data from sheet: ",
+				sheetName))
 			continue
 		}
 		if len(resp.Values) == 0 {
@@ -86,23 +89,31 @@ func Fetch() (
 		switch sheetName {
 		case ASSOCIATES:
 			for _, row := range resp.Values {
-				associates = append(associates, associate.LoadAssociate(row)...)
+				associates = append(associates, associate.Load(row)...)
 			}
 		case DEPARTMENTS:
 			for _, row := range resp.Values {
-				department.LoadDeptDescs(&deptDescs, row)
+				department.LoadDescs(&deptDescs, row)
 			}
 		case EVENTS:
 			for _, row := range resp.Values {
-				events = append(events, event.LoadEvent(row))
+				events = append(events, event.Load(row))
 			}
 		case POSITIONS:
 			for _, row := range resp.Values {
-				positions = append(positions, position.LoadPosition(row))
+				pos := position.Load(row)
+
+				// Add the position if there's no valid deadline that passed.
+				toronto, err := time.LoadLocation("America/New_York")
+				if err != nil ||
+					!helpers.BeforeDate(pos.Deadline,
+						time.Now().In(toronto)) {
+					positions = append(positions, position.Load(row))
+				}
 			}
 		case PROJECTS:
 			for _, row := range resp.Values {
-				proj := project.LoadProject(row)
+				proj := project.Load(row)
 				if proj.Status == project.ActiveStatus {
 					projects = append(projects, proj)
 					continue
@@ -124,7 +135,8 @@ func loadFetchEnv() (map[string]Sheet, error) {
 	sheetIDRanges := map[string]Sheet{}
 	sheetNames := getSheetNameList()
 
-	// Populates sheet IDs and ranges for each group (associates, vents, projects)
+	// Populates sheet IDs and ranges for each data group.
+	// Associates/Events/Page Descriptions/Positions/Projects.
 	for _, sheetName := range sheetNames {
 		ID, Range := getSheetKeys(sheetName)
 		sheetID, ok := os.LookupEnv(ID)

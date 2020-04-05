@@ -53,8 +53,8 @@ func (p *Position) IsExec() bool {
 		strings.Index(p.Title, "President") >= 0
 }
 
-// LoadPosition loads a position from a spreadsheet row.
-func LoadPosition(data []interface{}) Position {
+// Load loads a position from a spreadsheet row.
+func Load(data []interface{}) Position {
 
 	// Pad the columns with blanks to avoid index-out-of-range.
 	for i := len(data); i < positionSheetRange; i++ {

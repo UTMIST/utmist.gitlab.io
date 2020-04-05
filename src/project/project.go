@@ -17,8 +17,8 @@ type Project struct {
 	Instructions string
 }
 
-// LoadProject loads a project from a spreadsheet row.
-func LoadProject(data []interface{}) Project {
+// Load loads a project from a spreadsheet row.
+func Load(data []interface{}) Project {
 	// Pad the columns with blanks to avoid index-out-of-range.
 	for i := len(data); i < projectSheetRange; i++ {
 		data = append(data, "")

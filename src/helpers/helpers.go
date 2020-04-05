@@ -10,32 +10,16 @@ import (
 
 // ALM is the header for the Alumni page.
 const ALM = "Alumni"
-const parseDateLayout = "01/02/2006"
-const parseDateTimeLayout = "01/02/2006 15:04:05"
+const parseDateLayout = "2006-01-02"
+const parseDateTimeLayout = "2006-01-02 15:04"
 
 // FormatDateEST formats a date from EST.
 func FormatDateEST(dateStr string) time.Time {
 
 	layout := parseDateLayout
-
-	// UNDOCUMENTED.
-	parts := strings.Split(dateStr, "/")
-	for i := 0; i < len(parts); i++ {
-		if len(parts[i]) == 1 {
-			parts[i] = fmt.Sprintf("0%s", parts[i])
-		}
-	}
 	if strings.Count(dateStr, " ") == 1 {
 		layout = parseDateTimeLayout
 	}
-	dateStr = strings.Join(parts, "/")
-
-	// UNDOCUMENTED.
-	parts = strings.Split(dateStr, " ")
-	if len(parts) > 1 && parts[1][1] == ':' {
-		parts[1] = fmt.Sprintf("0%s", parts[1])
-	}
-	dateStr = strings.Join(parts, " ")
 
 	// Load location and parse the time in that location.
 	toronto, err := time.LoadLocation("America/New_York")
@@ -82,4 +66,12 @@ func GetDeptNames(alumni bool) []string {
 		depts = append(depts, ALM)
 	}
 	return depts
+}
+
+// BeforeDate returns whether timeA is before timeB by date.
+func BeforeDate(timeA, timeB time.Time) bool {
+	yearA, monthA, dayA := timeA.Date()
+	yearB, monthB, dayB := timeB.Date()
+
+	return yearA < yearB || monthA < monthB || dayA < dayB
 }

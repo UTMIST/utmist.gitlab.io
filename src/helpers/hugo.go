@@ -20,7 +20,7 @@ const MaxNavbarEvents = 3
 const OpenPositions = "## **Open Positions**"
 
 // PrintDateTimeLayout defines the layout we print out.
-const PrintDateTimeLayout = "Monday, January 2, 2006, 15:04"
+const PrintDateTimeLayout = "Monday, January 2, 2006, 3:04PM"
 
 // PrintDateLayout defines the layout we print out.
 const PrintDateLayout = "Monday, January 2, 2006"

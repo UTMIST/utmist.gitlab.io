@@ -15,8 +15,8 @@ const gitlhubLink = 3
 const facebookLink = 4
 const twitterLink = 5
 
-// LoadAssociate loads an associate from a spreadsheet row.
-func LoadAssociate(data []interface{}) []Associate {
+// Load loads an associate from a spreadsheet row.
+func Load(data []interface{}) []Associate {
 
 	// Pad the columns with blanks to avoid index-out-of-range.
 	for i := len(data); i < associatesSheetRange; i++ {

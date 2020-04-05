@@ -5,7 +5,6 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/department"
 	"gitlab.com/utmist/utmist.gitlab.io/src/event"
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
-	"gitlab.com/utmist/utmist.gitlab.io/src/logger"
 	"gitlab.com/utmist/utmist.gitlab.io/src/position"
 	"gitlab.com/utmist/utmist.gitlab.io/src/project"
 )
@@ -38,7 +37,7 @@ func GeneratePages(
 
 // GenerateConfig generates the configuration file for Hugo site.
 func GenerateConfig(events *[]event.Event, projs *[]project.Project) {
-	logger.GenerateLog("config")
+	helpers.GenerateLog("config")
 
 	// Start with config copy.
 	lines := helpers.ReadContentLines(configCopyFilename)
@@ -57,7 +56,7 @@ func GenerateConfig(events *[]event.Event, projs *[]project.Project) {
 
 // GenerateAboutPage generates the about page.
 func GenerateAboutPage(positions *[]position.Position) {
-	logger.GenerateLog("about")
+	helpers.GenerateLog("about")
 
 	lines := helpers.ReadContentLines(aboutCopyFilename)
 	lines = append(lines, helpers.GetJoinLines()...)

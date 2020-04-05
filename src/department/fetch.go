@@ -2,8 +2,8 @@ package department
 
 const departmentsSheetRange = 2
 
-// LoadDeptDescs returns a map of department descriptions.
-func LoadDeptDescs(deptDescs *map[string]string, data []interface{}) {
+// LoadDescs returns a map of department descriptions.
+func LoadDescs(deptDescs *map[string]string, data []interface{}) {
 	// Pad the columns with blanks to avoid index-out-of-range.
 	for i := len(data); i < departmentsSheetRange; i++ {
 		data = append(data, "")

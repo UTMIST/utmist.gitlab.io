@@ -7,8 +7,6 @@ import (
 	"strings"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
-
-	"gitlab.com/utmist/utmist.gitlab.io/src/logger"
 )
 
 // Paths for the event files.
@@ -17,7 +15,7 @@ const eventsDirPath = "./content/events/"
 // Generate a page for event, including image, content, location, date/time.
 func (e *Event) generatePage(buildings *map[string]Building, index int) {
 
-	logger.GenerateLog(fmt.Sprintf("%s", e.Title))
+	helpers.GenerateLog(fmt.Sprintf("%s", e.Title))
 
 	// Format date and generate page header.
 	lines := helpers.GenerateFrontMatter(
@@ -79,7 +77,7 @@ func GeneratePages(events *[]Event) {
 		log.Fatal(err)
 	}
 
-	logger.GenerateGroupLog("event")
+	helpers.GenerateGroupLog("event")
 	os.Mkdir(eventsDirPath, os.ModePerm)
 
 	// Generate events main page.

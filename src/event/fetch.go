@@ -6,8 +6,8 @@ import (
 
 const eventsSheetRange = 8
 
-// LoadEvent loads an event from a spreadsheet row.
-func LoadEvent(data []interface{}) Event {
+// Load loads an event from a spreadsheet row.
+func Load(data []interface{}) Event {
 	for i := len(data); i < eventsSheetRange; i++ {
 		data = append(data, "")
 	}

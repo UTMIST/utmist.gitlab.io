@@ -8,7 +8,6 @@ import (
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
-	"gitlab.com/utmist/utmist.gitlab.io/src/logger"
 	"gitlab.com/utmist/utmist.gitlab.io/src/position"
 	"gitlab.com/utmist/utmist.gitlab.io/src/project"
 )
@@ -25,7 +24,7 @@ func GeneratePage(
 	projects []project.Project,
 	pastProjects []project.Project) {
 
-	logger.GenerateLog(title)
+	helpers.GenerateLog(title)
 
 	// Get page title and date and generate the header.
 	displayTitle, yearStr := func() (string, string) {
@@ -74,7 +73,7 @@ func GeneratePages(
 	projects *[]project.Project,
 	pastProjects *[]project.Project) {
 
-	logger.GenerateGroupLog("associate")
+	helpers.GenerateGroupLog("associate")
 
 	// Populate the departments with associate/position/project maps.
 	deptAssocMap := associate.GroupByDept(associates)

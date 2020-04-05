@@ -84,4 +84,4 @@ Full details can be found on [our Wiki](https://gitlab.com/utmist/utmist.gitlab.
 ## Acknowledgements
 
 - [Salim Anvarov](https://msanvarov.github.io/personal-portfolio) for advising on Docker and Go Modules.
-- [Lingkai (Rain) Shen](https://www.linkedin.com/in/lingkai-shen/) for building [utmist.github.io](https://github.com/utmist.github.io) and advising on Google Sheets.
+- [Lingkai (Rain) Shen](https://www.linkedin.com/in/lingkai-shen/) for building [utmist.github.io](https://github.com/utmist/utmist.github.io) and advising on Google Sheets.
