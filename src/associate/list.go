@@ -6,7 +6,7 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
-const execListStart = "## **Leadership**"
+const execListStart = "### **Leadership**"
 
 // GenerateExecList generates a list of executive members.
 func GenerateExecList(lines *[]string, associates *[]Associate) {

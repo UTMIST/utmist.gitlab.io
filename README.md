@@ -72,6 +72,11 @@ Full details can be found on [our Wiki](https://gitlab.com/utmist/utmist.gitlab.
 
 ## Development
 
+- [**GitLab**](https://gitlab.com/utmist/utmist.gitlab.io)
+  - Working issues and Merge Requests (MRs) are reviewed.
+  - Bug reports and feature requests are preferred.
+- [**GitHub (Mirror)**](https://github.com/utmist/utmist.gitlab.io)
+  - Bug reports and feature requests are accepted.
 - This project is maintained by the [Infrastructure Department at UTMIST](https://utmist.gitlab.io/team/infrastructure).
   - [Robert (Rupert) Wu](https://leglesslamb.gitlab.io), VP Infrastructure.
 - If you’re a member of UTMIST and would like to contribute or learn development through this project, you can join our Discord) and let us know in #infrastructure.

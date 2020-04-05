@@ -9,9 +9,9 @@ sidebarlogo: whiteside
 
 ---
 
-## **Departments**
+### **Departments**
 
-## **Leadership**
+### **Leadership**
 
 ---
 

@@ -25,11 +25,17 @@ func MakeList(positions *[]Position, deptPage bool) []string {
 				helpers.StringToFileName(pos.Department))
 		}())
 
-		desc := fmt.Sprintf("- _Description_: %s", pos.Description)
-		reqs := fmt.Sprintf("- _Requirements_: %s", pos.Requirements)
-		inst := fmt.Sprintf("- _Instructions_: %s", pos.Instructions)
-
-		lines = append(lines, []string{head, desc, reqs, inst, "\n"}...)
+		lines = append(lines, head)
+		if len(pos.Description) > 0 {
+			lines = append(lines, pos.Description)
+		}
+		if len(pos.Requirements) > 0 {
+			lines = append(lines, fmt.Sprintf("- _Requirements_: %s", pos.Requirements))
+		}
+		if len(pos.Instructions) > 0 {
+			lines = append(lines, fmt.Sprintf("- _Instructions_: %s", pos.Instructions))
+		}
+		lines = append(lines, "")
 	}
 
 	return lines

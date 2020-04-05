@@ -27,31 +27,25 @@ func MakeList(projects *[]Project, active, deptPage bool) []string {
 	}(), len(*projects), 1)
 
 	for _, proj := range *projects {
-		head := fmt.Sprintf("##### **%s**",
+		lines = append(lines, fmt.Sprintf("##### **%s**",
 			func() string {
 				if len(proj.Link) == 0 {
 					return proj.Title
 				}
 				return fmt.Sprintf("[%s](%s)", proj.Title, proj.Link)
-			}())
+			}()))
 
-		dept := func() string {
-			if deptPage {
-				return ""
-			}
-			return fmt.Sprintf("- _Department_: [%s](%s)",
+		if len(proj.Description) > 0 {
+			lines = append(lines, proj.Description)
+		}
+		if len(proj.Department) > 0 && !deptPage {
+			lines = append(lines, fmt.Sprintf("- _Department_: [%s](%s)",
 				proj.Department,
-				helpers.StringToFileName(proj.Department))
-		}()
-		desc := fmt.Sprintf("- _Description_: %s", proj.Description)
-		join := func() string {
-			if proj.Status != ActiveStatus {
-				return ""
-			}
-			return fmt.Sprintf("- _Joining_: %s", proj.Instructions)
-		}()
-
-		lines = append(lines, []string{head, dept, desc, join}...)
+				helpers.StringToFileName(proj.Department)))
+		}
+		if len(proj.Instructions) > 0 && proj.Status == ActiveStatus {
+			lines = append(lines, fmt.Sprintf("- _Joining_: %s", proj.Instructions))
+		}
 
 	}
 
