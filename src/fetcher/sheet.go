@@ -5,8 +5,8 @@ import "fmt"
 // ASSOCIATES key.
 const ASSOCIATES = "ASSOCIATE"
 
-// DEPARTMENTS key,
-const DEPARTMENTS = "DEPARTMENT"
+// DESCRIPTIONS key,
+const DESCRIPTIONS = "DESCRIPTION"
 
 // EVENTS key.
 const EVENTS = "EVENT"
@@ -33,7 +33,7 @@ func getSheetKeys(sheetName string) (string, string) {
 func getSheetNameList() []string {
 	return []string{
 		ASSOCIATES,
-		DEPARTMENTS,
+		DESCRIPTIONS,
 		EVENTS,
 		POSITIONS,
 		PROJECTS,

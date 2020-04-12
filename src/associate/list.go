@@ -6,11 +6,11 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
-const execListParagraphFile = "assets/exec_list.md"
 const execListStart = "### **Leadership**"
 
 // GenerateExecList generates a list of executive members.
-func GenerateExecList(lines *[]string, associates *[]Associate) {
+func GenerateExecList(lines *[]string,
+	associates *[]Associate, description string) {
 
 	// Get list of execs.
 	execs := []Associate{}
@@ -22,7 +22,10 @@ func GenerateExecList(lines *[]string, associates *[]Associate) {
 	sort.Sort(List(execs))
 
 	// Build the list of lines from the execs.
-	newLines := helpers.ReadContentLines(execListParagraphFile)
+	newLines := []string{}
+	if len(description) > 0 {
+		newLines = append(newLines, description)
+	}
 	for _, exec := range execs {
 		execLine := exec.GetLine("", false, true)
 		newLines = append(newLines, execLine)

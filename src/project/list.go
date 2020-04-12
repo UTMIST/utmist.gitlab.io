@@ -56,8 +56,12 @@ func MakeList(projects *[]Project, active, deptPage bool) []string {
 }
 
 // GeneratePages generates a page for the project list.
-func GeneratePages(projects, pastProjects *[]Project) {
+func GeneratePages(projects, pastProjects *[]Project, desc string) {
 	lines := helpers.ReadContentLines(projectCopyFilename)
+
+	if len(desc) > 0 {
+		lines = append(lines, []string{"", helpers.Breakline, desc}...)
+	}
 
 	// Load lists of active/past projects.
 	lines = append(lines, MakeList(projects, true, false)...)

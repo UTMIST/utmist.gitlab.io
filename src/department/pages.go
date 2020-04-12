@@ -19,7 +19,7 @@ const assocDirPath = "./content/team/"
 func GeneratePage(
 	title string,
 	associates []associate.Associate,
-	description string,
+	descriptions *map[string]string,
 	positions []position.Position,
 	projects []project.Project,
 	pastProjects []project.Project) {
@@ -36,7 +36,7 @@ func GeneratePage(
 	lines := append(
 		helpers.GenerateFrontMatter(
 			displayTitle, yearStr, "", []string{"Team"}),
-		[]string{description, ""}...)
+		[]string{(*descriptions)[title], ""}...)
 
 	// Write a list entry for every member.
 	assocLines, execLines := []string{}, []string{}
@@ -58,7 +58,8 @@ func GeneratePage(
 	}
 	lines = append(lines, project.MakeList(&projects, true, true)...)
 	lines = append(lines, project.MakeList(&pastProjects, false, true)...)
-	lines = append(lines, position.MakeList(&positions, true, "")...)
+	lines = append(lines, position.MakeList(
+		&positions, true, "", (*descriptions)["Recruitment"])...)
 
 	// Write to the new file path.
 	filepath := fmt.Sprintf("%s%s.md", assocDirPath, strings.ToLower(title))
@@ -87,15 +88,10 @@ func GeneratePages(
 	for deptName, deptAssociates := range deptAssocMap {
 		sort.Sort(associate.List(deptAssociates))
 
-		description, exists := (*descriptions)[deptName]
-		if !exists {
-			description = ""
-		}
-
 		GeneratePage(
 			deptName,
 			deptAssociates,
-			description,
+			descriptions,
 			deptPosMap[deptName],
 			deptProjMap[deptName],
 			deptPastProjMap[deptName])

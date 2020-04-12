@@ -9,8 +9,6 @@ import (
 )
 
 const deptListStart = "### **Departments**"
-const deptListParagraphFile = "assets/dept_list.md"
-const joinParagraphFile = "assets/join.md"
 const teamCopyFilename = "assets/team.md"
 const teamFilename = "content/team.md"
 
@@ -32,16 +30,18 @@ func GenerateDeptList(lines *[]string) {
 // GenerateTeamPage generates a page for the UTMIST team and open positions.
 func GenerateTeamPage(
 	associates *[]associate.Associate,
-	positions *[]position.Position) {
+	positions *[]position.Position,
+	descriptions *map[string]string) {
 
 	// Start with the base of the team page and the join prompt paragraph.
 	lines := append(
 		helpers.ReadContentLines(teamCopyFilename),
-		helpers.ReadContentLines(joinParagraphFile)...)
+		(*descriptions)["Joining"])
 
 	// Insert lists of departments and execs, discord link, and write to file.
 	GenerateDeptList(&lines)
-	associate.GenerateExecList(&lines, associates)
+	associate.GenerateExecList(&lines, associates,
+		(*descriptions)["Leadership"])
 	helpers.InsertDiscordLink(&lines)
 	helpers.OverwriteWithLines(teamFilename, lines)
 }

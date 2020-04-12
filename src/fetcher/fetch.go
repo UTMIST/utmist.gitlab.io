@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
-	"gitlab.com/utmist/utmist.gitlab.io/src/department"
 	"gitlab.com/utmist/utmist.gitlab.io/src/event"
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 	"gitlab.com/utmist/utmist.gitlab.io/src/position"
@@ -58,7 +57,7 @@ func Fetch() (
 
 	// Create lists.
 	associates := []associate.Associate{}
-	deptDescs := map[string]string{}
+	descriptions := map[string]string{}
 	events := []event.Event{}
 	positions := []position.Position{}
 	pastProjects := []project.Project{}
@@ -91,9 +90,9 @@ func Fetch() (
 			for _, row := range resp.Values {
 				associates = append(associates, associate.Load(row)...)
 			}
-		case DEPARTMENTS:
+		case DESCRIPTIONS:
 			for _, row := range resp.Values {
-				department.LoadDescs(&deptDescs, row)
+				loadPageDescs(&descriptions, row)
 			}
 		case EVENTS:
 			for _, row := range resp.Values {
@@ -127,7 +126,7 @@ func Fetch() (
 
 	sort.Sort(event.List(events))
 
-	return associates, deptDescs, events, positions, pastProjects, projects
+	return associates, descriptions, events, positions, pastProjects, projects
 }
 
 // LoadFetchEnv loads environment variables from .env for fetching.

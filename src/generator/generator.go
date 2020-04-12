@@ -18,21 +18,21 @@ const configFilename = "config.yaml"
 // GeneratePages generates pages for Associates/Events/Positions/Projects.
 func GeneratePages(
 	assocs *[]associate.Associate,
-	deptDescs *map[string]string,
+	descriptions *map[string]string,
 	events *[]event.Event,
 	positions *[]position.Position,
 	pastProjs *[]project.Project,
 	projs *[]project.Project) {
 
 	// Generate associate/event/project pages.
-	department.GeneratePages(assocs, deptDescs, positions, projs, pastProjs)
-	department.GenerateTeamPage(assocs, positions)
-	event.GeneratePages(events)
-	position.GeneratePage(positions)
-	project.GeneratePages(projs, pastProjs)
+	department.GeneratePages(assocs, descriptions, positions, projs, pastProjs)
+	department.GenerateTeamPage(assocs, positions, descriptions)
+	event.GeneratePages(events, (*descriptions)["Events"])
+	position.GeneratePage(positions, descriptions)
+	project.GeneratePages(projs, pastProjs, (*descriptions)["Project List"])
 
 	// Generate about page.
-	GenerateAboutPage(positions)
+	GenerateAboutPage(positions, descriptions)
 }
 
 // GenerateConfig generates the configuration file for Hugo site.
@@ -55,11 +55,16 @@ func GenerateConfig(events *[]event.Event, projs *[]project.Project) {
 }
 
 // GenerateAboutPage generates the about page.
-func GenerateAboutPage(positions *[]position.Position) {
+func GenerateAboutPage(positions *[]position.Position,
+	descriptions *map[string]string) {
+
 	helpers.GenerateLog("about")
 
 	lines := helpers.ReadContentLines(aboutCopyFilename)
-	lines = append(lines, helpers.GetJoinLines()...)
+	if description, exists := (*descriptions)["About"]; exists {
+		lines = append(lines, []string{description, "", helpers.Breakline}...)
+	}
+	lines = append(lines, helpers.GetJoinLines((*descriptions)["Joining"])...)
 
 	helpers.OverwriteWithLines(aboutFilename, lines)
 }

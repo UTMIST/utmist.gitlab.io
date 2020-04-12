@@ -7,22 +7,18 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
-const positionBaseCopyPath = "./assets/recruitment_preface.md"
 const positionPageCopyPath = "./assets/recruitment.md"
 const positionPagePath = "./content/recruitment.md"
 
 // MakeList creates a list of open position lines.
-func MakeList(positions *[]Position, deptPage bool, posType string) []string {
+func MakeList(positions *[]Position, deptPage bool,
+	posType, desc string) []string {
 
 	var lines []string
 	if deptPage {
-		lines = helpers.ReadContentLines(positionBaseCopyPath)
-		lines = append(
-			[]string{helpers.Breakline, "### **Open Positions**"},
-			lines...)
+		lines = []string{desc, helpers.Breakline, "### **Open Positions**"}
 	} else {
-		lines = []string{"",
-			helpers.Breakline, "",
+		lines = []string{"", helpers.Breakline, "",
 			fmt.Sprintf("## **%s Positions**", posType)}
 	}
 
@@ -70,7 +66,7 @@ func MakeList(positions *[]Position, deptPage bool, posType string) []string {
 }
 
 // GeneratePage generates a page for recruitment.
-func GeneratePage(positions *[]Position) {
+func GeneratePage(positions *[]Position, descriptions *map[string]string) {
 	execPositions := []Position{}
 	assocPositions := []Position{}
 
@@ -83,9 +79,12 @@ func GeneratePage(positions *[]Position) {
 	}
 
 	lines := helpers.ReadFileBase(positionPageCopyPath, len(*positions), 6)
-	lines = append(lines, helpers.GetJoinLines()...)
-	lines = append(lines, MakeList(&execPositions, false, "Executive")...)
-	lines = append(lines, MakeList(&assocPositions, false, "Associate")...)
+
+	lines = append(lines, helpers.GetJoinLines((*descriptions)["Joining"])...)
+	lines = append(lines, MakeList(
+		&execPositions, false, "Executive", (*descriptions)["Recruitment"])...)
+	lines = append(lines, MakeList(
+		&assocPositions, false, "Associate", (*descriptions)["Recruitment"])...)
 
 	helpers.OverwriteWithLines(positionPagePath, lines)
 }

@@ -9,7 +9,6 @@ import (
 )
 
 const discordBase = "https://discord.gg/"
-const joinParagraphFile = "assets/join.md"
 
 // StringToFileName formats a given string to a filename.
 func StringToFileName(str string) string {
@@ -117,8 +116,8 @@ func InsertDiscordLink(lines *[]string) {
 }
 
 // GetJoinLines returns the lines from the join prompt paragraph.
-func GetJoinLines() []string {
-	lines := ReadContentLines(joinParagraphFile)
+func GetJoinLines(description string) []string {
+	lines := []string{description}
 	InsertDiscordLink(&lines)
 
 	return lines

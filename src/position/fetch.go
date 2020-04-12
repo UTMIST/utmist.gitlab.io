@@ -1,6 +1,8 @@
 package position
 
-import "gitlab.com/utmist/utmist.gitlab.io/src/helpers"
+import (
+	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
+)
 
 const positionSheetRange = 6
 

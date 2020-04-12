@@ -50,7 +50,7 @@ Full details can be found on [our Wiki](https://gitlab.com/utmist/utmist.gitlab.
   git submodule update --init --recursive
   ```
 
-- Paste the environment variables. Refer to `.env.copy` for the required variables.
+- Paste the environment variables into `.env`. Refer to `.env.copy` for the required variables.
 - Run the `fetcher/generator` script.
 
   ```sh

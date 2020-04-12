@@ -70,7 +70,7 @@ func (e *Event) generatePage(buildings *map[string]Building, index int) {
 }
 
 // GeneratePages generates events main page and each event's page.
-func GeneratePages(events *[]Event) {
+func GeneratePages(events *[]Event, description string) {
 	// Get list of UofT buildings.
 	buildings, err := getUofTBuildingsList()
 	if err != nil {
@@ -81,7 +81,7 @@ func GeneratePages(events *[]Event) {
 	os.Mkdir(eventsDirPath, os.ModePerm)
 
 	// Generate events main page.
-	generateEventList(events, &buildings)
+	generateEventList(events, &buildings, description)
 
 	// Generate each event page.
 	for i, event := range *events {
