@@ -2,8 +2,6 @@ package project
 
 import "gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 
-const projectSheetRange = 6
-
 // ActiveStatus string for an active project status.
 const ActiveStatus = "Active"
 
@@ -15,25 +13,6 @@ type Project struct {
 	Description  string
 	Link         string
 	Instructions string
-}
-
-// Load loads a project from a spreadsheet row.
-func Load(data []interface{}) Project {
-	// Pad the columns with blanks to avoid index-out-of-range.
-	for i := len(data); i < projectSheetRange; i++ {
-		data = append(data, "")
-	}
-
-	project := Project{
-		Title:        data[0].(string),
-		Status:       data[1].(string),
-		Department:   data[2].(string),
-		Description:  data[3].(string),
-		Link:         data[4].(string),
-		Instructions: data[5].(string),
-	}
-
-	return project
 }
 
 // GroupByDept groups projects into their own department list.

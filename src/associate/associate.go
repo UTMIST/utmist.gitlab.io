@@ -76,7 +76,8 @@ const twitter = "https://www.twitter.com/"
 func (a *Associate) getLink() string {
 
 	// Order of links.
-	bases := []string{website, linkedin, gitlab, github, facebook, twitter}
+	bases := []string{
+		website, linkedin, gitlab, github, facebook, twitter}
 	links := []string{
 		a.Website, a.LinkedIn, a.GitLab, a.GitHub, a.Facebook, a.Twitter}
 
@@ -120,10 +121,11 @@ func (a *Associate) GetLine(section string, bold, list bool) string {
 		}
 	}
 
-	if !list {
-		return line
+	if list {
+		line = "- " + line
 	}
-	return "- " + line
+
+	return line
 }
 
 // IsExec returns whether this associate is an executive member.
@@ -142,7 +144,7 @@ func GroupByDept(associates *[]Associate) map[string][]Associate {
 
 	// Populate an empty list for every department.
 	deptAssociates := map[string][]Associate{}
-	for _, dept := range helpers.GetDeptNames(false) {
+	for _, dept := range helpers.GetDeptNames(true) {
 		deptAssociates[dept] = []Associate{}
 	}
 

@@ -13,8 +13,8 @@ params:
   hero:
     title: Clear the Mist
     subtitle: UofT Machine Intelligence Student Team
-    buttontext: Join our Discord
-    buttonlink: https://discord.gg/
+    buttontext: Join Us
+    buttonlink: /recruitment
     image: "logos/bluebottom.svg"
   navbar:
     - title: Events
