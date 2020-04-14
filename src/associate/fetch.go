@@ -17,7 +17,7 @@ func Load(data []interface{}) []Associate {
 	}
 
 	// Create the base associate.
-	associate := Associate{
+	assoc := Associate{
 		FirstName:     data[0].(string),
 		PreferredName: data[1].(string),
 		LastName:      data[2].(string),
@@ -28,36 +28,36 @@ func Load(data []interface{}) []Associate {
 
 		Position:   data[6].(string),
 		Department: data[7].(string),
-
 		Retirement: helpers.FormatDateEST(data[8].(string)),
 		Discipline: data[9].(string),
 
-		Website:  data[10].(string),
-		LinkedIn: data[11].(string),
-		GitHub:   data[12].(string),
-		GitLab:   data[13].(string),
-		Facebook: data[14].(string),
-		Twitter:  data[15].(string),
+		ProfilePicture: data[10].(string),
+		Website:        data[11].(string),
+		LinkedIn:       data[12].(string),
+		GitHub:         data[13].(string),
+		GitLab:         data[14].(string),
+		Facebook:       data[15].(string),
+		Twitter:        data[16].(string),
 	}
 
 	// Add a single entry for any alumni.
-	if associate.HasRetired() {
-		associate.Department = helpers.ALM
-		return []Associate{associate}
+	if assoc.HasRetired() {
+		assoc.Department = helpers.ALM
+		return []Associate{assoc}
 	}
 
 	// Create a version for associate for every department-position pair.
 	entries := []Associate{}
-	positions := strings.Split(data[5].(string), ",")
-	departments := strings.Split(data[6].(string), ",")
+	positions := strings.Split(assoc.Position, ",")
+	departments := strings.Split(assoc.Department, ",")
 	count := len(positions)
 	if len(departments) < count {
 		count = len(departments)
 	}
 	for i := 0; i < count; i++ {
-		associate.Department = strings.Trim(departments[i], " ")
-		associate.Position = strings.Trim(positions[i], " ")
-		entries = append(entries, associate)
+		assoc.Department = strings.Trim(departments[i], " ")
+		assoc.Position = strings.Trim(positions[i], " ")
+		entries = append(entries, assoc)
 	}
 
 	return entries

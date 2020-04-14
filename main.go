@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 
 	"github.com/joho/godotenv"
@@ -13,6 +14,10 @@ func main() {
 		log.Print("No .env file found")
 	}
 
+	deptsFlagPtr := flag.Bool("depts", false, "Whether to Generate Department Pages")
+	eventsFlagPtr := flag.Bool("events", false, "Whether to Generate Event Pages")
+	flag.Parse()
+
 	assocs, descs, events, positions, pastProjs, projs := fetcher.Fetch()
 	generator.GeneratePages(
 		&assocs,
@@ -20,6 +25,8 @@ func main() {
 		&events,
 		&positions,
 		&pastProjs,
-		&projs)
+		&projs,
+		*deptsFlagPtr,
+		*eventsFlagPtr)
 	generator.GenerateConfig(&events, &projs)
 }

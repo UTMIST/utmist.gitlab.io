@@ -18,7 +18,7 @@ test:
     - go version
     - hugo version
     - go mod download
-    - go run main.go
+    - go run main.go -depts -events
     - hugo
   except:
     - master
@@ -28,7 +28,7 @@ pages:
     - go version
     - hugo version
     - go mod download
-    - go run main.go
+    - go run main.go -depts -events
     - hugo
   artifacts:
     paths:

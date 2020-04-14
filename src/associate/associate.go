@@ -18,19 +18,18 @@ type Associate struct {
 	Email       string
 	PhoneNumber string
 
-	Discipline     string
-	ProfilePicture string
-
-	Department string
 	Position   string
+	Department string
 	Retirement time.Time
+	Discipline string
 
-	Website  string
-	LinkedIn string
-	GitLab   string
-	GitHub   string
-	Facebook string
-	Twitter  string
+	ProfilePicture string
+	Website        string
+	LinkedIn       string
+	GitLab         string
+	GitHub         string
+	Facebook       string
+	Twitter        string
 }
 
 // List defines a list of events.

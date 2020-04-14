@@ -22,12 +22,18 @@ func GeneratePages(
 	events *[]event.Event,
 	positions *[]position.Position,
 	pastProjs *[]project.Project,
-	projs *[]project.Project) {
+	projs *[]project.Project,
+	deptsFlag bool,
+	eventsFlag bool) {
 
 	// Generate associate/event/project pages.
-	department.GeneratePages(assocs, descriptions, positions, projs, pastProjs)
 	department.GenerateTeamPage(assocs, positions, descriptions)
-	event.GeneratePages(events, (*descriptions)["Events"])
+	if deptsFlag {
+		department.GeneratePages(assocs, descriptions, positions, projs, pastProjs)
+	}
+	if eventsFlag {
+		event.GeneratePages(events, (*descriptions)["Events"])
+	}
 	position.GeneratePage(positions, descriptions)
 	project.GeneratePages(projs, pastProjs, (*descriptions)["Project List"])
 

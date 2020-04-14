@@ -24,6 +24,10 @@ func BeforeDate(timeA, timeB time.Time) bool {
 // FormatDateEST formats a date from EST.
 func FormatDateEST(dateStr string) time.Time {
 
+	if len(dateStr) == 0 {
+		return time.Now().AddDate(1, 0, 0)
+	}
+
 	layout := parseDateLayout
 	if strings.Count(dateStr, " ") == 1 {
 		layout = parseDateTimeLayout
