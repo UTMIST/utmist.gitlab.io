@@ -11,7 +11,7 @@ func GenerateExecList(lines *[]string,
 	// Get list of execs.
 	execs := []Associate{}
 	for _, associate := range *associates {
-		if associate.IsExec() && !associate.HasGraduated() {
+		if associate.IsExec() && !associate.HasRetired() {
 			execs = append(execs, associate)
 		}
 	}

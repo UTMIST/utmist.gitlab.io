@@ -40,7 +40,7 @@ func GeneratePage(
 	// Write a list entry for every member.
 	assocLines, execLines := []string{}, []string{}
 	for _, associate := range associates {
-		if associate.IsExec() && !associate.HasGraduated() {
+		if associate.IsExec() && !associate.HasRetired() {
 			execLines = append(execLines,
 				associate.GetLine(title, true, true))
 		} else {

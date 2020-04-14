@@ -10,19 +10,20 @@ import (
 
 // Associate represents an associateutive member's database row.
 type Associate struct {
-	Email       string
-	PhoneNumber string
-
 	FirstName     string
 	PreferredName string
 	LastName      string
+
+	UofTEmail   string
+	Email       string
+	PhoneNumber string
 
 	Discipline     string
 	ProfilePicture string
 
 	Department string
 	Position   string
-	VP         bool
+	Retirement time.Time
 
 	Website  string
 	LinkedIn string
@@ -30,8 +31,6 @@ type Associate struct {
 	GitHub   string
 	Facebook string
 	Twitter  string
-
-	Graduated int
 }
 
 // List defines a list of events.
@@ -134,9 +133,9 @@ func (a *Associate) IsExec() bool {
 		strings.Index(a.Position, "President") >= 0
 }
 
-// HasGraduated returns whether this associate has graduated or left.
-func (a *Associate) HasGraduated() bool {
-	return 0 <= a.Graduated && a.Graduated < time.Now().Year()
+// HasRetired returns whether this associate has graduated or left.
+func (a *Associate) HasRetired() bool {
+	return a.Retirement.Before(time.Now())
 }
 
 // GroupByDept groups associates into their own department list.
