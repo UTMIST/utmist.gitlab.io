@@ -18,11 +18,8 @@ func (e *Event) generatePage(buildings *map[string]Building, index int) {
 	helpers.GenerateLog(fmt.Sprintf("%s", e.Title))
 
 	// Format date and generate page header.
-	lines := helpers.GenerateFrontMatter(
-		e.Title,
-		helpers.PadDateWithIndex(index),
-		e.Title,
-		[]string{"Event", e.Type})
+	lines := helpers.GenerateHeader(e.Title,
+		helpers.PadDateWithIndex(index))
 
 	// If there's an image and/or summary, include them.
 	if len(e.ImageLink) > 0 {
@@ -55,11 +52,18 @@ func (e *Event) generatePage(buildings *map[string]Building, index int) {
 		lines = append(lines, printedLocStr)
 	}
 
-	// If there's a post-link, include it.
+	// If there are links, include them.
+	if len(e.PreLink) > 0 {
+		lines = append(lines, "")
+		printedLocStr := fmt.Sprintf("Signup/Preview: [%s](%s).",
+			helpers.GetURLBase(e.PreLink),
+			e.PreLink)
+		lines = append(lines, printedLocStr)
+	}
 	if len(e.PostLink) > 0 {
 		lines = append(lines, "")
 		printedLocStr := fmt.Sprintf("Slides/Feedback: [%s](%s).",
-			e.PostLink,
+			helpers.GetURLBase(e.PostLink),
 			e.PostLink)
 		lines = append(lines, printedLocStr)
 	}

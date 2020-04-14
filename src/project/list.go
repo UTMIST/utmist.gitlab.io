@@ -8,9 +8,8 @@ import (
 
 const activeProjectHeader = "## **Active Projects**"
 const pastProjectHeader = "## **Past Projects**"
-
-const projectCopyFilename = "assets/projects.md"
 const projectFilename = "content/projects.md"
+const projectPhotoLink = "![Projects](/images/projects.png)"
 
 // MakeList creates a list of project lines.
 func MakeList(projects *[]Project, active, deptPage bool) []string {
@@ -57,10 +56,10 @@ func MakeList(projects *[]Project, active, deptPage bool) []string {
 
 // GeneratePages generates a page for the project list.
 func GeneratePages(projects, pastProjects *[]Project, desc string) {
-	lines := helpers.ReadContentLines(projectCopyFilename)
-
+	lines := append(helpers.GenerateHeader("Projects", "0001-01-03"),
+		projectPhotoLink, "", helpers.Breakline)
 	if len(desc) > 0 {
-		lines = append(lines, []string{"", helpers.Breakline, desc}...)
+		lines = append(lines, "", helpers.Breakline, desc)
 	}
 
 	// Load lists of active/past projects.

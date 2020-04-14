@@ -9,7 +9,9 @@ import (
 )
 
 const deptListStart = "### **Departments**"
-const teamCopyFilename = "assets/team.md"
+const execListStart = "### **Leadership**"
+const joinParaStart = "### **Joining Us**"
+const teamPhotoLink = "![AGM 2019 Photo](/images/agm2019exec.png)"
 const teamFilename = "content/team.md"
 
 // GenerateDeptList generates a list of departments.
@@ -23,8 +25,7 @@ func GenerateDeptList(lines *[]string) {
 		newLines = append(newLines, deptLine)
 	}
 
-	helpers.StitchIntoLines(lines, &newLines, deptListStart, 1)
-
+	(*lines) = append(*lines, newLines...)
 }
 
 // GenerateTeamPage generates a page for the UTMIST team and open positions.
@@ -33,15 +34,22 @@ func GenerateTeamPage(
 	positions *[]position.Position,
 	descriptions *map[string]string) {
 
-	// Start with the base of the team page and the join prompt paragraph.
-	lines := append(
-		helpers.ReadContentLines(teamCopyFilename),
-		(*descriptions)["Joining"])
+	// Start with the header of the team page.
+	lines := append(helpers.GenerateHeader("Our Team", "0001-01-01"),
+		teamPhotoLink, "",
+		helpers.Breakline, "")
 
-	// Insert lists of departments and execs, discord link, and write to file.
+	// Insert list of departments.
+	lines = append(lines, deptListStart)
 	GenerateDeptList(&lines)
+
+	// Insert lists of execs.
+	lines = append(lines, execListStart)
 	associate.GenerateExecList(&lines, associates,
 		(*descriptions)["Leadership"])
+
+	// Add join prompt paragraphy and insert discord link.
+	lines = append(lines, joinParaStart, (*descriptions)["Joining"])
 	helpers.InsertDiscordLink(&lines)
 	helpers.OverwriteWithLines(teamFilename, lines)
 }

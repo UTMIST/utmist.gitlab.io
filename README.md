@@ -4,6 +4,8 @@
 
 Club website for the [University of Toronto Machine Intelligence Student Team (UTMIST)](https://utmist.gitlab.io).
 
+[![pipeline status](https://gitlab.com/utmist/utmist.gitlab.io/badges/master/pipeline.svg)](https://gitlab.com/utmist/utmist.gitlab.io/-/commits/master)
+
 Need help? [Read the Wiki](https://gitlab.com/utmist/utmist.gitlab.io/-/wikis).
 
 ## Overview

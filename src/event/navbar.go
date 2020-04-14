@@ -8,7 +8,7 @@ const start = "    - title: Events"
 // Dictating how many individual links appear on the navbar list.
 const max = 3
 
-// GenerateNavbarEventLinks generates event links for the navbar dropdown menu.
+// GenerateNavbarEventLinks generates event links for the navbar dropdown.
 func GenerateNavbarEventLinks(events *[]Event, lines *[]string) {
 	eventTitles := []string{}
 	for i := max - 1; i > -1; i-- {

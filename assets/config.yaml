@@ -17,6 +17,12 @@ params:
     buttonlink: /recruitment
     image: "logos/bluebottom.svg"
   navbar:
+    - title: About
+      url: /about
+    - title: Alumni
+      url: /team/alumni
+    - title: Blog
+      url: https://medium.com/@utorontomist
     - title: Events
       sublinks:
         - title: More Events...
@@ -31,10 +37,6 @@ params:
           url: /team
     - title: Join Us
       url: /recruitment
-    - title: Alumni
-      url: /team/alumni
-    - title: About
-      url: /about
     - title: Discord
       url: https://discord.gg/
       button: true
@@ -58,25 +60,35 @@ params:
     bulmalogo: true
     quicklinks:
       column1:
-        title: "Events/Projects"
+        title: "Materials"
         links:
-          - text: Our Events
+          - text: Blog
+            link: https://medium.com/@utorontomist
+          - text: Events
             link: /events
-          - text: Our Projects
+          - text: Projects
             link: /projects
           - text: Work with Us
             link: /projects/collaboration
       column2:
-        title: "Team"
+        title: "About Us"
         links:
-          - text: Our Team
+          - text: About
+            link: /about
+          - text: Alumni
+            link: /team/alumni
+          - text: Team
             link: /team
           - text: Join Us
             link: /recruitment
       column3:
-        title: "About"
+        title: "GitLab Pages"
         links:
-          - text: About Us
-            link: /about
-          - text: Alumni
-            link: /team/alumni
+          - text: Bugs/Features
+            link: https://gitlab.com/utmist/utmist.gitlab.io/-/wikis/Bugs-&-Features
+          - text: Maintainers
+            link: /team/infrastructure
+          - text: Repository
+            link: https://github.com/utmist/utmist.gitlab.io
+          - text: Wiki
+            link: https://gitlab.com/utmist/utmist.gitlab.io/-/wikis

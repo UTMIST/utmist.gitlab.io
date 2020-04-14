@@ -4,17 +4,8 @@ import (
 	"fmt"
 )
 
-// BlankDate is the dateless header line.
-const BlankDate = "date:"
-
 // Breakline denotes the linebreak in a markdown file.
 const Breakline = "---"
-
-// FileDateLayout defines the layout we write to files.
-const FileDateLayout = "2006-01-02"
-
-// MaxNavbarEvents defines how may events to show on the navbar.
-const MaxNavbarEvents = 3
 
 // OpenPositions denotes the header for the open position list.
 const OpenPositions = "## **Open Positions**"
@@ -25,11 +16,10 @@ const PrintDateTimeLayout = "Monday, January 2, 2006, 3:04PM"
 // PrintDateLayout defines the layout we print out.
 const PrintDateLayout = "Monday, January 2, 2006"
 
-// Sidebar is the markdown header property to show the sidebar.
-const Sidebar = "sidebar: true"
-
-// Sidebarlogo is the markdown header property to show the the whiteside logo.
-const Sidebarlogo = "sidebarlogo: whiteside"
+const hideLastModified = "hideLastModified: true"
+const includeFooter = "include_footer: true"
+const sidebar = "sidebar: true"
+const sidebarlogo = "sidebarlogo: whiteside"
 
 // Format list of tags into a front matter string.
 func getTagsListStr(tags []string) string {
@@ -46,19 +36,17 @@ func getTagsListStr(tags []string) string {
 	return tagsStr
 }
 
-// GenerateFrontMatter writes lines for a page header.
-func GenerateFrontMatter(title, date, summary string,
-	tags []string) []string {
+// GenerateHeader writes lines for a page header.
+func GenerateHeader(title, date string) []string {
 
 	header := []string{
 		Breakline,
 		fmt.Sprintf("title: \"%s\"", title),
 		fmt.Sprintf("date: %s", date),
-		fmt.Sprintf("summary: \"%s\"", summary),
-		getTagsListStr(tags),
-		"hideLastModified: true",
-		Sidebar,
-		Sidebarlogo,
+		hideLastModified,
+		sidebar,
+		sidebarlogo,
+		includeFooter,
 		Breakline,
 		"",
 	}

@@ -5,16 +5,15 @@ import (
 )
 
 const eventsFilePath = "./content/events.md"
-const eventsBasePath = "./assets/events.md"
 
 // Generate the main events list page (events.md).
 func generateEventList(events *[]Event,
 	buildings *map[string]Building, description string) {
 
-	// Get header lines of events.md.
-	lines := helpers.ReadFileBase(eventsBasePath, len(*events), 7)
+	// Generate header for events.md
+	lines := helpers.GenerateHeader("Events", "0001-01-04")
 	if len(description) > 0 {
-		lines = append(lines, []string{description, "", helpers.Breakline}...)
+		lines = append(lines, description, "", helpers.Breakline)
 	}
 
 	// Add each event to the list.

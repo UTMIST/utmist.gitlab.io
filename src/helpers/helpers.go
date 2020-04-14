@@ -13,6 +13,14 @@ const ALM = "Alumni"
 const parseDateLayout = "2006-01-02"
 const parseDateTimeLayout = "2006-01-02 15:04"
 
+// BeforeDate returns whether timeA is before timeB by date.
+func BeforeDate(timeA, timeB time.Time) bool {
+	yearA, monthA, dayA := timeA.Date()
+	yearB, monthB, dayB := timeB.Date()
+
+	return yearA < yearB || monthA < monthB || dayA < dayB
+}
+
 // FormatDateEST formats a date from EST.
 func FormatDateEST(dateStr string) time.Time {
 
@@ -32,20 +40,6 @@ func FormatDateEST(dateStr string) time.Time {
 	}
 
 	return dateTime
-}
-
-// InterfaceToYear produces a year A.E. from an interface (usually a string).
-func InterfaceToYear(yearObj interface{}) int {
-	if year, err := strconv.Atoi(yearObj.(string)); err == nil {
-		return year
-	}
-	return -1
-}
-
-// PadDateWithIndex pads a year with 0s and Jan 1st.
-func PadDateWithIndex(index int) string {
-	padded := fmt.Sprintf("%04d-01-01\n", index)
-	return padded
 }
 
 // GetDeptNames returns a list of department names.
@@ -68,10 +62,27 @@ func GetDeptNames(alumni bool) []string {
 	return depts
 }
 
-// BeforeDate returns whether timeA is before timeB by date.
-func BeforeDate(timeA, timeB time.Time) bool {
-	yearA, monthA, dayA := timeA.Date()
-	yearB, monthB, dayB := timeB.Date()
+// GetURLBase shortens a URL to a short preview.
+func GetURLBase(link string) string {
+	if index := strings.Index(link, "//"); index >= 0 {
+		link = link[index+2:]
+	}
+	if index := strings.Index(link, "/"); index >= 0 {
+		link = link[:index]
+	}
+	return link
+}
 
-	return yearA < yearB || monthA < monthB || dayA < dayB
+// InterfaceToYear produces a year A.E. from an interface (usually a string).
+func InterfaceToYear(yearObj interface{}) int {
+	if year, err := strconv.Atoi(yearObj.(string)); err == nil {
+		return year
+	}
+	return -1
+}
+
+// PadDateWithIndex pads a year with 0s and Jan 1st.
+func PadDateWithIndex(index int) string {
+	padded := fmt.Sprintf("%04d-01-01\n", index)
+	return padded
 }

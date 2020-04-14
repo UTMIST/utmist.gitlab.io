@@ -2,11 +2,7 @@ package associate
 
 import (
 	"sort"
-
-	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
-
-const execListStart = "### **Leadership**"
 
 // GenerateExecList generates a list of executive members.
 func GenerateExecList(lines *[]string,
@@ -31,5 +27,5 @@ func GenerateExecList(lines *[]string,
 		newLines = append(newLines, execLine)
 	}
 	newLines = append(newLines, "")
-	helpers.StitchIntoLines(lines, &newLines, execListStart, 1)
+	(*lines) = append(*lines, newLines...)
 }

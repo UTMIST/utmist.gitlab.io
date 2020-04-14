@@ -34,8 +34,7 @@ func GeneratePage(
 		return title, "0000-01-01"
 	}()
 	lines := append(
-		helpers.GenerateFrontMatter(
-			displayTitle, yearStr, "", []string{"Team"}),
+		helpers.GenerateHeader(displayTitle, yearStr),
 		[]string{(*descriptions)[title], ""}...)
 
 	// Write a list entry for every member.
@@ -58,6 +57,7 @@ func GeneratePage(
 	}
 	lines = append(lines, project.MakeList(&projects, true, true)...)
 	lines = append(lines, project.MakeList(&pastProjects, false, true)...)
+	// lines = append(lines, "")
 	lines = append(lines, position.MakeList(
 		&positions, true, "", (*descriptions)["Recruitment"])...)
 

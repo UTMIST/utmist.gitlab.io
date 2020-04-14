@@ -7,7 +7,6 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
-const positionPageCopyPath = "./assets/recruitment.md"
 const positionPagePath = "./content/recruitment.md"
 
 // MakeList creates a list of open position lines.
@@ -16,7 +15,7 @@ func MakeList(positions *[]Position, deptPage bool,
 
 	var lines []string
 	if deptPage {
-		lines = []string{desc, helpers.Breakline, "### **Open Positions**"}
+		lines = []string{helpers.Breakline, helpers.OpenPositions, desc}
 	} else {
 		lines = []string{"", helpers.Breakline, "",
 			fmt.Sprintf("## **%s Positions**", posType)}
@@ -78,13 +77,14 @@ func GeneratePage(positions *[]Position, descriptions *map[string]string) {
 		assocPositions = append(assocPositions, pos)
 	}
 
-	lines := helpers.ReadFileBase(positionPageCopyPath, len(*positions), 6)
-
-	lines = append(lines, helpers.GetJoinLines((*descriptions)["Joining"])...)
+	lines := append(helpers.GenerateHeader("Join Us", "0001-01-03"),
+		helpers.GetJoinLines((*descriptions)["Joining"])...)
 	lines = append(lines, MakeList(
-		&execPositions, false, "Executive", (*descriptions)["Recruitment"])...)
+		&execPositions, false,
+		"Executive", (*descriptions)["Recruitment"])...)
 	lines = append(lines, MakeList(
-		&assocPositions, false, "Associate", (*descriptions)["Recruitment"])...)
+		&assocPositions, false,
+		"Associate", (*descriptions)["Recruitment"])...)
 
 	helpers.OverwriteWithLines(positionPagePath, lines)
 }
