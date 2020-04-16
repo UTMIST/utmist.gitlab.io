@@ -1,6 +1,7 @@
 package associate
 
 import (
+	"fmt"
 	"sort"
 )
 
@@ -8,20 +9,32 @@ import (
 func GenerateExecList(lines *[]string,
 	associates *[]Associate, description string) {
 
-	// Get list of execs.
-	execs := []Associate{}
-	for _, associate := range *associates {
-		if associate.IsExec() && !associate.HasRetired() {
-			execs = append(execs, associate)
-		}
-	}
-	sort.Sort(List(execs))
-
 	// Build the list of lines from the execs.
 	newLines := []string{}
 	if len(description) > 0 {
 		newLines = append(newLines, description)
 	}
+
+	// Get set of unique execs.
+	execSet := map[string]Associate{}
+	for _, assoc := range *associates {
+		if assoc.IsExec() && !assoc.HasRetired() {
+			if exec, exists := execSet[assoc.UofTEmail]; !exists {
+				execSet[assoc.UofTEmail] = assoc
+			} else {
+				exec.Position = fmt.Sprintf("%s, %s",
+					exec.Position,
+					assoc.Position)
+			}
+		}
+	}
+
+	// Load set into sorted list, and into lines.
+	execs := []Associate{}
+	for _, exec := range execSet {
+		execs = append(execs, exec)
+	}
+	sort.Sort(List(execs))
 	for _, exec := range execs {
 		newLines = append(newLines, exec.GetEntry("", false, true))
 	}

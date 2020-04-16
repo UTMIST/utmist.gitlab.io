@@ -132,36 +132,3 @@ func (a *Associate) IsExec() bool {
 func (a *Associate) HasRetired() bool {
 	return a.Retirement.Before(time.Now())
 }
-
-// GroupByDept groups associates into their own department list.
-func GroupByDept(associates *[]Associate) map[string][]Associate {
-
-	// Populate an empty list for every department.
-	deptAssocSet := map[string]map[string]Associate{}
-	deptAssociates := map[string][]Associate{}
-	for _, dept := range helpers.GetDeptNames(true) {
-		deptAssocSet[dept] = map[string]Associate{}
-		deptAssociates[dept] = []Associate{}
-	}
-
-	// Insert associates into their appropriate department, if it exists.
-	for _, assoc := range *associates {
-		dept := assoc.Department
-		if _, exists := deptAssocSet[dept]; !exists {
-			continue
-		}
-		if _, exists := deptAssocSet[dept][assoc.UofTEmail]; exists {
-			continue
-		}
-
-		deptAssocSet[dept][assoc.UofTEmail] = assoc
-	}
-
-	for _, dept := range helpers.GetDeptNames(true) {
-		for _, assoc := range deptAssocSet[dept] {
-			deptAssociates[dept] = append(deptAssociates[dept], assoc)
-		}
-	}
-
-	return deptAssociates
-}

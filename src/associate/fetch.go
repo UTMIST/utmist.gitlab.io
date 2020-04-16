@@ -1,6 +1,8 @@
 package associate
 
 import (
+	"log"
+	"regexp"
 	"strings"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
@@ -54,7 +56,17 @@ func Load(data []interface{}) []Associate {
 	if len(departments) < count {
 		count = len(departments)
 	}
+
+	yearRegex, err := regexp.Compile("[0-9]")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	for i := 0; i < count; i++ {
+		if yearRegex.MatchString(positions[i]) {
+			continue
+		}
+
 		assoc.Department = strings.Trim(departments[i], " ")
 		assoc.Position = strings.Trim(positions[i], " ")
 		entries = append(entries, assoc)
