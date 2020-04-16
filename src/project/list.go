@@ -31,7 +31,7 @@ func MakeList(projects *[]Project, active, deptPage bool) []string {
 				if len(proj.Link) == 0 {
 					return proj.Title
 				}
-				return fmt.Sprintf("[%s](%s)", proj.Title, proj.Link)
+				return fmt.Sprintf("[%s](/projects/%s)", proj.Title, proj.Link)
 			}()))
 
 		if len(proj.Description) > 0 {
@@ -39,7 +39,7 @@ func MakeList(projects *[]Project, active, deptPage bool) []string {
 		}
 		if len(proj.Department) > 0 && !deptPage {
 			lines = append(lines,
-				fmt.Sprintf("- _Department_: [%s](%s)",
+				fmt.Sprintf("- _Department_: [%s](/team/%s)",
 					proj.Department,
 					helpers.StringToFileName(proj.Department)))
 		}

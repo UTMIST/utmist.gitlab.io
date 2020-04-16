@@ -60,7 +60,7 @@ func (e *Event) getLocation(buildings *map[string]Building) (string, string) {
 func (e *Event) insertListEntry(lines *[]string, bldgs *map[string]Building) {
 
 	// Add lines for event name and date/time.
-	*lines = append(*lines, fmt.Sprintf("##### **[%s](%s)**",
+	*lines = append(*lines, fmt.Sprintf("##### **[%s](/events/%s)**",
 		e.Title,
 		helpers.StringToFileName(e.Title)))
 	*lines = append(*lines, fmt.Sprintf("- _Date/Time_: %s",

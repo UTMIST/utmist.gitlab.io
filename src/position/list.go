@@ -36,7 +36,7 @@ func MakeList(positions *[]Position, deptPage bool,
 			if deptPage {
 				return ""
 			}
-			return fmt.Sprintf(", [%s](%s)",
+			return fmt.Sprintf(", [%s](/team/%s)",
 				pos.Department,
 				helpers.StringToFileName(pos.Department))
 		}())
