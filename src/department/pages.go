@@ -29,7 +29,7 @@ func GeneratePage(
 	// Get page title and date and generate the header.
 	displayTitle, yearStr := func() (string, string) {
 		if title == helpers.ALM {
-			return fmt.Sprintf("Our %s", helpers.ALM), "0000-01-02"
+			return fmt.Sprintf("Our %s & Past Members", helpers.ALM), "0000-01-02"
 		}
 		return title, "0000-01-01"
 	}()
@@ -42,10 +42,10 @@ func GeneratePage(
 	for _, associate := range associates {
 		if associate.IsExec() && !associate.HasRetired() {
 			execLines = append(execLines,
-				associate.GetLine(title, true, true))
+				associate.GetEntry(title, true, true))
 		} else {
 			assocLines = append(assocLines,
-				associate.GetLine(title, true, true))
+				associate.GetEntry(title, true, true))
 		}
 	}
 
@@ -57,7 +57,6 @@ func GeneratePage(
 	}
 	lines = append(lines, project.MakeList(&projects, true, true)...)
 	lines = append(lines, project.MakeList(&pastProjects, false, true)...)
-	// lines = append(lines, "")
 	lines = append(lines, position.MakeList(
 		&positions, true, "", (*descriptions)["Recruitment"])...)
 

@@ -23,8 +23,7 @@ func GenerateExecList(lines *[]string,
 		newLines = append(newLines, description)
 	}
 	for _, exec := range execs {
-		execLine := exec.GetLine("", false, true)
-		newLines = append(newLines, execLine)
+		newLines = append(newLines, exec.GetEntry("", false, true))
 	}
 	newLines = append(newLines, "")
 	(*lines) = append(*lines, newLines...)

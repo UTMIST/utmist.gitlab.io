@@ -90,8 +90,8 @@ func (a *Associate) getLink() string {
 	return ""
 }
 
-// GetLine creates a line entry for associate.
-func (a *Associate) GetLine(section string, bold, list bool) string {
+// GetEntry creates a line entry for associate.
+func (a *Associate) GetEntry(section string, bold, list bool) string {
 
 	// Set up associate's name.
 	line := fmt.Sprintf("%s%s%s",
@@ -109,19 +109,15 @@ func (a *Associate) GetLine(section string, bold, list bool) string {
 		line = fmt.Sprintf("[%s](%s)", line, str)
 	}
 
-	// Reformat the line and write it. List just graduation on alumni page.
 	if section == helpers.ALM {
-		line = fmt.Sprintf("%s, %s", line, a.Discipline)
-	} else {
-		line = fmt.Sprintf("%s, %s", line, a.Position)
-		if bold && a.IsExec() {
-			line = "**" + line + "**"
-		}
+		return fmt.Sprintf("- **%s, %s**, %s", line, a.Discipline, a.Position)
 	}
 
-	if list {
-		line = "- " + line
+	line = fmt.Sprintf("%s, %s", line, strings.Split(a.Position, " (")[0])
+	if a.IsExec() && bold || section == helpers.ALM {
+		line = fmt.Sprintf("**%s**", line)
 	}
+	line = fmt.Sprintf("- %s", line)
 
 	return line
 }
@@ -141,23 +137,31 @@ func (a *Associate) HasRetired() bool {
 func GroupByDept(associates *[]Associate) map[string][]Associate {
 
 	// Populate an empty list for every department.
+	deptAssocSet := map[string]map[string]Associate{}
 	deptAssociates := map[string][]Associate{}
 	for _, dept := range helpers.GetDeptNames(true) {
+		deptAssocSet[dept] = map[string]Associate{}
 		deptAssociates[dept] = []Associate{}
 	}
 
 	// Insert associates into their appropriate department, if it exists.
 	for _, assoc := range *associates {
-		assocList, exists := deptAssociates[assoc.Department]
-		if !exists {
+		dept := assoc.Department
+		if _, exists := deptAssocSet[dept]; !exists {
 			continue
 		}
-		deptAssociates[assoc.Department] = append(assocList, assoc)
-	}
-	return deptAssociates
-}
+		if _, exists := deptAssocSet[dept][assoc.UofTEmail]; exists {
+			continue
+		}
 
-// Dept implements hasDepartment().
-func (a Associate) Dept() string {
-	return a.Department
+		deptAssocSet[dept][assoc.UofTEmail] = assoc
+	}
+
+	for _, dept := range helpers.GetDeptNames(true) {
+		for _, assoc := range deptAssocSet[dept] {
+			deptAssociates[dept] = append(deptAssociates[dept], assoc)
+		}
+	}
+
+	return deptAssociates
 }

@@ -23,7 +23,7 @@ Need help? [Read the Wiki](https://gitlab.com/utmist/utmist.gitlab.io/-/wikis).
 ### Prerequisites
 
 - [Go](https://golang.org/). Put this project in `$GOPATH/utmist/utmist.gitlab.io`.
-- [Hugo](https://github.com/gohugoio/hugo/releases), `>= 0.61`. GitLab CI uses `0.66`.
+- [Hugo](https://github.com/gohugoio/hugo/releases), `>= 0.61`. GitLab CI uses `0.68`.
 
 ### Dependencies
 
