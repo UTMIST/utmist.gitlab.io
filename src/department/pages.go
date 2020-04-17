@@ -14,6 +14,7 @@ import (
 
 // Paths for the event files.
 const assocDirPath = "./content/team/"
+const alumniDeptTitle = "Our Alumni & Past Members"
 
 // GeneratePage generates a page for the a department.
 func GeneratePage(
@@ -27,12 +28,11 @@ func GeneratePage(
 	helpers.GenerateLog(title)
 
 	// Get page title and date and generate the header.
-	displayTitle, yearStr := func() (string, string) {
-		if title == helpers.ALM {
-			return fmt.Sprintf("Our %s & Past Members", helpers.ALM), "0000-01-02"
-		}
-		return title, "0000-01-01"
-	}()
+	displayTitle, yearStr := title, "0000-01-01"
+	if title == helpers.ALM {
+		displayTitle, yearStr = alumniDeptTitle, "0000-01-02"
+	}
+
 	lines := append(
 		helpers.GenerateHeader(displayTitle, yearStr),
 		[]string{(*descriptions)[title], ""}...)

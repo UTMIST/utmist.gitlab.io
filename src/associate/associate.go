@@ -93,16 +93,13 @@ func (a *Associate) getLink() string {
 // GetEntry creates a line entry for associate.
 func (a *Associate) GetEntry(section string, bold, list bool) string {
 
+	preferredName := " "
+	if len(a.PreferredName) > 0 {
+		preferredName = fmt.Sprintf(" (%s) ", a.PreferredName)
+	}
+
 	// Set up associate's name.
-	line := fmt.Sprintf("%s%s%s",
-		a.FirstName,
-		func() string {
-			if a.PreferredName == "" {
-				return " "
-			}
-			return fmt.Sprintf(" (%s) ", a.PreferredName)
-		}(),
-		a.LastName)
+	line := fmt.Sprintf("%s%s%s", a.FirstName, preferredName, a.LastName)
 
 	// Pick the first available social media link from the defined order.
 	if str := a.getLink(); len(str) > 0 {

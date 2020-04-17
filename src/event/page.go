@@ -33,40 +33,8 @@ func (e *Event) generatePage(buildings *map[string]Building, index int) {
 	}
 
 	// Clean up the file and add footer with date/time and location.
-	lines = append(lines, "")
-	lines = append(lines, helpers.Breakline)
-	lines = append(lines, "")
-	printedDateStr := fmt.Sprintf("Date/Time: **%s.**",
-		e.DateTime.Format(helpers.PrintDateTimeLayout))
-	lines = append(lines, printedDateStr)
-	if location, room := e.getLocation(buildings); len(location) > 0 {
-		lines = append(lines, "")
-		printedLocStr := fmt.Sprintf("Location: **%s%s.**",
-			location,
-			func() string {
-				if len(room) == 0 {
-					return ""
-				}
-				return fmt.Sprintf(" %s", room)
-			}())
-		lines = append(lines, printedLocStr)
-	}
-
-	// If there are links, include them.
-	if len(e.PreLink) > 0 {
-		lines = append(lines, "")
-		printedLocStr := fmt.Sprintf("Signup/Preview: [%s](%s).",
-			helpers.GetURLBase(e.PreLink),
-			e.PreLink)
-		lines = append(lines, printedLocStr)
-	}
-	if len(e.PostLink) > 0 {
-		lines = append(lines, "")
-		printedLocStr := fmt.Sprintf("Slides/Feedback: [%s](%s).",
-			helpers.GetURLBase(e.PostLink),
-			e.PostLink)
-		lines = append(lines, printedLocStr)
-	}
+	lines = append(lines, "", helpers.Breakline, "")
+	lines = append(lines, e.insertListEntry(buildings, false)...)
 
 	filename := fmt.Sprintf("./content/events/%s.md",
 		helpers.StringToFileName(e.Title))

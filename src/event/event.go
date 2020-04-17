@@ -57,25 +57,45 @@ func (e *Event) getLocation(buildings *map[string]Building) (string, string) {
 	return e.Location, ""
 }
 
-func (e *Event) insertListEntry(lines *[]string, bldgs *map[string]Building) {
+func (e *Event) getLocationStr(bldgs *map[string]Building) string {
 
-	// Add lines for event name and date/time.
-	*lines = append(*lines, fmt.Sprintf("##### **[%s](/events/%s)**",
-		e.Title,
-		helpers.StringToFileName(e.Title)))
-	*lines = append(*lines, fmt.Sprintf("- _Date/Time_: %s",
-		e.DateTime.Format(helpers.PrintDateTimeLayout)))
-
-	// If location is given, include a line for it.
 	location, room := e.getLocation(bldgs)
-	if len(location) > 0 {
-		*lines = append(*lines, fmt.Sprintf("- _Location_: %s%s", location,
-			func() string {
-				if len(room) == 0 {
-					return ""
-				}
-				return fmt.Sprintf(" %s", room)
-			}()))
+	if len(location) == 0 || len(room) == 0 {
+		return ""
 	}
-	*lines = append(*lines, helpers.Breakline)
+
+	return fmt.Sprintf("- _Location_: %s %s", location, room)
+}
+
+func (e *Event) insertListEntry(bldgs *map[string]Building, list bool) []string {
+
+	// Add lines for date/time, location, and breakline.
+	newLines := []string{fmt.Sprintf("- _Date/Time_: **%s**",
+		e.DateTime.Format(helpers.PrintDateTimeLayout)),
+		e.getLocationStr(bldgs)}
+
+	// If this is for a list, entry, return current lines and header.
+	if list {
+		return append([]string{
+			// helpers.Breakline,
+			fmt.Sprintf("##### **[%s](/events/%s)**",
+				e.Title,
+				helpers.StringToFileName(e.Title))}, newLines...)
+	}
+
+	// Insert links if they exist.
+	if len(e.PreLink) > 0 {
+		preStr := fmt.Sprintf("- _Signup/Preview_: [%s](%s).",
+			helpers.GetURLBase(e.PreLink),
+			e.PreLink)
+		newLines = append(newLines, preStr)
+	}
+	if len(e.PostLink) > 0 {
+		postStr := fmt.Sprintf("- _Slides/Feedback_: [%s](%s).",
+			helpers.GetURLBase(e.PostLink),
+			e.PostLink)
+		newLines = append(newLines, postStr)
+	}
+
+	return newLines
 }

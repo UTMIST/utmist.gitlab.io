@@ -11,7 +11,6 @@ import (
 
 // File locations.
 const aboutFilename = "content/about.md"
-const aboutPhotoLink = "![AGM 2019 Photo](/images/intel.jpg)"
 const configCopyFilename = "assets/config.yaml"
 const configFilename = "config.yaml"
 
@@ -67,7 +66,6 @@ func GenerateAboutPage(positions *[]position.Position,
 	helpers.GenerateLog("about")
 
 	lines := helpers.GenerateHeader("About Us", "0001-01-05")
-	lines = append(lines, aboutPhotoLink, "", helpers.Breakline)
 	if description, exists := (*descriptions)["About"]; exists {
 		lines = append(lines, description, "", helpers.Breakline)
 	}

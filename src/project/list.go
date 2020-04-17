@@ -9,30 +9,26 @@ import (
 const activeProjectHeader = "## **Active Projects**"
 const pastProjectHeader = "## **Past Projects**"
 const projectFilename = "content/projects.md"
-const projectPhotoLink = "![Projects](/images/projects.png)"
 
 // MakeList creates a list of project lines.
 func MakeList(projects *[]Project, active, deptPage bool) []string {
 
+	var lines []string
 	if len(*projects) == 0 {
-		return []string{}
+		return lines
+	} else if active {
+		lines = append(lines, activeProjectHeader)
+	} else {
+		lines = append(lines, pastProjectHeader)
 	}
 
-	lines := []string{func() string {
-		if active {
-			return activeProjectHeader
-		}
-		return pastProjectHeader
-	}()}
-
 	for _, proj := range *projects {
-		lines = append(lines, fmt.Sprintf("##### **%s**",
-			func() string {
-				if len(proj.Link) == 0 {
-					return proj.Title
-				}
-				return fmt.Sprintf("[%s](/projects/%s)", proj.Title, proj.Link)
-			}()))
+		title := proj.Title
+		if len(proj.Link) > 0 {
+			title = fmt.Sprintf("[%s](%s)", proj.Title, proj.Link)
+		}
+
+		lines = append(lines, fmt.Sprintf("##### **%s**", title))
 
 		if len(proj.Description) > 0 {
 			lines = append(lines, proj.Description)
@@ -57,10 +53,7 @@ func MakeList(projects *[]Project, active, deptPage bool) []string {
 // GeneratePages generates a page for the project list.
 func GeneratePages(projects, pastProjects *[]Project, desc string) {
 	lines := append(helpers.GenerateHeader("Projects", "0001-01-03"),
-		projectPhotoLink, "", helpers.Breakline)
-	if len(desc) > 0 {
-		lines = append(lines, "", helpers.Breakline, desc)
-	}
+		desc, "", helpers.Breakline)
 
 	// Load lists of active/past projects.
 	lines = append(lines, MakeList(projects, true, false)...)

@@ -32,14 +32,12 @@ func MakeList(positions *[]Position, deptPage bool,
 	}
 
 	for _, pos := range *positions {
-		head := fmt.Sprintf("##### **%s**%s", pos.Title, func() string {
-			if deptPage {
-				return ""
-			}
-			return fmt.Sprintf(", [%s](/team/%s)",
-				pos.Department,
+		deptStr := ""
+		if !deptPage {
+			deptStr = fmt.Sprintf(", [%s](/team/%s)", pos.Department,
 				helpers.StringToFileName(pos.Department))
-		}())
+		}
+		head := fmt.Sprintf("##### **%s**%s", pos.Title, deptStr)
 
 		lines = append(lines, head)
 		if len(pos.Description) > 0 {

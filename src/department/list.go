@@ -11,7 +11,6 @@ import (
 const deptListStart = "### **Departments**"
 const execListStart = "### **Leadership**"
 const joinParaStart = "### **Joining Us**"
-const teamPhotoLink = "![AGM 2019 Photo](/images/agm2019exec.png)"
 const teamFilename = "content/team.md"
 
 // GenerateDeptList generates a list of departments.
@@ -34,13 +33,9 @@ func GenerateTeamPage(
 	positions *[]position.Position,
 	descriptions *map[string]string) {
 
-	// Start with the header of the team page.
+	// Start with the header and list of departments.
 	lines := append(helpers.GenerateHeader("Our Team", "0001-01-01"),
-		teamPhotoLink, "",
-		helpers.Breakline, "")
-
-	// Insert list of departments.
-	lines = append(lines, deptListStart)
+		(*descriptions)["Team"], "", helpers.Breakline, "", deptListStart)
 	GenerateDeptList(&lines)
 
 	// Insert lists of execs.
