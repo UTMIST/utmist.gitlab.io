@@ -9,7 +9,6 @@ import (
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
 	"gitlab.com/utmist/utmist.gitlab.io/src/event"
-	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 	"gitlab.com/utmist/utmist.gitlab.io/src/position"
 	"gitlab.com/utmist/utmist.gitlab.io/src/project"
 
@@ -105,8 +104,7 @@ func Fetch() (
 				// Add the position if there's no valid deadline that passed.
 				toronto, err := time.LoadLocation("America/New_York")
 				if err != nil ||
-					!helpers.BeforeDate(pos.Deadline,
-						time.Now().In(toronto)) {
+					!pos.Deadline.Before(time.Now().In(toronto)) {
 					positions = append(positions, position.Load(row))
 				}
 			}

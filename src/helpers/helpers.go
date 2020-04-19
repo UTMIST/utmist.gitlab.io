@@ -13,14 +13,6 @@ const ALM = "Alumni"
 const parseDateLayout = "2006-01-02"
 const parseDateTimeLayout = "2006-01-02 15:04"
 
-// BeforeDate returns whether timeA is before timeB by date.
-func BeforeDate(timeA, timeB time.Time) bool {
-	yearA, monthA, dayA := timeA.Date()
-	yearB, monthB, dayB := timeB.Date()
-
-	return yearA < yearB || monthA < monthB || dayA < dayB
-}
-
 // FormatDateEST formats a date from EST.
 func FormatDateEST(dateStr string) time.Time {
 

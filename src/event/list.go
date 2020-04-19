@@ -5,7 +5,6 @@ import (
 )
 
 const eventsFilePath = "./content/events.md"
-const eventsPhotoLink = "![Projects](/images/projects.png)"
 
 // Generate the main events list page (events.md).
 func generateEventList(events *[]Event,
@@ -15,7 +14,6 @@ func generateEventList(events *[]Event,
 	lines := helpers.GenerateHeader("Events", "0001-01-04")
 	if len(description) > 0 {
 		lines = append(lines,
-			eventsPhotoLink, "",
 			description, "",
 			helpers.Breakline)
 	}
