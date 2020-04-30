@@ -8,8 +8,15 @@ import (
 	"time"
 )
 
+// ADM is the header for the Admin page.
+const ADM = "Administration"
+
+// ADV is the header for the Advisors page.
+const ADV = "Advisors"
+
 // ALM is the header for the Alumni page.
 const ALM = "Alumni"
+
 const parseDateLayout = "2006-01-02"
 const parseDateTimeLayout = "2006-01-02 15:04"
 

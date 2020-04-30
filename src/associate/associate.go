@@ -111,7 +111,7 @@ func (a *Associate) GetEntry(section string, bold, list bool) string {
 	}
 
 	line = fmt.Sprintf("%s, %s", line, strings.Split(a.Position, " (")[0])
-	if a.IsExec() && bold || section == helpers.ALM {
+	if a.IsExec(bold) || section == helpers.ALM {
 		line = fmt.Sprintf("**%s**", line)
 	}
 	line = fmt.Sprintf("- %s", line)
@@ -120,8 +120,9 @@ func (a *Associate) GetEntry(section string, bold, list bool) string {
 }
 
 // IsExec returns whether this associate is an executive member.
-func (a *Associate) IsExec() bool {
-	return strings.Index(a.Position, "VP") >= 0 ||
+func (a *Associate) IsExec(lead bool) bool {
+
+	return (lead && strings.Index(a.Position, "VP") >= 0) ||
 		strings.Index(a.Position, "President") >= 0
 }
 

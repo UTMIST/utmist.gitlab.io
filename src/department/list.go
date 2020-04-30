@@ -8,7 +8,7 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/position"
 )
 
-const deptListStart = "### **Departments**"
+const deptListStart = "### **Departments & Groups**"
 const execListStart = "### **Leadership**"
 const joinParaStart = "### **Joining Us**"
 const teamFilename = "content/team.md"

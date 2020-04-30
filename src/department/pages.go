@@ -37,15 +37,18 @@ func GeneratePage(
 		helpers.GenerateHeader(displayTitle, yearStr),
 		[]string{(*descriptions)[title], ""}...)
 
+	regularPage := title != helpers.ADV && title != helpers.ADM
+	fmt.Println(regularPage)
+
 	// Write a list entry for every member.
 	assocLines, execLines := []string{}, []string{}
 	for _, associate := range associates {
-		if associate.IsExec() && !associate.HasRetired() {
+		if associate.IsExec(true) && !associate.HasRetired() {
 			execLines = append(execLines,
-				associate.GetEntry(title, true, true))
+				associate.GetEntry(title, regularPage, true))
 		} else {
 			assocLines = append(assocLines,
-				associate.GetEntry(title, true, true))
+				associate.GetEntry(title, regularPage, true))
 		}
 	}
 

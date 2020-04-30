@@ -18,14 +18,16 @@ func GenerateExecList(lines *[]string,
 	// Get set of unique execs.
 	execSet := map[string]Associate{}
 	for _, assoc := range *associates {
-		if assoc.IsExec() && !assoc.HasRetired() {
-			if exec, exists := execSet[assoc.UofTEmail]; !exists {
-				execSet[assoc.UofTEmail] = assoc
-			} else {
-				exec.Position = fmt.Sprintf("%s, %s",
-					exec.Position,
-					assoc.Position)
-			}
+		if !assoc.IsExec(true) || assoc.HasRetired() {
+			continue
+		}
+
+		if exec, exists := execSet[assoc.UofTEmail]; !exists {
+			execSet[assoc.UofTEmail] = assoc
+		} else {
+			exec.Position = fmt.Sprintf("%s, %s",
+				exec.Position,
+				assoc.Position)
 		}
 	}
 
