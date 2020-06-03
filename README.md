@@ -6,8 +6,6 @@ Club website for the [University of Toronto Machine Intelligence Student Team (U
 
 [![pipeline status](https://gitlab.com/utmist/utmist.gitlab.io/badges/master/pipeline.svg)](https://gitlab.com/utmist/utmist.gitlab.io/-/commits/master)
 
-Need help? [Read the Wiki](https://gitlab.com/utmist/utmist.gitlab.io/-/wikis).
-
 ## Overview
 
 - [Google Sheets](https://developers.google.com/sheets) serve as databases.
@@ -79,8 +77,7 @@ Full details can be found on [our Wiki](https://gitlab.com/utmist/utmist.gitlab.
   - Bug reports and feature requests are preferred.
 - [**GitHub (Mirror)**](https://github.com/utmist/utmist.gitlab.io)
   - Bug reports and feature requests are accepted.
-- This project is maintained by the [Infrastructure Department at UTMIST](https://utmist.gitlab.io/team/infrastructure).
-  - [Robert (Rupert) Wu](https://leglesslamb.gitlab.io), VP Infrastructure.
+- This project is maintained by the [Engineering Department at UTMIST](https://utmist.gitlab.io/team/engineering).
 - If you’re a member of UTMIST and would like to contribute or learn development through this project, you can join our Discord) and let us know in #infrastructure.
 
 ## Acknowledgements
