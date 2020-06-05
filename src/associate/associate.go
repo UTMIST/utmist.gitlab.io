@@ -107,7 +107,10 @@ func (a *Associate) GetEntry(section string, bold, list bool) string {
 	}
 
 	if section == helpers.ALM {
-		return fmt.Sprintf("- **%s, %s**, %s", line, a.Discipline, a.Position)
+		if len(a.Discipline) > 0 {
+			line = fmt.Sprintf("%s, %s", line, a.Discipline)
+		}
+		return fmt.Sprintf("- **%s**, %s", line, a.Position)
 	}
 
 	line = fmt.Sprintf("%s, %s", line, strings.Split(a.Position, " (")[0])

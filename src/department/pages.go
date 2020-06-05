@@ -38,7 +38,6 @@ func GeneratePage(
 		[]string{(*descriptions)[title], ""}...)
 
 	regularPage := title != helpers.ADV && title != helpers.ADM
-	fmt.Println(regularPage)
 
 	// Write a list entry for every member.
 	assocLines, execLines := []string{}, []string{}
