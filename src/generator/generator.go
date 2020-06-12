@@ -33,8 +33,9 @@ func GeneratePages(
 	if eventsFlag {
 		event.GeneratePages(events, (*descriptions)["Events"])
 	}
-	position.GeneratePage(positions, descriptions)
-	project.GeneratePages(projs, pastProjs, (*descriptions)["Project List"])
+
+	position.GenerateList(positions, descriptions)
+	project.GenerateList(projs, pastProjs, (*descriptions)["Projects"])
 
 	// Generate about page.
 	GenerateAboutPage(positions, descriptions)

@@ -12,8 +12,8 @@ import (
 // Paths for the event files.
 const eventsDirPath = "./content/events/"
 
-// Generate a page for event, including image, content, location, date/time.
-func (e *Event) generatePage(buildings *map[string]Building, index int) {
+// GeneratePage includes image, content, location, date/time for an event.
+func (e *Event) GeneratePage(buildings *map[string]Building, index int) {
 
 	helpers.GenerateLog(fmt.Sprintf("%s", e.Title))
 
@@ -53,10 +53,10 @@ func GeneratePages(events *[]Event, description string) {
 	os.Mkdir(eventsDirPath, os.ModePerm)
 
 	// Generate events main page.
-	generateEventList(events, &buildings, description)
+	GenerateListPage(events, &buildings, description)
 
 	// Generate each event page.
 	for i, event := range *events {
-		event.generatePage(&buildings, len(*events)-i)
+		event.GeneratePage(&buildings, len(*events)-i)
 	}
 }

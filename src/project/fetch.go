@@ -15,8 +15,8 @@ func Load(data []interface{}) Project {
 		Status:       data[1].(string),
 		Department:   data[2].(string),
 		Description:  data[3].(string),
-		Link:         data[4].(string),
-		Instructions: data[5].(string),
+		Instructions: data[4].(string),
+		Link:         data[5].(string),
 	}
 
 	return project

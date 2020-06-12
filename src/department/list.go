@@ -13,8 +13,8 @@ const execListStart = "### **Leadership**"
 const joinParaStart = "### **Joining Us**"
 const teamFilename = "content/team.md"
 
-// GenerateDeptList generates a list of departments.
-func GenerateDeptList(lines *[]string) {
+// GenerateList generates a list of departments.
+func GenerateList(lines *[]string) {
 
 	newLines := []string{}
 	// Get list of departments and generate a line for each.
@@ -36,7 +36,7 @@ func GenerateTeamPage(
 	// Start with the header and list of departments.
 	lines := append(helpers.GenerateHeader("Our Team", "0001-01-01"),
 		(*descriptions)["Team"], "", helpers.Breakline, "", deptListStart)
-	GenerateDeptList(&lines)
+	GenerateList(&lines)
 
 	// Insert lists of execs.
 	lines = append(lines, execListStart)

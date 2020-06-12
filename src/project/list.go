@@ -29,7 +29,6 @@ func MakeList(projects *[]Project, active, deptPage bool) []string {
 		}
 
 		lines = append(lines, fmt.Sprintf("##### **%s**", title))
-
 		if len(proj.Description) > 0 {
 			lines = append(lines, proj.Description)
 		}
@@ -50,8 +49,8 @@ func MakeList(projects *[]Project, active, deptPage bool) []string {
 
 }
 
-// GeneratePages generates a page for the project list.
-func GeneratePages(projects, pastProjects *[]Project, desc string) {
+// GenerateList generates the project list.
+func GenerateList(projects, pastProjects *[]Project, desc string) {
 	lines := append(helpers.GenerateHeader("Projects", "0001-01-03"),
 		desc, "", helpers.Breakline)
 

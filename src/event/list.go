@@ -6,8 +6,8 @@ import (
 
 const eventsFilePath = "./content/events.md"
 
-// Generate the main events list page (events.md).
-func generateEventList(events *[]Event,
+// GenerateListPage the main events list page (events.md).
+func GenerateListPage(events *[]Event,
 	buildings *map[string]Building, description string) {
 
 	// Generate header for events.md

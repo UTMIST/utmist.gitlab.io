@@ -11,8 +11,8 @@ type Project struct {
 	Status       string
 	Department   string
 	Description  string
-	Link         string
 	Instructions string
+	Link         string
 }
 
 // GroupByDept groups projects into their own department list.

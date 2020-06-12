@@ -62,8 +62,8 @@ func MakeList(positions *[]Position, deptPage bool,
 	return lines
 }
 
-// GeneratePage generates a page for recruitment.
-func GeneratePage(positions *[]Position, descriptions *map[string]string) {
+// GenerateList generates a page for recruitment.
+func GenerateList(positions *[]Position, descriptions *map[string]string) {
 	execPositions := []Position{}
 	assocPositions := []Position{}
 
