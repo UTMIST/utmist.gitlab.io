@@ -9,7 +9,7 @@ const ActiveStatus = "Active"
 type Project struct {
 	Title        string
 	Status       string
-	Department   string
+	Department   []string
 	Description  string
 	Instructions string
 	Link         string
@@ -23,11 +23,13 @@ func GroupByDept(projects *[]Project) map[string][]Project {
 	}
 
 	for _, proj := range *projects {
-		projList, exists := deptProjects[proj.Department]
-		if !exists {
-			deptProjects[proj.Department] = []Project{}
+		for _, projDept := range proj.Department {
+			projList, exists := deptProjects[projDept]
+			if !exists {
+				deptProjects[projDept] = []Project{}
+			}
+			deptProjects[projDept] = append(projList, proj)
 		}
-		deptProjects[proj.Department] = append(projList, proj)
 	}
 	return deptProjects
 }

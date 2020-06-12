@@ -1,5 +1,7 @@
 package project
 
+import "strings"
+
 const projectSheetRange = 6
 
 // Load loads a project from a spreadsheet row.
@@ -13,7 +15,7 @@ func Load(data []interface{}) Project {
 	project := Project{
 		Title:        data[0].(string),
 		Status:       data[1].(string),
-		Department:   data[2].(string),
+		Department:   strings.Split(data[2].(string), ", "),
 		Description:  data[3].(string),
 		Instructions: data[4].(string),
 		Link:         data[5].(string),

@@ -1,5 +1,5 @@
 build:
-	go run main.go -depts -events -projects
+	go run main.go -depts -events
 
 clean:
 	rm -rf content/events content/team content/*.md config.yaml public

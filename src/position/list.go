@@ -15,10 +15,10 @@ func MakeList(positions *[]Position, deptPage bool,
 
 	var lines []string
 	if deptPage {
-		lines = []string{helpers.Breakline, helpers.OpenPositions, desc}
+		lines = []string{"", helpers.Breakline, helpers.OpenPositions, desc}
 	} else {
-		lines = []string{"", helpers.Breakline, "",
-			fmt.Sprintf("## **%s Positions**", posType)}
+		lines = []string{"", helpers.Breakline,
+			fmt.Sprintf("### **%s Positions**", posType)}
 	}
 
 	if positions == nil || len(*positions) == 0 {
