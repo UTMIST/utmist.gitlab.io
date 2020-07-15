@@ -18,7 +18,7 @@ const PrintDateLayout = "Monday, January 2, 2006"
 
 const hideLastModified = "hideLastModified: true"
 const includeFooter = "include_footer: true"
-const sidebar = "sidebar: true"
+const sidebar = "sidebar: false"
 const sidebarlogo = "sidebarlogo: whiteside"
 
 // Format list of tags into a front matter string.
