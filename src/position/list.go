@@ -34,7 +34,7 @@ func MakeList(positions *[]Position, deptPage bool,
 	for _, pos := range *positions {
 		deptStr := ""
 		if !deptPage {
-			deptStr = fmt.Sprintf(", [%s](/team/%s)", pos.Department,
+			deptStr = fmt.Sprintf(", [%s](/%s)", pos.Department,
 				helpers.StringToFileName(pos.Department))
 		}
 		head := fmt.Sprintf("##### **%s**%s", pos.Title, deptStr)

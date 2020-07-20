@@ -13,7 +13,7 @@ import (
 )
 
 // Paths for the event files.
-const assocDirPath = "./content/team/"
+const assocDirPath = "./content/"
 const alumniDeptTitle = "Our Alumni & Past Members"
 
 // GeneratePage generates a page for the a department.

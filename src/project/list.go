@@ -36,7 +36,7 @@ func MakeList(projects *[]Project, active, deptPage bool) []string {
 		if len(proj.Department) > 0 && !deptPage {
 			deptLine := "- _Department(s)_: "
 			for _, dept := range proj.Department {
-				deptLine = fmt.Sprintf("%s [%s](/team/%s),",
+				deptLine = fmt.Sprintf("%s [%s](/%s),",
 					deptLine, dept,
 					helpers.StringToFileName(dept))
 			}

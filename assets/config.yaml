@@ -20,9 +20,11 @@ params:
     - title: About
       url: /about
     - title: Alumni
-      url: /team/alumni
+      url: /alumni
     - title: Blog
       url: https://medium.com/@utorontomist
+    - title: YouTube
+      url: https://www.youtube.com/channel/UC7G_kmlXrUUvoHyfT3ZTxaw
     - title: Events
       sublinks:
         - title: More Events...
@@ -76,19 +78,17 @@ params:
           - text: About
             link: /about
           - text: Alumni
-            link: /team/alumni
+            link: /alumni
           - text: Team
             link: /team
           - text: Join Us
             link: /recruitment
       column3:
-        title: "GitLab Pages"
+        title: "This Site"
         links:
-          - text: Bugs/Features
-            link: https://gitlab.com/utmist/utmist.gitlab.io/-/wikis/Bugs-&-Features
           - text: Maintainers
-            link: /team/infrastructure
+            link: /engineering
           - text: Repository
             link: https://github.com/utmist/utmist.gitlab.io
-          - text: Wiki
-            link: https://gitlab.com/utmist/utmist.gitlab.io/-/wikis
+          # - text: Wiki
+          # link: https://gitlab.com/utmist/utmist.gitlab.io/-/wikis

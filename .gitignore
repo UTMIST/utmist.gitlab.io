@@ -6,12 +6,6 @@ token.json
 
 config.yaml
 
-content/about.md
-content/events.md
-content/events/*.md
-content/team.md
-content/team/*.md
-content/projects.md
-content/recruitment.md
+content/**/*.md
 
 resources
