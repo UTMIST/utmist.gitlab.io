@@ -17,10 +17,10 @@ Cards and Card content styles
         font-size: 1.2rem;
         font-weight: 600;
         color: $blue-grey;
+        margin: 0;
     }
     .card-icon img {
         height: 120px;
-        margin-top: 20px;
     }
     .card-text {
         padding: 0 40px;
@@ -30,6 +30,7 @@ Cards and Card content styles
     }
     .card-action {
         margin-top: 10px;
+        padding-bottom: 25px;
     }
     &.is-bordered {
         border: 1px solid $fade-grey;

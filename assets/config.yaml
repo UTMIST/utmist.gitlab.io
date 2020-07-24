@@ -42,6 +42,25 @@ params:
     - title: Discord
       url: https://discord.gg/
       button: true
+  section1:
+    title: Clear the Mist
+    subtitle: UofT Machine Intelligence Student Team
+    tiles:
+      - title: Events
+        icon: mobile-feed
+        text: Talks and workshops given by our professors and students.
+        url: /events
+        buttonText: Attend/Watch
+      - title: Projects
+        icon: laptop-cloud
+        text: Student-led projects in machine intelligence.
+        url: /projects
+        buttonText: Get Involved
+      - title: Resources
+        icon: doc-sync
+        text: Learning resources to help you succeed.
+        url: /resources
+        buttonText: Get Ahead
   footer:
     logo: white.svg
     socialmedia:
