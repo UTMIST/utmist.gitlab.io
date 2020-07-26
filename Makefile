@@ -5,5 +5,5 @@ build:
 clean:
 	rm -rf content config.yaml public
 
-fresh:
+dep:
 	git submodule update --init --recursive

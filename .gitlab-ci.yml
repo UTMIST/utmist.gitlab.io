@@ -36,7 +36,6 @@ pages:
     - sh onedrive.sh
     - go run main.go -depts
     - hugo
-    - rm -rf public
   artifacts:
     paths:
       - public

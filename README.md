@@ -8,20 +8,23 @@ Club website for the [University of Toronto Machine Intelligence Student Team (U
 
 ## Overview
 
-- [Google Sheets](https://developers.google.com/sheets) serve as databases.
-- The **fetcher** package pulls from the databases and populates **Associate**, **Event**, and **Project** objects.
-- The **generator** package uses the objects fetched to generate **markdown** content pages.
+- [Google Sheets](https://developers.google.com/sheets) and [Microsoft OneDrive](https://onedrive.live.com/) serve as databases.
+- The `fetcher` package pulls from [Google Sheets](https://developers.google.com/sheets) and populates **Associate/Department** objects.
+- The `generator` package uses the objects fetched to generate **markdown** content pages.
+- `onedeath downloads a folder of custom pages (written manually by club associates) from [Microsoft OneDrive](https://onedrive.live.com/).
 - **Hugo** generates the static site website locally or with **GitLab Pages**.
 
 ### Connections
 
-- The fetcher/generator and Hugo are run in [GitLab CI](https://docs.gitlab.com/ce/ci/) and fed into [GitLab Pages](https://docs.gitlab.com/ce/user/project/pages/).
+- The `fetcher`/`generator`, `onedeath` and Hugo are run in [GitLab CI](https://docs.gitlab.com/ce/ci/) and fed into [GitLab Pages](https://docs.gitlab.com/ce/user/project/pages/).
 - The [UTMIST Assistant (MISTA)](https://gitlab.com/utmist/mista) can trigger a job to regenerate when responding to commands in our [Discord Server](https://discord.gg/88mSPw8). If MISTA is offline, jobs must be triggered manually through the [GitLab CI/CD Pipeline Manager](https://gitlab.com/utmist/utmist.gitlab.io/pipelines).
 
 ### Prerequisites
 
 - [Go](https://golang.org/). Put this project in `$GOPATH/utmist/`.
 - [Hugo](https://github.com/gohugoio/hugo/releases), `>= 0.61`. GitLab CI uses `0.68`.
+- [Lua](https://www.lua.org/).
+- [wget](https://www.gnu.org/software/wget/).
 
 ### Dependencies
 
@@ -54,16 +57,16 @@ Full details can be found on [our Wiki](https://gitlab.com/utmist/utmist.gitlab.
 - Initialize the Hugo Fresh theme submodule.
 
   ```sh
-  git submodule update --init --recursive # Or Makefile rule: fresh.
+  git submodule update --init --recursive # or "make dep".
   ```
 
 - Paste the environment variables into `.env`. Refer to `.env.copy` for the required variables.
 - Run the `fetcher/generator` script.
 
-  - The `-depts` and `-events` flags will specify that department and/or event pages should be generated too. Each flag should only be included if the associated pages are to be regenerated. For example if you're working only on event page features, you will only use the `-events` flag.
+  - The `-depts` flag will specify that department pages should be generated too.
 
   ```sh
-  go run main.go [-depts] [-events] # Or Makefile rules: all, depts, events.
+  go run main.go [-depts] # or "make build"
   ```
 
 - Run `hugo` in debugging mode to host the website on `localhost:1313`.
