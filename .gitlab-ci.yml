@@ -1,8 +1,8 @@
 # All available Hugo versions are listed here: https://gitlab.com/pages/hugo/container_registry
-image: leglesslamb/golang-hugo:latest
+image: leglesslamb/lua-golang-hugo:latest
 
 before_script:
-  - pacman -Syu --noconfirm lua wget coreutils
+  - pacman -Syu --noconfirm wget coreutils
 
 cache:
   paths:
