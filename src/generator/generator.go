@@ -1,76 +1,56 @@
 package generator
 
 import (
+	"fmt"
+	"log"
+	"os"
+	"strings"
+
 	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
-	"gitlab.com/utmist/utmist.gitlab.io/src/department"
-	"gitlab.com/utmist/utmist.gitlab.io/src/event"
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
-	"gitlab.com/utmist/utmist.gitlab.io/src/position"
-	"gitlab.com/utmist/utmist.gitlab.io/src/project"
 )
 
-// File locations.
-const aboutFilename = "content/about.md"
-const configCopyFilename = "assets/config.yaml"
-const configFilename = "config.yaml"
+const associatesSubstitution = "[//]: # associates"
 
-// GeneratePages generates pages for Associates/Events/Positions/Projects.
-func GeneratePages(
-	assocs *[]associate.Associate,
-	descriptions *map[string]string,
-	events *[]event.Event,
-	positions *[]position.Position,
-	pastProjs *[]project.Project,
-	projs *[]project.Project,
-	deptsFlag bool,
-	eventsFlag bool) {
+// GenerateAssociateLists inserts generated lists of associates into pages.
+func GenerateAssociateLists(
+	associates *map[string]associate.Associate,
+	entries *map[int][]associate.Entry) {
 
-	// Generate associate/event/project pages.
-	department.GenerateTeamPage(assocs, positions, descriptions)
-	if deptsFlag {
-		department.GeneratePages(assocs, descriptions, positions, projs, pastProjs)
+	firstYear, lastYear := helpers.GetYearRange()
+	for year := firstYear; year <= lastYear; year++ {
+		depts := strings.Split(os.Getenv(fmt.Sprintf("DEPTS_%d", year)), ",")
+		deptToEntryMap := map[string][]associate.Entry{}
+		for _, dept := range depts {
+			deptToEntryMap[dept] = []associate.Entry{}
+		}
+		for _, entry := range (*entries)[year] {
+			if _, exists := deptToEntryMap[entry.Department]; !exists {
+				continue
+			}
+			deptToEntryMap[entry.Department] =
+				append(deptToEntryMap[entry.Department], entry)
+		}
+
+		for dept, deptEntries := range deptToEntryMap {
+			deptNamePattern := helpers.StringToFileName(dept)
+			filepath := fmt.Sprintf("content/%s-%d.md", deptNamePattern, year)
+			if year == lastYear {
+				filepath = fmt.Sprintf("content/%s.md", deptNamePattern)
+			}
+
+			if _, err := os.Stat(filepath); err != nil {
+				log.Println(err)
+				continue
+			}
+
+			lines := helpers.ReadContentLines(filepath)
+			newLines := associate.MakeEntryList(associates, &deptEntries)
+			lines = helpers.SubstituteString(
+				lines,
+				newLines,
+				associatesSubstitution)
+			helpers.OverwriteWithLines(filepath, lines)
+		}
 	}
-	if eventsFlag {
-		event.GeneratePages(events, (*descriptions)["Events"])
-	}
-
-	position.GenerateList(positions, descriptions)
-	project.GenerateList(projs, pastProjs, (*descriptions)["Projects"])
-
-	// Generate about page.
-	GenerateAboutPage(positions, descriptions)
-}
-
-// GenerateConfig generates the configuration file for Hugo site.
-func GenerateConfig(events *[]event.Event, projs *[]project.Project) {
-	helpers.GenerateLog("config")
-
-	// Start with config copy.
-	lines := helpers.ReadContentLines(configCopyFilename)
-
-	// Generate associate/event/project navbar links.
-	department.GenerateNavbarDeptLinks(&lines)
-	event.GenerateNavbarEventLinks(events, &lines)
-	project.GenerateNavbarProjectLinks(projs, &lines)
-
-	// Insert discord link.
-	helpers.InsertDiscordLink(&lines)
-
-	// Overwrite config.
-	helpers.OverwriteWithLines(configFilename, lines)
-}
-
-// GenerateAboutPage generates the about page.
-func GenerateAboutPage(positions *[]position.Position,
-	descriptions *map[string]string) {
-
-	helpers.GenerateLog("about")
-
-	lines := helpers.GenerateHeader("About Us", "0001-01-05")
-	if description, exists := (*descriptions)["About"]; exists {
-		lines = append(lines, description, "", helpers.Breakline)
-	}
-	lines = append(lines, helpers.GetJoinLines((*descriptions)["Joining"])...)
-
-	helpers.OverwriteWithLines(aboutFilename, lines)
 }

@@ -58,32 +58,18 @@ func OverwriteWithLines(path string, lines []string) {
 	file.Close()
 }
 
-// StitchIntoLines stitches new lines into the config.
-func StitchIntoLines(lines, newLines *[]string, start string, shift int) {
-
-	// Search for correct place
-	startIndex := 0
-	for startIndex < len(*lines) {
-		if (*lines)[startIndex] == start {
-			break
+// SubstituteString stitches new lines into a substitution pattern.
+func SubstituteString(lines, newLines []string, substitution string) []string {
+	for i := 0; i < len(lines); i++ {
+		if lines[i] != substitution {
+			continue
 		}
-		startIndex++
-	}
-	startIndex += shift
 
-	// Store the lines that go before/after.
-	preLines := []string{}
-	for j := 0; j <= startIndex; j++ {
-		preLines = append(preLines, (*lines)[j])
-	}
-	postLines := []string{}
-	for j := startIndex + 1; j < len(*lines); j++ {
-		postLines = append(postLines, (*lines)[j])
+		newLines = append(newLines, lines[i+1:]...)
+		return append(lines[:i], newLines...)
 	}
 
-	// Stitch config.yaml back together with preLines and postLines.
-	*lines = append(preLines, (*newLines)...)
-	*lines = append(*lines, postLines...)
+	return lines
 }
 
 // ReadFileBase an existing file and truncates it to the header.

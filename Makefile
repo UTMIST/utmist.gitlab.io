@@ -1,6 +1,6 @@
 build:
 	sh onedrive.sh
-	go run main.go -depts
+	go run main.go
 
 clean:
 	rm -rf content config.yaml public

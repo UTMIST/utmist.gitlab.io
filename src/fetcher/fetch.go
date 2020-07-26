@@ -4,13 +4,9 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"sort"
-	"time"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
-	"gitlab.com/utmist/utmist.gitlab.io/src/event"
-	"gitlab.com/utmist/utmist.gitlab.io/src/position"
-	"gitlab.com/utmist/utmist.gitlab.io/src/project"
+	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/sheets/v4"
@@ -20,13 +16,7 @@ import (
 const SCOPE = "https://www.googleapis.com/auth/spreadsheets.readonly"
 
 // Fetch fetches associate, event, project, recruitment databases.
-func Fetch() (
-	[]associate.Associate,
-	map[string]string,
-	[]event.Event,
-	[]position.Position,
-	[]project.Project,
-	[]project.Project) {
+func Fetch() (map[string]associate.Associate, map[int][]associate.Entry) {
 
 	b, err := getCredentials()
 	if err != nil {
@@ -48,107 +38,63 @@ func Fetch() (
 		log.Fatalf("Unable to retrieve Sheets client: %v", err)
 	}
 
-	// Pull sheet IDs and ranges.
-	sheets, err := loadFetchEnv()
-	if err != nil {
-		log.Fatalf("Unable to load sheet IDs: %v", err)
-	}
+	firstYear, lastYear := helpers.GetYearRange()
 
-	// Create lists.
-	associates := []associate.Associate{}
-	descriptions := map[string]string{}
-	events := []event.Event{}
-	positions := []position.Position{}
-	pastProjects := []project.Project{}
-	projects := []project.Project{}
+	associates := fetchAssociates(srv)
+	entries := fetchEntries(srv, firstYear, lastYear)
 
-	// Populate each list with associates, events, project, respectively.
-	for _, sheetName := range getSheetNameList() {
-		sheet, exists := sheets[sheetName]
-		if !exists {
-			continue
-		}
-
-		// Validate the API response.
-		resp, err := srv.Spreadsheets.Values.Get(sheet.ID, sheet.Range).Do()
-		if err != nil {
-			log.Println(fmt.Sprintf("Unable to retrieve %s data from sheet: ",
-				sheetName))
-			continue
-		}
-		if len(resp.Values) == 0 {
-			log.Printf("No %s data found.\n", sheetName)
-			continue
-		}
-
-		log.Printf("Downloaded %s data.", sheetName)
-
-		// Add to the appropriate list.
-		switch sheetName {
-		case ASSOCIATES:
-			for _, row := range resp.Values {
-				associates = append(associates, associate.Load(row)...)
-			}
-		case DESCRIPTIONS:
-			for _, row := range resp.Values {
-				loadPageDescs(&descriptions, row)
-			}
-		case EVENTS:
-			for _, row := range resp.Values {
-				events = append(events, event.Load(row))
-			}
-		case POSITIONS:
-			for _, row := range resp.Values {
-				pos := position.Load(row)
-
-				// Add the position if there's no valid deadline that passed.
-				toronto, err := time.LoadLocation("America/New_York")
-				if err != nil ||
-					!pos.Deadline.Before(time.Now().In(toronto)) {
-					positions = append(positions, position.Load(row))
-				}
-			}
-		case PROJECTS:
-			for _, row := range resp.Values {
-				proj := project.Load(row)
-				if proj.Status == project.ActiveStatus {
-					projects = append(projects, proj)
-					continue
-				}
-				pastProjects = append(pastProjects, proj)
-			}
-		default:
-			log.Printf("Fetch for %s not yet implemented.\n", sheetName)
-		}
-	}
-
-	sort.Sort(event.List(events))
-
-	return associates, descriptions, events, positions, pastProjects, projects
+	return associates, entries
 }
 
-// LoadFetchEnv loads environment variables from .env for fetching.
-func loadFetchEnv() (map[string]Sheet, error) {
-	sheetIDRanges := map[string]Sheet{}
-	sheetNames := getSheetNameList()
+func fetchAssociates(srv *sheets.Service) map[string]associate.Associate {
+	associates := map[string]associate.Associate{}
 
-	// Populates sheet IDs and ranges for each data group.
-	// Associates/Events/Page Descriptions/Positions/Projects.
-	for _, sheetName := range sheetNames {
-		ID, Range := getSheetKeys(sheetName)
-		sheetID, ok := os.LookupEnv(ID)
-		if !ok {
-			continue
-		}
-		sheetRange, ok := os.LookupEnv(Range)
-		if !ok {
-			continue
-		}
-		sheetIDRanges[sheetName] = Sheet{
-			ID:    sheetID,
-			Range: sheetRange,
-		}
+	sheetID := os.Getenv("ASSOCIATES_SHEET_ID")
+	sheetRange := os.Getenv("ASSOCIATES_RANGE")
+	resp := fetchValues(srv, "Associates Directory", sheetID, sheetRange)
+	for _, row := range resp.Values {
+		associate := associate.LoadAssociate(row)
+		associates[associate.UofTEmail] = associate
 	}
 
-	return sheetIDRanges, nil
+	return associates
+}
+
+func fetchEntries(srv *sheets.Service, firstYear, lastYear int) map[int][]associate.Entry {
+
+	entries := map[int][]associate.Entry{}
+	sheetID := os.Getenv("ASSOCIATES_SHEET_ID")
+	for year := firstYear; year <= lastYear; year++ {
+		yearEntries := []associate.Entry{}
+		sheetRange := os.Getenv(fmt.Sprintf("ASSOCIATES_%d", year))
+		resp := fetchValues(
+			srv,
+			fmt.Sprintf("Associates (%d)", year),
+			sheetID,
+			sheetRange)
+		for _, row := range resp.Values {
+			yearEntries = append(yearEntries, associate.LoadEntries(row)...)
+		}
+
+		entries[year] = yearEntries
+	}
+
+	return entries
+}
+
+func fetchValues(srv *sheets.Service, groupName, sheetID, sheetRange string) *sheets.ValueRange {
+	// Validate the API response.
+	resp, err := srv.Spreadsheets.Values.Get(sheetID, sheetRange).Do()
+	if err != nil {
+		log.Println(fmt.Sprintf("Unable to retrieve %s data from sheet: ",
+			groupName))
+		panic(err)
+	}
+	if len(resp.Values) == 0 {
+		log.Printf("No %s data found.\n", groupName)
+	}
+
+	log.Printf("Downloaded %s data.", groupName)
+
+	return resp
 }
