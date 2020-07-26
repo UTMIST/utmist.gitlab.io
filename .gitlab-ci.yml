@@ -1,6 +1,9 @@
 # All available Hugo versions are listed here: https://gitlab.com/pages/hugo/container_registry
 image: leglesslamb/golang-hugo:latest
 
+before_script:
+  - pacman -Syu --noconfirm lua wget coreutils
+
 cache:
   paths:
     - /apt-cache
@@ -18,8 +21,10 @@ test:
     - go version
     - hugo version
     - go mod download
-    - go run main.go -depts -events
+    - sh onedrive.sh
+    - go run main.go -depts
     - hugo
+    - rm -rf public
   except:
     - master
 
@@ -28,8 +33,10 @@ pages:
     - go version
     - hugo version
     - go mod download
-    - go run main.go -depts -events
+    - sh onedrive.sh
+    - go run main.go -depts
     - hugo
+    - rm -rf public
   artifacts:
     paths:
       - public
