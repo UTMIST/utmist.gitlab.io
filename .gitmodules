@@ -1,3 +1,6 @@
 [submodule "themes/hugo-fresh"]
 	path = themes/hugo-fresh
 	url = https://github.com/StefMa/hugo-fresh
+[submodule "onedeath"]
+	path = onedeath
+	url = https://gitlab.com/VADemon/onedeath
