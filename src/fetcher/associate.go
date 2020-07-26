@@ -1,0 +1,51 @@
+package fetcher
+
+import (
+	"fmt"
+	"os"
+
+	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
+	"google.golang.org/api/sheets/v4"
+)
+
+func fetchAssociates(srv *sheets.Service) map[string]associate.Associate {
+	associates := map[string]associate.Associate{}
+
+	sheetID := os.Getenv("ASSOCIATES_SHEET_ID")
+	sheetRange := os.Getenv("ASSOCIATES_RANGE")
+	resp := fetchValues(srv, "Associates Directory", sheetID, sheetRange)
+	for _, row := range resp.Values {
+		associate := associate.LoadAssociate(row)
+		associates[associate.UofTEmail] = associate
+	}
+
+	return associates
+}
+
+func fetchAssociateEntries(
+	srv *sheets.Service,
+	associates *map[string]associate.Associate,
+	firstYear,
+	lastYear int) map[int][]associate.Entry {
+
+	entries := map[int][]associate.Entry{}
+	sheetID := os.Getenv("ASSOCIATES_SHEET_ID")
+	for year := firstYear; year <= lastYear; year++ {
+		yearEntries := []associate.Entry{}
+		sheetRange := os.Getenv(fmt.Sprintf("ASSOCIATES_%d", year))
+		resp := fetchValues(
+			srv,
+			fmt.Sprintf("Associates (%d)", year),
+			sheetID,
+			sheetRange)
+		for _, row := range resp.Values {
+			yearEntries = append(
+				yearEntries,
+				associate.LoadEntries(row, associates)...)
+		}
+
+		entries[year] = yearEntries
+	}
+
+	return entries
+}

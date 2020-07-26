@@ -10,8 +10,8 @@ import (
 
 const discordBase = "https://discord.gg/"
 
-// StringToFileName formats a given string to a filename.
-func StringToFileName(str string) string {
+// StringToSimplePath formats a given string to a filename.
+func StringToSimplePath(str string) string {
 	// We use lowercase page paths.
 	filename := strings.ToLower(strings.ToLower(str))
 
@@ -112,7 +112,7 @@ func GetJoinLines(description string) []string {
 
 // RelativeFilePath returns the filepath based on year and department.
 func RelativeFilePath(year, lastYear int, dept string) string {
-	deptNamePattern := StringToFileName(dept)
+	deptNamePattern := StringToSimplePath(dept)
 	filepath := fmt.Sprintf("content/%s-%d.md", deptNamePattern, year)
 	if year == lastYear {
 		filepath = fmt.Sprintf("content/%s.md", deptNamePattern)

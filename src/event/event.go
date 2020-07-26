@@ -80,7 +80,7 @@ func (e *Event) insertListEntry(bldgs *map[string]Building, list bool) []string 
 			// helpers.Breakline,
 			fmt.Sprintf("##### **[%s](/events/%s)**",
 				e.Title,
-				helpers.StringToFileName(e.Title))}, newLines...)
+				helpers.StringToSimplePath(e.Title))}, newLines...)
 	}
 
 	// Insert links if they exist.

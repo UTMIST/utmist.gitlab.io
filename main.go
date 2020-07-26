@@ -16,9 +16,10 @@ func main() {
 
 	flag.Parse()
 
-	associates, entries := fetcher.Fetch()
+	associates, assocEntries, events := fetcher.Fetch()
 
-	generator.GenerateDepartmentAssociateLists(&associates, &entries)
-	generator.GenerateTeamExecutiveList(&associates, &entries)
-
+	generator.GenerateDepartmentAssociateLists(&associates, &assocEntries)
+	generator.GenerateTeamDepartmentList(&associates, &assocEntries)
+	generator.GenerateTeamExecutiveList(&associates, &assocEntries)
+	generator.GenerateEventList(&events)
 }

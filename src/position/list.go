@@ -35,7 +35,7 @@ func MakeList(positions *[]Position, deptPage bool,
 		deptStr := ""
 		if !deptPage {
 			deptStr = fmt.Sprintf(", [%s](/%s)", pos.Department,
-				helpers.StringToFileName(pos.Department))
+				helpers.StringToSimplePath(pos.Department))
 		}
 		head := fmt.Sprintf("##### **%s**%s", pos.Title, deptStr)
 

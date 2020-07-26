@@ -2,6 +2,7 @@ package associate
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 )
 
@@ -65,9 +66,55 @@ func (e *Entry) isVP() bool {
 
 // GetListing returns a listing for this entry.
 func (e *Entry) GetListing(associate *Associate, isExec bool) string {
-	listing := fmt.Sprintf("[%s](%s), %s", associate.getName(), associate.getLink(), e.Position)
+
+	var listing string
+
+	name := associate.getName()
+	if link := associate.getLink(); len(link) > 0 {
+		listing = fmt.Sprintf("[%s](%s), %s", name, link, e.Position)
+	} else {
+		listing = fmt.Sprintf("%s, %s", name, e.Position)
+	}
+
 	if e.IsToBeBolded(isExec) {
 		return fmt.Sprintf("- **%s**", listing)
 	}
 	return fmt.Sprintf("- %s", listing)
+}
+
+// MakeEntryList generates a string list of associate entries.
+func MakeEntryList(
+	associates *map[string]Associate,
+	entries *[]Entry,
+	isDept bool) []string {
+
+	combinedEntries := combineEntries(entries)
+	sort.Sort(EntryList(combinedEntries))
+
+	list := []string{}
+	for _, entry := range combinedEntries {
+		associate := (*associates)[entry.Email]
+		list = append(list, entry.GetListing(&associate, isDept))
+	}
+
+	return list
+}
+
+func combineEntries(entries *[]Entry) []Entry {
+	entryMap := map[string]Entry{}
+	for _, e := range *entries {
+
+		newEntry := e
+		if existingEntry, exists := entryMap[e.Email]; exists {
+			newEntry.Position = fmt.Sprintf("%s, %s", existingEntry.Position, e.Position)
+		}
+
+		entryMap[e.Email] = newEntry
+	}
+
+	combinedEntries := []Entry{}
+	for _, entry := range entryMap {
+		combinedEntries = append(combinedEntries, entry)
+	}
+	return combinedEntries
 }

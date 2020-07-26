@@ -38,7 +38,7 @@ func MakeList(projects *[]Project, active, deptPage bool) []string {
 			for _, dept := range proj.Department {
 				deptLine = fmt.Sprintf("%s [%s](/%s),",
 					deptLine, dept,
-					helpers.StringToFileName(dept))
+					helpers.StringToSimplePath(dept))
 			}
 			lines = append(lines,
 				fmt.Sprintf("%s.", deptLine[:len(deptLine)-1]))

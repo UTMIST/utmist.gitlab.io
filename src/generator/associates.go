@@ -10,8 +10,9 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
-const associatesSubstitution = "[//]: # associates"
-const executivesSubstitution = "[//]: # executives"
+const associateListSubstitution = "[//]: # associates"
+const departmentListSubstitution = "[//]: # departments"
+const executiveListSubstitution = "[//]: # executives"
 
 // GenerateDepartmentAssociateLists inserts generated lists of associates into dept pages.
 func GenerateDepartmentAssociateLists(
@@ -45,9 +46,39 @@ func GenerateDepartmentAssociateLists(
 			lines = helpers.SubstituteString(
 				lines,
 				newLines,
-				associatesSubstitution)
+				associateListSubstitution)
 			helpers.OverwriteWithLines(filepath, lines)
 		}
+	}
+}
+
+// GenerateTeamDepartmentList inserts generated lists of executives into team pages.
+func GenerateTeamDepartmentList(
+	associates *map[string]associate.Associate,
+	entries *map[int][]associate.Entry) {
+
+	firstYear, lastYear := helpers.GetYearRange()
+	for year := firstYear; year <= lastYear; year++ {
+
+		depts := strings.Split(os.Getenv(fmt.Sprintf("DEPTS_%d", year)), ",")
+		deptToEntryMap := map[string][]associate.Entry{}
+		for _, dept := range depts {
+			deptToEntryMap[dept] = []associate.Entry{}
+		}
+
+		filepath := helpers.RelativeFilePath(year, lastYear, "team")
+		if _, err := os.Stat(filepath); err != nil {
+			log.Println(err)
+			continue
+		}
+
+		lines := helpers.ReadContentLines(filepath)
+		newLines := associate.MakeDepartmentList(&depts)
+		lines = helpers.SubstituteString(
+			lines,
+			newLines,
+			departmentListSubstitution)
+		helpers.OverwriteWithLines(filepath, lines)
 	}
 }
 
@@ -76,7 +107,7 @@ func GenerateTeamExecutiveList(
 		lines = helpers.SubstituteString(
 			lines,
 			newLines,
-			executivesSubstitution)
+			executiveListSubstitution)
 		helpers.OverwriteWithLines(filepath, lines)
 	}
 }
