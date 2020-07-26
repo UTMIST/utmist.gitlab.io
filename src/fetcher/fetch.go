@@ -41,7 +41,7 @@ func Fetch() (map[string]associate.Associate, map[int][]associate.Entry) {
 	firstYear, lastYear := helpers.GetYearRange()
 
 	associates := fetchAssociates(srv)
-	entries := fetchEntries(srv, firstYear, lastYear)
+	entries := fetchEntries(srv, &associates, firstYear, lastYear)
 
 	return associates, entries
 }
@@ -60,7 +60,11 @@ func fetchAssociates(srv *sheets.Service) map[string]associate.Associate {
 	return associates
 }
 
-func fetchEntries(srv *sheets.Service, firstYear, lastYear int) map[int][]associate.Entry {
+func fetchEntries(
+	srv *sheets.Service,
+	associates *map[string]associate.Associate,
+	firstYear,
+	lastYear int) map[int][]associate.Entry {
 
 	entries := map[int][]associate.Entry{}
 	sheetID := os.Getenv("ASSOCIATES_SHEET_ID")
@@ -73,7 +77,9 @@ func fetchEntries(srv *sheets.Service, firstYear, lastYear int) map[int][]associ
 			sheetID,
 			sheetRange)
 		for _, row := range resp.Values {
-			yearEntries = append(yearEntries, associate.LoadEntries(row)...)
+			yearEntries = append(
+				yearEntries,
+				associate.LoadEntries(row, associates)...)
 		}
 
 		entries[year] = yearEntries

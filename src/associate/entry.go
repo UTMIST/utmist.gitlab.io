@@ -10,6 +10,7 @@ type Entry struct {
 	Email      string
 	Position   string
 	Department string
+	Associate  *Associate
 }
 
 // EntryList defines a list of entries.
@@ -22,6 +23,18 @@ func (e EntryList) Len() int {
 
 // Method Less() to implement sort.Sort.
 func (e EntryList) Less(i, j int) bool {
+	for _, criteria := range []int{
+		strings.Compare(e[i].Position, e[j].Position),
+		strings.Compare(e[i].Associate.Surname, e[j].Associate.Surname),
+		strings.Compare(e[i].Associate.GivenName, e[j].Associate.GivenName),
+		strings.Compare(e[i].Associate.PreferredName, e[j].Associate.PreferredName)} {
+		switch criteria {
+		case -1:
+			return true
+		case 1:
+			return false
+		}
+	}
 
 	return false
 }
@@ -31,8 +44,13 @@ func (e EntryList) Swap(i, j int) {
 	e[i], e[j] = e[j], e[i]
 }
 
-// IsExecutive returns whether listing should be bolded as Executive.
-func (e *Entry) IsExecutive(dept bool) bool {
+// IsExecutive returns whether entry is an executive.
+func (e *Entry) IsExecutive() bool {
+	return e.isVP() || e.isPresident()
+}
+
+// IsToBeBolded returns whether listing should be bolded as Executive.
+func (e *Entry) IsToBeBolded(dept bool) bool {
 	// Bold if VP on department page, or if (Co-)President.
 	return (dept && e.isVP()) || e.isPresident()
 }
@@ -48,7 +66,7 @@ func (e *Entry) isVP() bool {
 // GetListing returns a listing for this entry.
 func (e *Entry) GetListing(associate *Associate, isExec bool) string {
 	listing := fmt.Sprintf("[%s](%s), %s", associate.getName(), associate.getLink(), e.Position)
-	if e.IsExecutive(isExec) {
+	if e.IsToBeBolded(isExec) {
 		return fmt.Sprintf("- **%s**", listing)
 	}
 	return fmt.Sprintf("- %s", listing)

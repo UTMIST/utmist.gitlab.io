@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"github.com/joho/godotenv"
-	fetcher "gitlab.com/utmist/utmist.gitlab.io/src/fetcher"
+	"gitlab.com/utmist/utmist.gitlab.io/src/fetcher"
 	"gitlab.com/utmist/utmist.gitlab.io/src/generator"
 )
 
@@ -18,6 +18,7 @@ func main() {
 
 	associates, entries := fetcher.Fetch()
 
-	generator.GenerateAssociateLists(&associates, &entries)
+	generator.GenerateDepartmentAssociateLists(&associates, &entries)
+	generator.GenerateTeamExecutiveList(&associates, &entries)
 
 }

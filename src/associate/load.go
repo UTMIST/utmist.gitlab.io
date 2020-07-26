@@ -34,7 +34,7 @@ func LoadAssociate(data []interface{}) Associate {
 }
 
 // LoadEntries loads an associate entry from a spreadsheet row.
-func LoadEntries(data []interface{}) []Entry {
+func LoadEntries(data []interface{}, associates *map[string]Associate) []Entry {
 
 	// Pad the columns with blanks to avoid index-out-of-range.
 	for i := len(data); i < entryRowLength; i++ {
@@ -50,7 +50,16 @@ func LoadEntries(data []interface{}) []Entry {
 			break
 		}
 
-		entries = append(entries, Entry{data[3].(string), positions[i], departments[i]})
+		email := data[3].(string)
+		associate := (*associates)[email]
+
+		entries = append(
+			entries,
+			Entry{
+				email,
+				strings.TrimSpace(positions[i]),
+				strings.TrimSpace(departments[i]),
+				&associate})
 	}
 
 	return entries

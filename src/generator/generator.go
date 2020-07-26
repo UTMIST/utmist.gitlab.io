@@ -11,9 +11,10 @@ import (
 )
 
 const associatesSubstitution = "[//]: # associates"
+const executivesSubstitution = "[//]: # executives"
 
-// GenerateAssociateLists inserts generated lists of associates into pages.
-func GenerateAssociateLists(
+// GenerateDepartmentAssociateLists inserts generated lists of associates into dept pages.
+func GenerateDepartmentAssociateLists(
 	associates *map[string]associate.Associate,
 	entries *map[int][]associate.Entry) {
 
@@ -33,24 +34,49 @@ func GenerateAssociateLists(
 		}
 
 		for dept, deptEntries := range deptToEntryMap {
-			deptNamePattern := helpers.StringToFileName(dept)
-			filepath := fmt.Sprintf("content/%s-%d.md", deptNamePattern, year)
-			if year == lastYear {
-				filepath = fmt.Sprintf("content/%s.md", deptNamePattern)
-			}
-
+			filepath := helpers.RelativeFilePath(year, lastYear, dept)
 			if _, err := os.Stat(filepath); err != nil {
 				log.Println(err)
 				continue
 			}
 
 			lines := helpers.ReadContentLines(filepath)
-			newLines := associate.MakeEntryList(associates, &deptEntries)
+			newLines := associate.MakeEntryList(associates, &deptEntries, true)
 			lines = helpers.SubstituteString(
 				lines,
 				newLines,
 				associatesSubstitution)
 			helpers.OverwriteWithLines(filepath, lines)
 		}
+	}
+}
+
+// GenerateTeamExecutiveList inserts generated lists of executives into team pages.
+func GenerateTeamExecutiveList(
+	associates *map[string]associate.Associate,
+	entries *map[int][]associate.Entry) {
+
+	firstYear, lastYear := helpers.GetYearRange()
+	for year := firstYear; year <= lastYear; year++ {
+		execs := []associate.Entry{}
+		for _, entry := range (*entries)[year] {
+			if entry.IsExecutive() {
+				execs = append(execs, entry)
+			}
+		}
+
+		filepath := helpers.RelativeFilePath(year, lastYear, "team")
+		if _, err := os.Stat(filepath); err != nil {
+			log.Println(err)
+			continue
+		}
+
+		lines := helpers.ReadContentLines(filepath)
+		newLines := associate.MakeEntryList(associates, &execs, false)
+		lines = helpers.SubstituteString(
+			lines,
+			newLines,
+			executivesSubstitution)
+		helpers.OverwriteWithLines(filepath, lines)
 	}
 }
