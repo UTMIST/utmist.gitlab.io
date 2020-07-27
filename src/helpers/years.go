@@ -1,14 +1,13 @@
 package helpers
 
 import (
-	"os"
 	"strconv"
 	"strings"
 )
 
 // GetYearRange returns the first and last years of range from env.
-func GetYearRange() (int, int) {
-	years := strings.Split(os.Getenv("YEARS"), "_")
+func GetYearRange(yearStr string) (int, int) {
+	years := strings.Split(yearStr, "-")
 	firstYear, err := strconv.Atoi(years[0])
 	if err != nil {
 		panic(err)

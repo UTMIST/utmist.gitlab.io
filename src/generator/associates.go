@@ -19,14 +19,14 @@ func GenerateDepartmentAssociateLists(
 	associates *map[string]associate.Associate,
 	entries *map[int][]associate.Entry) {
 
-	firstYear, lastYear := helpers.GetYearRange()
-	for year := firstYear; year <= lastYear; year++ {
-		depts := strings.Split(os.Getenv(fmt.Sprintf("DEPTS_%d", year)), ",")
+	firstYear, lastYear := helpers.GetYearRange(os.Getenv("YEARS"))
+	for y := firstYear; y <= lastYear; y++ {
+		depts := strings.Split(os.Getenv(fmt.Sprintf("DEPTS_%d", y)), ",")
 		deptToEntryMap := map[string][]associate.Entry{}
 		for _, dept := range depts {
 			deptToEntryMap[dept] = []associate.Entry{}
 		}
-		for _, entry := range (*entries)[year] {
+		for _, entry := range (*entries)[y] {
 			if _, exists := deptToEntryMap[entry.Department]; !exists {
 				continue
 			}
@@ -35,7 +35,7 @@ func GenerateDepartmentAssociateLists(
 		}
 
 		for dept, deptEntries := range deptToEntryMap {
-			filepath := helpers.RelativeFilePath(year, lastYear, dept)
+			filepath := helpers.RelativeFilePath(y, lastYear, dept)
 			if _, err := os.Stat(filepath); err != nil {
 				log.Println(err)
 				continue
@@ -57,16 +57,16 @@ func GenerateTeamDepartmentList(
 	associates *map[string]associate.Associate,
 	entries *map[int][]associate.Entry) {
 
-	firstYear, lastYear := helpers.GetYearRange()
-	for year := firstYear; year <= lastYear; year++ {
+	firstYear, lastYear := helpers.GetYearRange(os.Getenv("YEARS"))
+	for y := firstYear; y <= lastYear; y++ {
 
-		depts := strings.Split(os.Getenv(fmt.Sprintf("DEPTS_%d", year)), ",")
+		depts := strings.Split(os.Getenv(fmt.Sprintf("DEPTS_%d", y)), ",")
 		deptToEntryMap := map[string][]associate.Entry{}
 		for _, dept := range depts {
 			deptToEntryMap[dept] = []associate.Entry{}
 		}
 
-		filepath := helpers.RelativeFilePath(year, lastYear, "team")
+		filepath := helpers.RelativeFilePath(y, lastYear, "team")
 		if _, err := os.Stat(filepath); err != nil {
 			log.Println(err)
 			continue
@@ -87,16 +87,16 @@ func GenerateTeamExecutiveList(
 	associates *map[string]associate.Associate,
 	entries *map[int][]associate.Entry) {
 
-	firstYear, lastYear := helpers.GetYearRange()
-	for year := firstYear; year <= lastYear; year++ {
+	firstYear, lastYear := helpers.GetYearRange(os.Getenv("YEARS"))
+	for y := firstYear; y <= lastYear; y++ {
 		execs := []associate.Entry{}
-		for _, entry := range (*entries)[year] {
+		for _, entry := range (*entries)[y] {
 			if entry.IsExecutive() {
 				execs = append(execs, entry)
 			}
 		}
 
-		filepath := helpers.RelativeFilePath(year, lastYear, "team")
+		filepath := helpers.RelativeFilePath(y, lastYear, "team")
 		if _, err := os.Stat(filepath); err != nil {
 			log.Println(err)
 			continue

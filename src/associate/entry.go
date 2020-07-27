@@ -24,6 +24,9 @@ func (e EntryList) Len() int {
 
 // Method Less() to implement sort.Sort.
 func (e EntryList) Less(i, j int) bool {
+	if !e[i].IsExecutive() && e[j].IsExecutive() {
+		return false
+	}
 	for _, criteria := range []int{
 		strings.Compare(e[i].Position, e[j].Position),
 		strings.Compare(e[i].Associate.Surname, e[j].Associate.Surname),

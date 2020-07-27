@@ -1,35 +1,30 @@
 package project
 
-import "gitlab.com/utmist/utmist.gitlab.io/src/helpers"
-
 // ActiveStatus string for an active project status.
 const ActiveStatus = "Active"
 
 // Project represents an entry in the Projects Google Sheet
 type Project struct {
-	Title        string
-	Status       string
-	Department   []string
-	Description  string
-	Instructions string
-	Link         string
+	External         string
+	Image            string
+	JoinInstructions string
+	Summary          string
+	Title            string
+	Type             string
+	Years            string
 }
 
-// GroupByDept groups projects into their own department list.
-func GroupByDept(projects *[]Project) map[string][]Project {
-	deptProjects := map[string][]Project{}
-	for _, dept := range helpers.GetDeptNames(false) {
-		deptProjects[dept] = []Project{}
-	}
-
+// GroupByType groups projects into their own department list.
+func GroupByType(projects *[]Project) map[string][]Project {
+	projTypeMap := map[string][]Project{}
 	for _, proj := range *projects {
-		for _, projDept := range proj.Department {
-			projList, exists := deptProjects[projDept]
-			if !exists {
-				deptProjects[projDept] = []Project{}
-			}
-			deptProjects[projDept] = append(projList, proj)
+
+		projList, exists := projTypeMap[proj.Type]
+		if !exists {
+			projTypeMap[proj.Type] = []Project{}
 		}
+		projTypeMap[proj.Type] = append(projList, proj)
+
 	}
-	return deptProjects
+	return projTypeMap
 }

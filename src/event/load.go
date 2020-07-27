@@ -19,23 +19,18 @@ func LoadEvent(filename string) Event {
 
 	event := Event{}
 
-	lines := helpers.ReadContentLines(fmt.Sprintf("%s%s", EventsFolderPath, filename))
-
-	colonRemainder := func(line string) string {
-		return strings.TrimSpace(line[strings.Index(line, ":")+1:])
-	}
-
+	lines := helpers.ReadContentLines(
+		fmt.Sprintf("%s%s", EventsFolderPath, filename))
 	for _, line := range lines {
 		if strings.Contains(line, dateTimePrefix) {
-			dateStr := colonRemainder(line)
-			event.DateTime = helpers.FormatDateEST(dateStr)
+			event.DateTime = helpers.FormatDateEST(
+				helpers.ColonRemainder(line))
 		}
 		if strings.Contains(line, locationPrefix) {
-			event.Location = colonRemainder(line)
+			event.Location = helpers.ColonRemainder(line)
 		}
 		if strings.Contains(line, titlePrefix) {
-			verboseTitle := colonRemainder(line)
-			event.Title = strings.Trim(verboseTitle, "\"")
+			event.Title = strings.Trim(helpers.ColonRemainder(line), "\"")
 		}
 	}
 

@@ -3,11 +3,13 @@ package fetcher
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
 	"gitlab.com/utmist/utmist.gitlab.io/src/event"
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 	"gitlab.com/utmist/utmist.gitlab.io/src/position"
+	"gitlab.com/utmist/utmist.gitlab.io/src/project"
 
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/sheets/v4"
@@ -16,11 +18,10 @@ import (
 // SCOPE of the sheets API access.
 const SCOPE = "https://www.googleapis.com/auth/spreadsheets.readonly"
 
-// Fetch fetches associate, event, project, recruitment databases.
-func Fetch() (
+// FetchFromGoogleSheets pulls associate/recruitment data from Google Sheets.
+func FetchFromGoogleSheets() (
 	map[string]associate.Associate,
 	map[int][]associate.Entry,
-	map[int][]event.Event,
 	[]position.Position) {
 
 	b, err := getCredentials()
@@ -43,17 +44,32 @@ func Fetch() (
 		log.Fatalf("Unable to retrieve Sheets client: %v", err)
 	}
 
-	firstYear, lastYear := helpers.GetYearRange()
+	firstYear, lastYear := helpers.GetYearRange(os.Getenv("YEARS"))
 
 	associates := fetchAssociates(srv)
 	entries := fetchAssociateEntries(srv, &associates, firstYear, lastYear)
-	events := fetchEvents()
 	positions := fetchPositions(srv)
 
-	return associates, entries, events, positions
+	return associates, entries, positions
 }
 
-func fetchValues(srv *sheets.Service, groupName, sheetID, sheetRange string) *sheets.ValueRange {
+// FetchFromOneDriveFiles pulls event/project data from local OneDrive files.
+func FetchFromOneDriveFiles() (
+	map[int][]event.Event,
+	map[int][]project.Project) {
+
+	events := fetchEvents()
+	projects := fetchProjects()
+
+	return events, projects
+}
+
+func fetchValues(
+	srv *sheets.Service,
+	groupName,
+	sheetID,
+	sheetRange string) *sheets.ValueRange {
+
 	// Validate the API response.
 	resp, err := srv.Spreadsheets.Values.Get(sheetID, sheetRange).Do()
 	if err != nil {

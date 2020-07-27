@@ -16,7 +16,8 @@ func main() {
 
 	flag.Parse()
 
-	associates, assocEntries, events, positions := fetcher.Fetch()
+	associates, assocEntries, positions := fetcher.FetchFromGoogleSheets()
+	events, projects := fetcher.FetchFromOneDriveFiles()
 
 	generator.GenerateDepartmentAssociateLists(&associates, &assocEntries)
 	generator.GenerateTeamDepartmentList(&associates, &assocEntries)
@@ -24,4 +25,5 @@ func main() {
 	generator.GenerateEventList(&events)
 	generator.GenerateDeptPositionLists(&positions)
 	generator.GeneratePositionList(&positions)
+	generator.GenerateProjectLists(&projects)
 }

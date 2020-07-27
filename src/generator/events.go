@@ -12,12 +12,11 @@ const eventsListSubstitution = "[//]: # events"
 
 // GenerateEventList inserts generated lists of events into the events page.
 func GenerateEventList(eventMap *map[int][]event.Event) {
+	firstYear, lastYear := helpers.GetYearRange(os.Getenv("YEARS"))
+	for y := firstYear; y <= lastYear; y++ {
+		events := (*eventMap)[y]
 
-	firstYear, lastYear := helpers.GetYearRange()
-	for year := firstYear; year <= lastYear; year++ {
-		events := (*eventMap)[year]
-
-		filepath := helpers.RelativeFilePath(year, lastYear, "events")
+		filepath := helpers.RelativeFilePath(y, lastYear, "events")
 		if _, err := os.Stat(filepath); err != nil {
 			log.Println(err)
 			continue

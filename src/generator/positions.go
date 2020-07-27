@@ -50,7 +50,7 @@ func GeneratePositionList(positions *[]position.Position) {
 
 // GenerateDeptPositionLists generates position lists for department pages.
 func GenerateDeptPositionLists(positions *[]position.Position) {
-	_, year := helpers.GetYearRange()
+	_, year := helpers.GetYearRange(os.Getenv("YEARS"))
 	depts := strings.Split(os.Getenv(fmt.Sprintf("DEPTS_%d", year)), ",")
 	deptToPositions := map[string][]position.Position{}
 	for _, dept := range depts {

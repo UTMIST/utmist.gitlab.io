@@ -46,21 +46,10 @@ func FormatDateEST(dateStr string) time.Time {
 }
 
 // GetDeptNames returns a list of department names.
-func GetDeptNames(alumni bool) []string {
-	year, exists := os.LookupEnv(("DEPTS_YEAR"))
-	if !exists {
-		year = fmt.Sprintf("%d", time.Now().Year())
-	}
-
+func GetDeptNames(year int) []string {
 	depts := []string{}
-	envDepts, exists := os.LookupEnv(fmt.Sprintf("DEPTS_%s", year))
-	if exists {
-		for _, d := range strings.Split(envDepts, ",") {
-			depts = append(depts, d)
-		}
-	}
-	if alumni {
-		depts = append(depts, ALM)
+	for _, dept := range strings.Split(os.Getenv(fmt.Sprintf("DEPTS_%d", year)), ",") {
+		depts = append(depts, strings.TrimSpace(dept))
 	}
 	return depts
 }
@@ -88,4 +77,9 @@ func InterfaceToYear(yearObj interface{}) int {
 func PadDateWithIndex(index int) string {
 	padded := fmt.Sprintf("%04d-01-01\n", index)
 	return padded
+}
+
+// ColonRemainder returns the remainder of a string after the first colon.
+func ColonRemainder(line string) string {
+	return strings.TrimSpace(line[strings.Index(line, ":")+1:])
 }
