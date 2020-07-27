@@ -7,6 +7,7 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
 	"gitlab.com/utmist/utmist.gitlab.io/src/event"
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
+	"gitlab.com/utmist/utmist.gitlab.io/src/position"
 
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/sheets/v4"
@@ -19,7 +20,8 @@ const SCOPE = "https://www.googleapis.com/auth/spreadsheets.readonly"
 func Fetch() (
 	map[string]associate.Associate,
 	map[int][]associate.Entry,
-	map[int][]event.Event) {
+	map[int][]event.Event,
+	[]position.Position) {
 
 	b, err := getCredentials()
 	if err != nil {
@@ -46,8 +48,9 @@ func Fetch() (
 	associates := fetchAssociates(srv)
 	entries := fetchAssociateEntries(srv, &associates, firstYear, lastYear)
 	events := fetchEvents()
+	positions := fetchPositions(srv)
 
-	return associates, entries, events
+	return associates, entries, events, positions
 }
 
 func fetchValues(srv *sheets.Service, groupName, sheetID, sheetRange string) *sheets.ValueRange {

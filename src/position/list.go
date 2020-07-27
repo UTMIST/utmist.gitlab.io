@@ -7,19 +7,10 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
-const positionPagePath = "./content/recruitment.md"
-
 // MakeList creates a list of open position lines.
-func MakeList(positions *[]Position, deptPage bool,
-	posType, desc string) []string {
+func MakeList(positions *[]Position, deptPage bool, posType string) []string {
 
 	var lines []string
-	if deptPage {
-		lines = []string{"", helpers.Breakline, helpers.OpenPositions, desc}
-	} else {
-		lines = []string{"", helpers.Breakline,
-			fmt.Sprintf("### **%s Positions**", posType)}
-	}
 
 	if positions == nil || len(*positions) == 0 {
 		if deptPage {
@@ -60,29 +51,4 @@ func MakeList(positions *[]Position, deptPage bool,
 	}
 
 	return lines
-}
-
-// GenerateList generates a page for recruitment.
-func GenerateList(positions *[]Position, descriptions *map[string]string) {
-	execPositions := []Position{}
-	assocPositions := []Position{}
-
-	for _, pos := range *positions {
-		if pos.IsExec() {
-			execPositions = append(execPositions, pos)
-			continue
-		}
-		assocPositions = append(assocPositions, pos)
-	}
-
-	lines := append(helpers.GenerateHeader("Join Us", "0001-01-03"),
-		helpers.GetJoinLines((*descriptions)["Joining"])...)
-	lines = append(lines, MakeList(
-		&execPositions, false,
-		"Executive", (*descriptions)["Recruitment"])...)
-	lines = append(lines, MakeList(
-		&assocPositions, false,
-		"Associate", (*descriptions)["Recruitment"])...)
-
-	helpers.OverwriteWithLines(positionPagePath, lines)
 }

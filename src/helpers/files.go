@@ -111,11 +111,11 @@ func GetJoinLines(description string) []string {
 }
 
 // RelativeFilePath returns the filepath based on year and department.
-func RelativeFilePath(year, lastYear int, dept string) string {
-	deptNamePattern := StringToSimplePath(dept)
-	filepath := fmt.Sprintf("content/%s-%d.md", deptNamePattern, year)
+func RelativeFilePath(year, lastYear int, name string) string {
+	namePattern := StringToSimplePath(name)
+	filepath := fmt.Sprintf("content/%s-%d.md", namePattern, year)
 	if year == lastYear {
-		filepath = fmt.Sprintf("content/%s.md", deptNamePattern)
+		filepath = fmt.Sprintf("content/%s.md", namePattern)
 	}
 
 	return filepath
