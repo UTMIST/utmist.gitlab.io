@@ -15,7 +15,7 @@ func GenerateProjectLists(projectMap *map[int][]project.Project) {
 	for y := firstYear; y <= lastYear; y++ {
 		projects := (*projectMap)[y]
 
-		filenames := []string{"academic", "engineering", "projects"}
+		filenames := []string{"academics", "engineering", "projects"}
 		for _, filename := range filenames {
 			filepath := helpers.RelativeFilePath(y, lastYear, filename)
 			if _, err := os.Stat(filepath); err != nil {
