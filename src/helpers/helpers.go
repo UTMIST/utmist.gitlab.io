@@ -8,18 +8,6 @@ import (
 	"time"
 )
 
-// ADM is the header for the Admin page.
-const ADM = "Administration"
-
-// ADV is the header for the Advisors page.
-const ADV = "Advisors"
-
-// ALM is the header for the Alumni page.
-const ALM = "Alumni"
-
-const parseDateLayout = "2006-01-02"
-const parseDateTimeLayout = "2006-01-02 15:04"
-
 // FormatDateEST formats a date from EST.
 func FormatDateEST(dateStr string) time.Time {
 
@@ -47,10 +35,11 @@ func FormatDateEST(dateStr string) time.Time {
 
 // GetDeptNames returns a list of department names.
 func GetDeptNames(year int) []string {
-	depts := []string{}
-	for _, dept := range strings.Split(os.Getenv(fmt.Sprintf("DEPTS_%d", year)), ",") {
-		depts = append(depts, strings.TrimSpace(dept))
+	depts := strings.Split(os.Getenv(fmt.Sprintf("DEPTS_%d", year)), ",")
+	for i := 0; i < len(depts); i++ {
+		depts[i] = strings.TrimSpace(depts[i])
 	}
+
 	return depts
 }
 

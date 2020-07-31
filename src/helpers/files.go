@@ -72,44 +72,6 @@ func SubstituteString(lines, newLines []string, substitution string) []string {
 	return lines
 }
 
-// ReadFileBase an existing file and truncates it to the header.
-func ReadFileBase(filename string, num, trunc int) []string {
-
-	lines := ReadContentLines(filename)
-	for i, line := range lines {
-		lines[i] = line
-	}
-
-	if trunc == -1 {
-		return lines
-	}
-
-	return lines[:trunc]
-}
-
-// InsertDiscordLink appends the server invite link to Discord links.
-func InsertDiscordLink(lines *[]string) {
-	discordLink, exists := os.LookupEnv("DISCORD_LINK")
-	if !exists {
-		return
-	}
-
-	for i := range *lines {
-		(*lines)[i] = strings.Replace((*lines)[i],
-			discordBase,
-			fmt.Sprintf("%s%s", discordBase, discordLink),
-			-1)
-	}
-}
-
-// GetJoinLines returns the lines from the join prompt paragraph.
-func GetJoinLines(description string) []string {
-	lines := []string{description}
-	InsertDiscordLink(&lines)
-
-	return lines
-}
-
 // RelativeFilePath returns the filepath based on year and department.
 func RelativeFilePath(year, lastYear int, name string) string {
 	namePattern := StringToSimplePath(name)

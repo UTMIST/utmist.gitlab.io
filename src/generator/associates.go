@@ -1,10 +1,8 @@
 package generator
 
 import (
-	"fmt"
 	"log"
 	"os"
-	"strings"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
@@ -19,7 +17,7 @@ func GenerateDepartmentAssociateLists(
 
 	firstYear, lastYear := helpers.GetYearRange(os.Getenv("YEARS"))
 	for y := firstYear; y <= lastYear; y++ {
-		depts := strings.Split(os.Getenv(fmt.Sprintf("DEPTS_%d", y)), ",")
+		depts := helpers.GetDeptNames(y)
 		deptToEntryMap := map[string][]associate.Entry{}
 		for _, dept := range depts {
 			deptToEntryMap[dept] = []associate.Entry{}
