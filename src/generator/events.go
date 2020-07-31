@@ -23,11 +23,17 @@ func GenerateEventList(eventMap *map[int][]event.Event) {
 		}
 
 		lines := helpers.ReadContentLines(filepath)
-		newLines := event.GenerateListPage(&events)
+		eventLines := event.GenerateListPage(&events)
 		lines = helpers.SubstituteString(
 			lines,
-			newLines,
+			eventLines,
 			eventsListSubstitution)
+
+		yearLine := getYearListString("events", firstYear, lastYear, y)
+		lines = helpers.SubstituteString(
+			lines,
+			[]string{yearLine},
+			yearListSubstitution)
 		helpers.OverwriteWithLines(filepath, lines)
 	}
 }

@@ -28,11 +28,18 @@ func GenerateProjectLists(projectMap *map[int][]project.Project) {
 			for _, projType := range projectTypes {
 				lines := helpers.ReadContentLines(filepath)
 				yearTypeProjects := yearToProjects[projType]
-				newLines := project.MakeList(&(yearTypeProjects))
+				projectLines := project.MakeList(&(yearTypeProjects))
 				lines = helpers.SubstituteString(
 					lines,
-					newLines,
+					projectLines,
 					fmt.Sprintf("[//]: # %s-projects", projType))
+
+				yearLine := getYearListString("projects", firstYear, lastYear, y)
+				lines = helpers.SubstituteString(
+					lines,
+					[]string{yearLine},
+					yearListSubstitution)
+
 				helpers.OverwriteWithLines(filepath, lines)
 			}
 		}

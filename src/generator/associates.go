@@ -42,11 +42,17 @@ func GenerateDepartmentAssociateLists(
 			}
 
 			lines := helpers.ReadContentLines(filepath)
-			newLines := associate.MakeEntryList(associates, &deptEntries, true)
+			associateLines := associate.MakeEntryList(associates, &deptEntries, true)
 			lines = helpers.SubstituteString(
 				lines,
-				newLines,
+				associateLines,
 				associateListSubstitution)
+
+			yearLine := getYearListString(dept, firstYear, lastYear, y)
+			lines = helpers.SubstituteString(
+				lines,
+				[]string{yearLine},
+				yearListSubstitution)
 			helpers.OverwriteWithLines(filepath, lines)
 		}
 	}
@@ -73,11 +79,17 @@ func GenerateTeamDepartmentList(
 		}
 
 		lines := helpers.ReadContentLines(filepath)
-		newLines := associate.MakeDepartmentList(&depts)
+		deptLines := associate.MakeDepartmentList(&depts)
 		lines = helpers.SubstituteString(
 			lines,
-			newLines,
+			deptLines,
 			departmentListSubstitution)
+
+		yearLine := getYearListString("team", firstYear, lastYear, y)
+		lines = helpers.SubstituteString(
+			lines,
+			[]string{yearLine},
+			yearListSubstitution)
 		helpers.OverwriteWithLines(filepath, lines)
 	}
 }
