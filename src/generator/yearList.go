@@ -9,19 +9,17 @@ import (
 )
 
 const yearListSubstitution = "[//]: # years"
-const contentDirectory = "content/"
-const markdownExt = ".md"
 
 func getYearListString(name string, firstYear, lastYear, currentYear int) string {
 	name = helpers.StringToSimplePath(name)
 	yearListStr := "### "
 	for y := lastYear; y >= firstYear; y-- {
-		filepath := fmt.Sprintf("%s%s", contentDirectory, name)
+		filepath := fmt.Sprintf("%s%s", helpers.ContentDirectory, name)
 		if y != lastYear {
 			filepath = fmt.Sprintf("%s-%d", filepath, y)
 		}
 
-		filepath = fmt.Sprintf("%s%s", filepath, markdownExt)
+		filepath = fmt.Sprintf("%s%s", filepath, helpers.MarkdownExt)
 		if _, err := os.Stat(filepath); err != nil {
 			log.Println(err)
 			continue
