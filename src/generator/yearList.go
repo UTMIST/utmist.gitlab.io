@@ -2,16 +2,31 @@ package generator
 
 import (
 	"fmt"
+	"log"
+	"os"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
 const yearListSubstitution = "[//]: # years"
+const contentDirectory = "content/"
+const markdownExt = ".md"
 
 func getYearListString(name string, firstYear, lastYear, currentYear int) string {
 	name = helpers.StringToSimplePath(name)
 	yearListStr := "### "
 	for y := lastYear; y >= firstYear; y-- {
+		filepath := fmt.Sprintf("%s%s", contentDirectory, name)
+		if y != lastYear {
+			filepath = fmt.Sprintf("%s-%d", filepath, y)
+		}
+
+		filepath = fmt.Sprintf("%s%s", filepath, markdownExt)
+		if _, err := os.Stat(filepath); err != nil {
+			log.Println(err)
+			continue
+		}
+
 		yearStr := fmt.Sprintf("%d-%d", y, y+1)
 		if y == currentYear {
 			yearStr = fmt.Sprintf("**%s**", yearStr)
@@ -20,11 +35,8 @@ func getYearListString(name string, firstYear, lastYear, currentYear int) string
 		} else {
 			yearStr = fmt.Sprintf("[%s](../%s-%d)", yearStr, name, y)
 		}
-		yearListStr = fmt.Sprintf("%s%s", yearListStr, yearStr)
-		if y != firstYear {
-			yearListStr = fmt.Sprintf("%s%s", yearListStr, " | ")
-		}
+		yearListStr = fmt.Sprintf("%s%s | ", yearListStr, yearStr)
 	}
 
-	return yearListStr
+	return yearListStr[:len(yearListStr)-3]
 }
