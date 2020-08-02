@@ -10,9 +10,10 @@ import (
 
 const yearListSubstitution = "[//]: # years"
 
-func getYearListString(name string, firstYear, lastYear, currentYear int) string {
+func getYearListString(name string, currentYear int) string {
 	name = helpers.StringToSimplePath(name)
 	yearListStr := "### "
+	firstYear, lastYear := helpers.GetYearRange(os.Getenv("YEARS"))
 	for y := lastYear; y >= firstYear; y-- {
 		filepath := fmt.Sprintf("%s%s", helpers.ContentDirectory, name)
 		if y != lastYear {

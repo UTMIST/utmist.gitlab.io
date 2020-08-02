@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/joho/godotenv"
+	"gitlab.com/utmist/utmist.gitlab.io/src/bundle"
 	"gitlab.com/utmist/utmist.gitlab.io/src/fetcher"
 	"gitlab.com/utmist/utmist.gitlab.io/src/generator"
 )
@@ -19,11 +20,12 @@ func main() {
 	associates, assocEntries, positions := fetcher.FetchFromGoogleSheets()
 	events, projects := fetcher.FetchFromOneDriveFiles()
 
-	generator.GenerateDepartmentAssociateLists(&associates, &assocEntries)
-	generator.GenerateTeamDepartmentList(&associates, &assocEntries)
-	generator.GenerateTeamExecutiveList(&associates, &assocEntries)
-	generator.GenerateEventList(&events)
-	generator.GenerateDeptPositionLists(&positions)
-	generator.GeneratePositionList(&positions)
-	generator.GenerateProjectLists(&projects)
+	bundle := bundle.BuildBundle(
+		&associates,
+		&assocEntries,
+		&events,
+		&positions,
+		&projects)
+
+	generator.InsertGeneratedSubstitutions(bundle)
 }

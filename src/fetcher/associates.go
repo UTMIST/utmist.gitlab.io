@@ -32,7 +32,7 @@ func fetchAssociateEntries(
 	sheetID := os.Getenv("ASSOCIATES_SHEET_ID")
 	for y := firstYear; y <= lastYear; y++ {
 		yearEntries := []associate.Entry{}
-		sheetRange := os.Getenv(fmt.Sprintf("ASSOCIATES_%d", y))
+		sheetRange := fmt.Sprintf("%d!%s", y, os.Getenv("ENTRIES_RANGE"))
 		resp := fetchValues(
 			srv,
 			fmt.Sprintf("Associates (%d)", y),
