@@ -24,6 +24,9 @@ func (e EntryList) Len() int {
 
 // Method Less() to implement sort.Sort.
 func (e EntryList) Less(i, j int) bool {
+	if e[i].IsExecutive() && !e[j].IsExecutive() {
+		return true
+	}
 	if !e[i].IsExecutive() && e[j].IsExecutive() {
 		return false
 	}

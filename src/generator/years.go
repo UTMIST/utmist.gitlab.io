@@ -17,35 +17,25 @@ func getYearListString(filepath string, currentYear int) string {
 		panic(err)
 	}
 
-	filepathParts := strings.Split(filepath, "/")
-	latestVersion := false
-	if _, _, err := helpers.GetYearRange(filepathParts[2]); err != nil {
-		latestVersion = true
-	}
 	for y := lastYear; y >= firstYear; y-- {
-		yearStr := fmt.Sprintf("%d-%d", y, y+1)
+		currentYearStr := fmt.Sprintf("%d-%d", currentYear, currentYear+1)
+		thisYearStr := fmt.Sprintf("%d-%d", y, y+1)
 
-		thisFilepathParts := strings.Split(filepath, "/")[:]
-
-		if latestVersion && y != lastYear {
-			thisFilepathParts = append(thisFilepathParts[:2], append([]string{yearStr}, thisFilepathParts[2:]...)...)
-		} else {
-			thisFilepathParts[2] = yearStr
-		}
-
-		thisFilepath := strings.Join(thisFilepathParts, "/")
-		if _, err := os.Stat(thisFilepath); err != nil {
+		newPath := strings.ReplaceAll(filepath, currentYearStr, thisYearStr)
+		if _, err := os.Stat(newPath); err != nil {
 			continue
 		}
 
+		var yearLink string
 		if y == currentYear {
-			yearStr = fmt.Sprintf("**%s**", yearStr)
-		} else if y == lastYear {
-			yearStr = fmt.Sprintf("[%s](../%s)", yearStr, filepath)
+			yearLink = fmt.Sprintf("**%s**", thisYearStr)
 		} else {
-			yearStr = fmt.Sprintf("[%s](../%s-%d)", yearStr, filepath, y)
+			yearLink = fmt.Sprintf("[%s](/%s)",
+				thisYearStr,
+				strings.TrimSuffix(newPath[strings.Index(newPath, "/")+1:],
+					helpers.PageIndex))
 		}
-		yearListStr = fmt.Sprintf("%s%s | ", yearListStr, yearStr)
+		yearListStr = fmt.Sprintf("%s%s | ", yearListStr, yearLink)
 	}
 
 	return yearListStr[:len(yearListStr)-3]

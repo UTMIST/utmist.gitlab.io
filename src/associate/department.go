@@ -9,20 +9,17 @@ import (
 )
 
 // MakeDepartmentList generates a string list of departments
-func MakeDepartmentList(depts *[]string, lastYear, currentYear int) []string {
+func MakeDepartmentList(depts *[]string, year int) []string {
 	list := []string{}
 	for _, dept := range *depts {
 
-		filename := fmt.Sprintf("%s", helpers.StringToSimplePath(dept))
-		if lastYear != currentYear {
-			filename = fmt.Sprintf("%s-%d", filename, currentYear)
-		}
-
+		filename := helpers.StringToSimplePath(dept)
 		filepath := fmt.Sprintf(
-			"%s%s%s",
+			"%steam/%s/%s/%s",
 			helpers.ContentDirectory,
-			filename,
-			helpers.MarkdownExt)
+			fmt.Sprintf("%d-%d", year, year+1),
+			helpers.StringToSimplePath(dept),
+			helpers.PageIndex)
 		if _, err := os.Stat(filepath); err != nil {
 			log.Println(err)
 			continue

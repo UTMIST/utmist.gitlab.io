@@ -1,12 +1,10 @@
 package generator
 
 import (
-	"os"
 	"sort"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
 	"gitlab.com/utmist/utmist.gitlab.io/src/event"
-	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 	"gitlab.com/utmist/utmist.gitlab.io/src/position"
 	"gitlab.com/utmist/utmist.gitlab.io/src/project"
 )
@@ -75,11 +73,7 @@ func GenerateTeamDepartmentList(
 		departments = append(departments, dept)
 	}
 
-	_, lastYear, err := helpers.GetYearRange(os.Getenv("YEARS"))
-	if err != nil {
-		panic(err)
-	}
-	return associate.MakeDepartmentList(&departments, lastYear, year)
+	return associate.MakeDepartmentList(&departments, year)
 
 }
 
