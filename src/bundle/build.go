@@ -35,7 +35,10 @@ func buildEntryMap(
 
 	entryMap := map[int]map[string][]associate.Entry{}
 
-	firstYear, lastYear := helpers.GetYearRange(os.Getenv("YEARS"))
+	firstYear, lastYear, err := helpers.GetYearRange(os.Getenv("YEARS"))
+	if err != nil {
+		panic(err)
+	}
 	for y := firstYear; y <= lastYear; y++ {
 		for _, entry := range (*entries)[y] {
 			if _, exists := entryMap[y]; !exists {
@@ -86,7 +89,10 @@ func buildProjectMap(
 
 	projectMap := map[int]map[string][]project.Project{}
 
-	firstYear, lastYear := helpers.GetYearRange(os.Getenv("YEARS"))
+	firstYear, lastYear, err := helpers.GetYearRange(os.Getenv("YEARS"))
+	if err != nil {
+		panic(err)
+	}
 	for y := firstYear; y <= lastYear; y++ {
 		for _, proj := range (*projectList)[y] {
 			if _, exists := projectMap[y]; !exists {

@@ -2,6 +2,7 @@ package generator
 
 import (
 	"os"
+	"sort"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
 	"gitlab.com/utmist/utmist.gitlab.io/src/event"
@@ -74,25 +75,30 @@ func GenerateTeamDepartmentList(
 		departments = append(departments, dept)
 	}
 
-	_, lastYear := helpers.GetYearRange(os.Getenv("YEARS"))
+	_, lastYear, err := helpers.GetYearRange(os.Getenv("YEARS"))
+	if err != nil {
+		panic(err)
+	}
 	return associate.MakeDepartmentList(&departments, lastYear, year)
 
 }
 
-// GenerateTeamExecutiveList inserts generated lists of executives into team pages.
-func GenerateTeamExecutiveList(
+// GenerateTeamAssociateList inserts generated lists of executives into team pages.
+func GenerateTeamAssociateList(
 	associates *map[string]associate.Associate,
 	entries *map[int]map[string][]associate.Entry,
-	year int) []string {
+	year int,
+	execsOnly bool) []string {
 
 	execs := []associate.Entry{}
 	for _, deptEntries := range (*entries)[year] {
 		for _, entry := range deptEntries {
-			if entry.IsExecutive() {
+			if entry.IsExecutive() || !execsOnly {
 				execs = append(execs, entry)
 			}
 		}
 	}
 
+	sort.Sort(associate.EntryList(execs))
 	return associate.MakeEntryList(associates, &execs, false)
 }

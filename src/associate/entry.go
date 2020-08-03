@@ -104,6 +104,7 @@ func MakeEntryList(
 }
 
 func combineEntries(entries *[]Entry) []Entry {
+
 	entryMap := map[string]Entry{}
 	for _, e := range *entries {
 
@@ -119,5 +120,6 @@ func combineEntries(entries *[]Entry) []Entry {
 	for _, entry := range entryMap {
 		combinedEntries = append(combinedEntries, entry)
 	}
+
 	return combinedEntries
 }

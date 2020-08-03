@@ -44,7 +44,10 @@ func FetchFromGoogleSheets() (
 		log.Fatalf("Unable to retrieve Sheets client: %v", err)
 	}
 
-	firstYear, lastYear := helpers.GetYearRange(os.Getenv("YEARS"))
+	firstYear, lastYear, err := helpers.GetYearRange(os.Getenv("YEARS"))
+	if err != nil {
+		panic(err)
+	}
 
 	associates := fetchAssociates(srv)
 	entries := fetchAssociateEntries(srv, &associates, firstYear, lastYear)

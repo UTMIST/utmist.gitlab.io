@@ -29,6 +29,8 @@ func MakeList(projects *[]Project) []string {
 			lines = append(lines,
 				fmt.Sprintf("- _Joining_: %s", proj.JoinInstructions))
 		}
+
+		lines = append(lines, "")
 	}
 
 	return lines

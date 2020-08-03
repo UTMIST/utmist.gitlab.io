@@ -27,5 +27,5 @@ func main() {
 		&positions,
 		&projects)
 
-	generator.InsertGeneratedSubstitutions(bundle)
+	generator.InsertGeneratedSubstitutions(&bundle, "content")
 }

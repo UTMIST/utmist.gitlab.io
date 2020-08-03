@@ -18,8 +18,12 @@ func fetchProjects() map[int][]project.Project {
 	projects := map[int][]project.Project{}
 
 	for _, f := range files {
+		if _, _, err := helpers.GetYearRange(f.Name()); !f.IsDir() || err == nil {
+			continue
+		}
+
 		project := project.LoadProject(f.Name())
-		firstYear, lastYear := helpers.GetYearRange(project.Years)
+		firstYear, lastYear, err := helpers.GetYearRange(project.Years)
 		if err != nil {
 			continue
 		}

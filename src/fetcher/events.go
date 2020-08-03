@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/event"
+	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
 func fetchEvents() map[int][]event.Event {
@@ -16,6 +17,14 @@ func fetchEvents() map[int][]event.Event {
 	events := map[int][]event.Event{}
 
 	for _, f := range files {
+		if !f.IsDir() {
+			continue
+		}
+
+		if _, _, err := helpers.GetYearRange(f.Name()); err == nil {
+			continue
+		}
+
 		event := event.LoadEvent(f.Name())
 		year := event.DateTime.Year()
 		if event.DateTime.Month() < 9 {

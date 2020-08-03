@@ -12,7 +12,6 @@ import (
 )
 
 const substitutionPrefix = "[//]: # "
-const contentDirectory = "./content/"
 
 const associatesPattern = "associates"
 const departmentsPattern = "departments"
@@ -23,29 +22,35 @@ const projectsPattern = "projects"
 const yearsPattern = "years"
 
 // InsertGeneratedSubstitutions inserts generated substitution lists.
-func InsertGeneratedSubstitutions(bundle bundle.Bundle) {
-	files, err := ioutil.ReadDir(contentDirectory)
+func InsertGeneratedSubstitutions(bundle *bundle.Bundle, directory string) {
+	files, err := ioutil.ReadDir(directory)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println((*bundle.Projects)[2019]["Academic"])
-
 	for _, f := range files {
 		if f.IsDir() {
+			InsertGeneratedSubstitutions(
+				bundle,
+				fmt.Sprintf("%s/%s", directory, f.Name()))
 			continue
 		}
-		filepath := fmt.Sprintf("%s%s", contentDirectory, f.Name())
-		lines := helpers.ReadContentLines(filepath)
-		lines2 := []string{}
-		for lineIndex := 0; lineIndex < len(lines); lineIndex++ {
 
-			var newLines []string
+		filepath := fmt.Sprintf("%s/%s", directory, f.Name())
+		if !strings.HasSuffix(filepath, helpers.MarkdownExt) {
+			continue
+		}
 
-			line := lines[lineIndex]
+		oldLines := helpers.ReadContentLines(filepath)
+		newLines := []string{}
+		for lineIndex := 0; lineIndex < len(oldLines); lineIndex++ {
+
+			var theseLines []string
+
+			line := oldLines[lineIndex]
 			if len(line) < len(substitutionPrefix) ||
 				line[:len(substitutionPrefix)] != substitutionPrefix {
-				lines2 = append(lines2, line)
+				newLines = append(newLines, line)
 				continue
 			}
 
@@ -58,23 +63,30 @@ func InsertGeneratedSubstitutions(bundle bundle.Bundle) {
 				}
 
 				switch pattern[0] {
-				case departmentsPattern:
-					newLines = GenerateTeamDepartmentList(bundle.Entries, year)
-				case eventsPattern:
-					newLines = GenerateEventList(bundle.Events, year)
-				case executivesPattern:
-					newLines = GenerateTeamExecutiveList(
+				case associatesPattern:
+					theseLines = GenerateTeamAssociateList(
 						bundle.Associates,
 						bundle.Entries,
-						year)
+						year,
+						false)
+				case departmentsPattern:
+					theseLines = GenerateTeamDepartmentList(bundle.Entries, year)
+				case eventsPattern:
+					theseLines = GenerateEventList(bundle.Events, year)
+				case executivesPattern:
+					theseLines = GenerateTeamAssociateList(
+						bundle.Associates,
+						bundle.Entries,
+						year,
+						true)
 				case positionsPattern:
 					positionsByDepts := (*bundle.PositionsByDepts)
 					if _, exists := positionsByDepts[pattern[1]]; exists {
-						newLines = GenerateDeptPositionLists(
+						theseLines = GenerateDeptPositionLists(
 							bundle.PositionsByDepts,
 							pattern[1])
 					} else {
-						newLines = GeneratePositionList(
+						theseLines = GeneratePositionList(
 							bundle.PositionsByLevel,
 							pattern[1])
 					}
@@ -82,29 +94,29 @@ func InsertGeneratedSubstitutions(bundle bundle.Bundle) {
 			case 3:
 				year, err := strconv.Atoi(pattern[2])
 				if err != nil {
-					lines2 = append(lines2, line)
+					newLines = append(newLines, line)
 					continue
 				}
 				switch pattern[0] {
 				case associatesPattern:
-					newLines = GenerateDepartmentAssociateLists(
+					theseLines = GenerateDepartmentAssociateLists(
 						bundle.Associates,
 						bundle.Entries,
 						pattern[1],
 						year)
 				case projectsPattern:
-					newLines = GenerateProjectLists(
+					theseLines = GenerateProjectLists(
 						bundle.Projects,
 						pattern[1],
 						year)
 				case yearsPattern:
-					newLines = []string{getYearListString(
-						helpers.StringToSimplePath(pattern[1]), year)}
+					theseLines = []string{getYearListString(
+						helpers.StringToSimplePath(filepath), year)}
 				}
 			}
-			lines2 = append(lines2, newLines...)
+			newLines = append(newLines, theseLines...)
 		}
 
-		helpers.OverwriteWithLines(filepath, lines2)
+		helpers.OverwriteWithLines(filepath, newLines)
 	}
 }

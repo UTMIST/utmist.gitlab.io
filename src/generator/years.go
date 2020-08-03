@@ -2,37 +2,48 @@ package generator
 
 import (
 	"fmt"
-	"log"
 	"os"
+	"strings"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
 const yearListSubstitution = "[//]: # years"
 
-func getYearListString(name string, currentYear int) string {
-	name = helpers.StringToSimplePath(name)
+func getYearListString(filepath string, currentYear int) string {
 	yearListStr := "### "
-	firstYear, lastYear := helpers.GetYearRange(os.Getenv("YEARS"))
+	firstYear, lastYear, err := helpers.GetYearRange(os.Getenv("YEARS"))
+	if err != nil {
+		panic(err)
+	}
+
+	filepathParts := strings.Split(filepath, "/")
+	latestVersion := false
+	if _, _, err := helpers.GetYearRange(filepathParts[2]); err != nil {
+		latestVersion = true
+	}
 	for y := lastYear; y >= firstYear; y-- {
-		filepath := fmt.Sprintf("%s%s", helpers.ContentDirectory, name)
-		if y != lastYear {
-			filepath = fmt.Sprintf("%s-%d", filepath, y)
+		yearStr := fmt.Sprintf("%d-%d", y, y+1)
+
+		thisFilepathParts := strings.Split(filepath, "/")[:]
+
+		if latestVersion && y != lastYear {
+			thisFilepathParts = append(thisFilepathParts[:2], append([]string{yearStr}, thisFilepathParts[2:]...)...)
+		} else {
+			thisFilepathParts[2] = yearStr
 		}
 
-		filepath = fmt.Sprintf("%s%s", filepath, helpers.MarkdownExt)
-		if _, err := os.Stat(filepath); err != nil {
-			log.Println(err)
+		thisFilepath := strings.Join(thisFilepathParts, "/")
+		if _, err := os.Stat(thisFilepath); err != nil {
 			continue
 		}
 
-		yearStr := fmt.Sprintf("%d-%d", y, y+1)
 		if y == currentYear {
 			yearStr = fmt.Sprintf("**%s**", yearStr)
 		} else if y == lastYear {
-			yearStr = fmt.Sprintf("[%s](../%s)", yearStr, name)
+			yearStr = fmt.Sprintf("[%s](../%s)", yearStr, filepath)
 		} else {
-			yearStr = fmt.Sprintf("[%s](../%s-%d)", yearStr, name, y)
+			yearStr = fmt.Sprintf("[%s](../%s-%d)", yearStr, filepath, y)
 		}
 		yearListStr = fmt.Sprintf("%s%s | ", yearListStr, yearStr)
 	}

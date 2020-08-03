@@ -14,3 +14,9 @@ const ContentDirectory = "content/"
 
 // MarkdownExt is the extension for markdown files.
 const MarkdownExt = ".md"
+
+// PageIndex is the filename of a page's index.
+const PageIndex = "index.md"
+
+// GroupIndex is the filename of a page group's index.
+const GroupIndex = "_index.md"

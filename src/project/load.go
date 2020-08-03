@@ -21,10 +21,14 @@ const yearsPrefix = "years:"
 // LoadProject loads a project from a file
 func LoadProject(filename string) Project {
 
-	project := Project{}
+	filepath := fmt.Sprintf(
+		"%s%s/%s",
+		ProjectsFolderPath,
+		filename,
+		helpers.PageIndex)
+	lines := helpers.ReadContentLines(filepath)
 
-	lines := helpers.ReadContentLines(
-		fmt.Sprintf("%s%s", ProjectsFolderPath, filename))
+	project := Project{}
 	for _, line := range lines {
 		if strings.Contains(line, externalPrefix) {
 			project.External = helpers.ColonRemainder(line)
