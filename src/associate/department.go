@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sort"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
@@ -11,6 +12,7 @@ import (
 // MakeDepartmentList generates a string list of departments
 func MakeDepartmentList(depts *[]string, year int) []string {
 	list := []string{}
+	sort.Strings(*depts)
 	for _, dept := range *depts {
 
 		filename := helpers.StringToSimplePath(dept)
