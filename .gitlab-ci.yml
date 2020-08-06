@@ -11,6 +11,8 @@ test:
   script:
     - go mod download
     - sh onedrive.sh
+    - mv content_base content
+    - mv templates_base templates
     - go run main.go
     - hugo
     - rm -rf public
@@ -21,6 +23,8 @@ pages:
   script:
     - go mod download
     - sh onedrive.sh
+    - mv content_base content
+    - mv templates_base templates
     - go run main.go
     - hugo
   artifacts:
