@@ -5,6 +5,8 @@ token.json
 
 .vscode
 content
+content_base
 public
 resources
 templates
+templates_base

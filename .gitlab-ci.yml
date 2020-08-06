@@ -4,15 +4,6 @@ image: leglesslamb/lua-golang-hugo:latest
 before_script:
   - pacman -Syu --noconfirm wget coreutils
 
-cache:
-  paths:
-    - /apt-cache
-    - /go/src/gitlab.com
-    - /go/src/github.com
-    - /go/src/golang.org
-    - /go/src/google.golang.org
-    - /go/src/gopkg.in
-
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
