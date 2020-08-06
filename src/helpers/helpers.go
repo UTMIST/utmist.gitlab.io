@@ -70,5 +70,6 @@ func PadDateWithIndex(index int) string {
 
 // ColonRemainder returns the remainder of a string after the first colon.
 func ColonRemainder(line string) string {
-	return strings.TrimSpace(line[strings.Index(line, ":")+1:])
+	remainder := strings.TrimSpace(line[strings.Index(line, ":")+1:])
+	return strings.Trim(remainder, "\"")
 }

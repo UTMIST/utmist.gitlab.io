@@ -16,8 +16,8 @@ func MakeList(projects *[]Project) []string {
 
 	for _, proj := range *projects {
 		title := proj.Title
-		if len(proj.External) > 0 {
-			title = fmt.Sprintf("[%s](%s)", proj.Title, proj.External)
+		if len(proj.Link) > 0 {
+			title = fmt.Sprintf("[%s](%s)", proj.Title, proj.Link)
 		}
 
 		lines = append(lines, fmt.Sprintf("##### **%s**", title))

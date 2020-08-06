@@ -10,7 +10,7 @@ import (
 // ProjectsFolderPath describes where event page files are found.
 const ProjectsFolderPath = "content/projects/"
 
-const externalPrefix = "external:"
+const linkPrefix = "link:"
 const imagePrefix = "image:"
 const joinPrefix = "join:"
 const summaryPrefix = "summary:"
@@ -30,8 +30,8 @@ func LoadProject(filename string) Project {
 
 	project := Project{}
 	for _, line := range lines {
-		if strings.Contains(line, externalPrefix) {
-			project.External = helpers.ColonRemainder(line)
+		if strings.Contains(line, linkPrefix) {
+			project.Link = helpers.ColonRemainder(line)
 		}
 		if strings.Contains(line, imagePrefix) {
 			project.Image = helpers.ColonRemainder(line)
@@ -52,6 +52,12 @@ func LoadProject(filename string) Project {
 			project.Years = helpers.ColonRemainder(line)
 		}
 	}
+
+	if len(project.Link) <= 0 {
+		project.Link = fmt.Sprintf("/projects/%s", filename)
+	}
+
+	project.Link = helpers.StringToSimplePath(project.Link)
 
 	return project
 }

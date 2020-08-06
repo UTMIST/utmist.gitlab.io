@@ -23,6 +23,7 @@ func fetchProjects() map[int][]project.Project {
 		}
 
 		project := project.LoadProject(f.Name())
+
 		firstYear, lastYear, err := helpers.GetYearRange(project.Years)
 		if err != nil {
 			continue

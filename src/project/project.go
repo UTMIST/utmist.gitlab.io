@@ -5,7 +5,7 @@ const ActiveStatus = "Active"
 
 // Project represents an entry in the Projects Google Sheet
 type Project struct {
-	External         string
+	Link             string
 	Image            string
 	JoinInstructions string
 	Summary          string
