@@ -7,6 +7,8 @@ import (
 	"strconv"
 	"strings"
 
+	"gitlab.com/utmist/utmist.gitlab.io/src/project"
+
 	"gitlab.com/utmist/utmist.gitlab.io/src/bundle"
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
@@ -19,6 +21,7 @@ const eventsPattern = "events"
 const executivesPattern = "executives"
 const positionsPattern = "positions"
 const projectsPattern = "projects"
+const readmePattern = "readme"
 const yearsPattern = "years"
 
 // InsertGeneratedSubstitutions inserts generated substitution lists.
@@ -55,6 +58,14 @@ func InsertGeneratedSubstitutions(bundle *bundle.Bundle, directory string) {
 			}
 
 			pattern := strings.Split(line[len(substitutionPrefix):], "-")
+
+			// README url may contain hyphens.
+			if pattern[0] == readmePattern {
+				theseLines = project.DownloadReadMe(line[strings.Index(line, "-")+1:])
+				newLines = append(newLines, theseLines...)
+				continue
+			}
+
 			switch len(pattern) {
 			case 2:
 				year, err := strconv.Atoi(pattern[1])
@@ -114,6 +125,7 @@ func InsertGeneratedSubstitutions(bundle *bundle.Bundle, directory string) {
 						helpers.StringToSimplePath(filepath), year)}
 				}
 			}
+
 			newLines = append(newLines, theseLines...)
 		}
 
