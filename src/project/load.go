@@ -2,6 +2,7 @@ package project
 
 import (
 	"fmt"
+	"net/url"
 	"strings"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
@@ -28,10 +29,15 @@ func LoadProject(filename string) Project {
 		helpers.PageIndex)
 	lines := helpers.ReadContentLines(filepath)
 
-	project := Project{}
+	project := Project{
+		Link: fmt.Sprintf("/projects/%s", filename),
+	}
 	for _, line := range lines {
 		if strings.Contains(line, linkPrefix) {
-			project.Link = helpers.ColonRemainder(line)
+			URL := helpers.ColonRemainder(line)
+			if _, err := url.Parse(URL); err == nil {
+				project.Link = URL
+			}
 		}
 		if strings.Contains(line, imagePrefix) {
 			project.Image = helpers.ColonRemainder(line)
@@ -52,12 +58,6 @@ func LoadProject(filename string) Project {
 			project.Years = helpers.ColonRemainder(line)
 		}
 	}
-
-	if len(project.Link) <= 0 {
-		project.Link = fmt.Sprintf("/projects/%s", filename)
-	}
-
-	project.Link = helpers.StringToSimplePath(project.Link)
 
 	return project
 }
