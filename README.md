@@ -1,7 +1,5 @@
 # utmist.gitlab.io
 
-![logo.png](static/images/utmist.gitlab.io.jpg)
-
 Club website for the [University of Toronto Machine Intelligence Student Team (UTMIST)](https://utmist.gitlab.io).
 
 [![pipeline status](https://gitlab.com/utmist/utmist.gitlab.io/badges/master/pipeline.svg)](https://gitlab.com/utmist/utmist.gitlab.io/-/commits/master)
