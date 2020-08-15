@@ -30,7 +30,9 @@ func LoadProject(filename string) Project {
 	lines := helpers.ReadContentLines(filepath)
 
 	project := Project{
-		Link: fmt.Sprintf("/projects/%s", filename),
+		Link: fmt.Sprintf(
+			"/projects/%s",
+			helpers.StringToSimplePath(filename)),
 	}
 	for _, line := range lines {
 		if strings.Contains(line, linkPrefix) {
