@@ -8,5 +8,6 @@ content
 content_base
 public
 resources
+static/*.pdf
 templates
 templates_base

@@ -6,7 +6,7 @@ build: dust
 	go run main.go
 
 clean:
-	rm -rf content content_base config.yaml public templates
+	rm -rf content content_base config.yaml public templates templates_base static/*.pdf
 
 dep:
 	git submodule update --init --recursive
