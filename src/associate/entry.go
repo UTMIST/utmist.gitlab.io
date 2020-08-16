@@ -24,10 +24,22 @@ func (e EntryList) Len() int {
 
 // Method Less() to implement sort.Sort.
 func (e EntryList) Less(i, j int) bool {
-	if e[i].IsExecutive() && !e[j].IsExecutive() {
+	if e[i].isPresident() && !e[j].isPresident() {
 		return true
 	}
-	if !e[i].IsExecutive() && e[j].IsExecutive() {
+	if !e[i].isPresident() && e[j].isPresident() {
+		return false
+	}
+	if e[i].isVP() && !e[j].isVP() {
+		return true
+	}
+	if !e[i].isVP() && e[j].isVP() {
+		return false
+	}
+	if e[i].isAVP() && !e[j].isAVP() {
+		return true
+	}
+	if !e[i].isAVP() && e[j].isAVP() {
 		return false
 	}
 	for _, criteria := range []int{
@@ -53,7 +65,7 @@ func (e EntryList) Swap(i, j int) {
 
 // IsExecutive returns whether entry is an executive.
 func (e *Entry) IsExecutive() bool {
-	return e.isVP() || e.isPresident()
+	return e.isVP() || e.isPresident() || e.isAVP()
 }
 
 // IsToBeBolded returns whether listing should be bolded as Executive.
@@ -67,7 +79,11 @@ func (e *Entry) isPresident() bool {
 }
 
 func (e *Entry) isVP() bool {
-	return strings.Index(e.Position, "VP") >= 0
+	return strings.HasPrefix(e.Position, "VP")
+}
+
+func (e *Entry) isAVP() bool {
+	return strings.HasPrefix(e.Position, "AVP")
 }
 
 // GetListing returns a listing for this entry.
