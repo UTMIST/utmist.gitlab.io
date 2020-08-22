@@ -43,6 +43,52 @@ func GetDeptNames(year int) []string {
 	return depts
 }
 
+// GetPosRanks returns a list of position regex sorted by highest level.
+func GetPosRanks() []string {
+	regexes := strings.Split(os.Getenv("POS_RANKING"), ",")
+	for i := 0; i < len(regexes); i++ {
+		regexes[i] = strings.TrimSpace(regexes[i])
+	}
+
+	return regexes
+}
+
+// GetPosExec returns a list of regex strings for Exec positions
+func GetPosExec() []string {
+	regexes := strings.Split(os.Getenv("EXEC_STATUS"), ",")
+	for i := 0; i < len(regexes); i++ {
+		regexes[i] = strings.TrimSpace(regexes[i])
+	}
+
+	return regexes
+}
+
+// FitRegex checks if the given string satisfies the regex string
+// (handles prefix, suffix, both, or exact match)
+func FitRegex(str, regStr string) bool {
+
+	if strings.HasPrefix(regStr, "*") &&
+		strings.HasSuffix(regStr, "*") &&
+		strings.Contains(str, regStr[1:len(regStr)-1]) { // *regString*
+
+		return true
+
+	} else if strings.HasPrefix(regStr, "*") &&
+		strings.HasSuffix(str, regStr[1:]) { // *regString
+
+		return true
+
+	} else if strings.HasSuffix(regStr, "*") &&
+		strings.HasPrefix(str, regStr[:len(regStr)-1]) { // regString*
+
+		return true
+
+	} else if strings.TrimSpace(str) == regStr { // regString
+		return true
+	}
+	return false
+}
+
 // GetURLBase shortens a URL to a short preview.
 func GetURLBase(link string) string {
 	if index := strings.Index(link, "//"); index >= 0 {
