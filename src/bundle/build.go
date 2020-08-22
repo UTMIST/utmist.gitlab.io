@@ -54,7 +54,7 @@ func buildEntryMap(
 	return &entryMap
 }
 
-func buildPositionByDeptsMap(
+func buildPositionByLevelMap(
 	positionList *[]position.Position) *map[string][]position.Position {
 
 	positionMap := map[string][]position.Position{}
@@ -62,14 +62,14 @@ func buildPositionByDeptsMap(
 		if pos.IsExec() {
 			positionMap["executive"] = append(positionMap["executive"], pos)
 		} else {
-			positionMap["associate"] = append(positionMap["executive"], pos)
+			positionMap["associate"] = append(positionMap["associate"], pos)
 		}
 	}
 
 	return &positionMap
 }
 
-func buildPositionByLevelMap(
+func buildPositionByDeptsMap(
 	positionList *[]position.Position) *map[string][]position.Position {
 
 	positionMap := map[string][]position.Position{}

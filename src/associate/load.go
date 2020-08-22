@@ -2,6 +2,8 @@ package associate
 
 import (
 	"strings"
+
+	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
 const associateRowLength = 14
@@ -45,6 +47,9 @@ func LoadEntries(data []interface{}, associates *map[string]Associate) []Entry {
 
 	entries := []Entry{}
 
+	levelRegexes := helpers.GetPosRanks()
+	execRegexes := helpers.GetPosExec()
+
 	for i := 0; i < len(positions); i++ {
 		if i >= len(departments) {
 			break
@@ -53,13 +58,33 @@ func LoadEntries(data []interface{}, associates *map[string]Associate) []Entry {
 		email := data[3].(string)
 		associate := (*associates)[email]
 
+		level := 0 //associate level (lowest)
+		posTrimmed := strings.TrimSpace(positions[i])
+
+		for r, regStr := range levelRegexes { //determine the level
+			if helpers.FitRegex(posTrimmed, regStr) {
+				level = r + 1
+				break
+			}
+		}
+
+		if level != 0 {
+			for _, regStr := range execRegexes { //check if they are exec
+				if helpers.FitRegex(posTrimmed, regStr) {
+					level = 0 - level
+					break
+				}
+			}
+		}
+
 		entries = append(
 			entries,
 			Entry{
 				email,
-				strings.TrimSpace(positions[i]),
+				posTrimmed,
 				strings.TrimSpace(departments[i]),
-				&associate})
+				&associate,
+				level})
 	}
 
 	return entries
