@@ -7,6 +7,8 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
+const teamPathPrefix = "team/"
+
 // MakeList creates a list of open position lines.
 func MakeList(positions *[]Position, deptPage bool, posType string) []string {
 
@@ -25,7 +27,10 @@ func MakeList(positions *[]Position, deptPage bool, posType string) []string {
 	for _, pos := range *positions {
 		deptStr := ""
 		if !deptPage {
-			deptStr = fmt.Sprintf(", [%s](/%s)", pos.Department,
+			deptStr = fmt.Sprintf(
+				", [%s](/%s%s)",
+				pos.Department,
+				teamPathPrefix,
 				helpers.StringToSimplePath(pos.Department))
 		}
 		head := fmt.Sprintf("##### **%s**%s", pos.Title, deptStr)
