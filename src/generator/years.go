@@ -25,9 +25,11 @@ func getYearListString(filepath string, currentYear int) string {
 		}
 
 		filepathParts := strings.Split(filepath, "/")
+		_, _, err := helpers.GetYearRange(filepathParts[2])
+		filepathHasYear := err == nil
 		if y == lastYear {
 			filepathParts = append(filepathParts[:2], filepathParts[3:]...)
-		} else if currentYear == lastYear {
+		} else if currentYear == lastYear && !filepathHasYear {
 			filepathParts = append(filepathParts[:2], append(
 				[]string{thisYearStr},
 				filepathParts[2:]...)...)
@@ -35,10 +37,21 @@ func getYearListString(filepath string, currentYear int) string {
 			filepathParts[2] = thisYearStr
 		}
 
-		if _, err := os.Stat(strings.Join(filepathParts, "/")); err != nil {
+		newFilepath := strings.Join(filepathParts, "/")
+		_, err1 := os.Stat(newFilepath)
+
+		fallbackFilepath := strings.Join(append(
+			filepathParts[:2],
+			append([]string{thisYearStr}, filepathParts[2:]...)...), "/")
+		_, err2 := os.Stat(fallbackFilepath)
+
+		if err1 != nil && err2 != nil {
 			continue
+		} else if err1 != nil {
+			newFilepath = fallbackFilepath
 		}
 
+		filepathParts = strings.Split(newFilepath, "/")
 		yearListStr = fmt.Sprintf(
 			"%s[%s](/%s) | ",
 			yearListStr,
