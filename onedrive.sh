@@ -7,10 +7,10 @@ FOLDER_NAME=_utmist.gitlab.io
 cd onedeath
 lua main.lua $ONEDRIVE_FOLDER_LINK
 find . -type f -name '*.exf' -delete
-rm -rf ../content* ../templates* ../static/*.pdf
+rm -rf ../content* ../insertions* ../static/*.pdf
 mv $FOLDER_NAME/config.yaml ../
 mv $FOLDER_NAME/content ../content_base
-mv $FOLDER_NAME/templates ../templates_base
+mv $FOLDER_NAME/insertions ../insertions_base
 mv $FOLDER_NAME/static/*.pdf ../static/
 rm -rf $FOLDER_NAME cookies.txt
 cd ..

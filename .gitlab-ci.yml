@@ -12,7 +12,7 @@ test:
     - go mod download
     - sh onedrive.sh
     - mv content_base content
-    - mv templates_base templates
+    - mv insertions_base insertions
     - go run main.go
     - hugo
     - rm -rf public
@@ -24,7 +24,7 @@ pages:
     - go mod download
     - sh onedrive.sh
     - mv content_base content
-    - mv templates_base templates
+    - mv insertions_base insertions
     - go run main.go
     - hugo
   artifacts:

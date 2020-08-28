@@ -8,8 +8,6 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
-const yearListSubstitution = "[//]: # years"
-
 func getYearListString(filepath string, currentYear int) string {
 	yearListStr := "### "
 	firstYear, lastYear, err := helpers.GetYearRange(os.Getenv("YEARS"))

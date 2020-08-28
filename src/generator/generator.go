@@ -19,9 +19,10 @@ const associatesPattern = "associates"
 const departmentsPattern = "departments"
 const eventsPattern = "events"
 const executivesPattern = "executives"
+const insertPattern = "insert"
 const positionsPattern = "positions"
 const projectsPattern = "projects"
-const readmePattern = "readme"
+const webRawPattern = "webraw"
 const yearsPattern = "years"
 
 // InsertGeneratedSubstitutions inserts generated substitution lists.
@@ -59,9 +60,16 @@ func InsertGeneratedSubstitutions(bundle *bundle.Bundle, directory string) {
 
 			pattern := strings.Split(line[len(substitutionPrefix):], "-")
 
-			// README url may contain hyphens.
-			if pattern[0] == readmePattern {
-				theseLines = project.DownloadReadMe(line[strings.Index(line, "-")+1:])
+			// insert web raw text resource
+			if pattern[0] == webRawPattern {
+				theseLines = project.DownloadReadMe(strings.Join(pattern[1:], "-"))
+				newLines = append(newLines, theseLines...)
+				continue
+			}
+
+			// insert local insertions
+			if pattern[0] == insertPattern {
+				theseLines = helpers.ReadContentLines(strings.Join(pattern[1:], "-"))
 				newLines = append(newLines, theseLines...)
 				continue
 			}

@@ -2,17 +2,17 @@
 
 build: dust
 	cp -r content_base content
-	cp -r templates_base templates
+	cp -r insertions_base insertions
 	go run main.go
 
 clean:
-	rm -rf content content_base config.yaml public templates templates_base static/*.pdf
+	rm -rf content content_base config.yaml public insertions insertions_base static/*.pdf
 
 dep:
 	git submodule update --init --recursive
 
 dust: 
-	rm -rf content templates
+	rm -rf content insertions
 
 fetch:
 	sh onedrive.sh
