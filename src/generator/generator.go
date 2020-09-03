@@ -22,6 +22,7 @@ const executivesPattern = "executives"
 const insertPattern = "insert"
 const positionsPattern = "positions"
 const projectsPattern = "projects"
+const seriesPattern = "series"
 const webRawPattern = "webraw"
 const yearsPattern = "years"
 
@@ -60,17 +61,31 @@ func InsertGeneratedSubstitutions(bundle *bundle.Bundle, directory string) {
 
 			pattern := strings.Split(line[len(substitutionPrefix):], "-")
 
+			// TODO: generalize these pattern matching substitutions.
+
 			// insert web raw text resource
 			if pattern[0] == webRawPattern {
-				theseLines = project.DownloadReadMe(strings.Join(pattern[1:], "-"))
-				newLines = append(newLines, theseLines...)
+				webRawLines := project.DownloadReadMe(
+					strings.Join(pattern[1:], "-"))
+				newLines = append(newLines, webRawLines...)
 				continue
 			}
 
 			// insert local insertions
 			if pattern[0] == insertPattern {
-				theseLines = helpers.ReadContentLines(strings.Join(pattern[1:], "-"))
-				newLines = append(newLines, theseLines...)
+				patternLines := helpers.ReadContentLines(
+					strings.Join(pattern[1:], "-"))
+				newLines = append(newLines, patternLines...)
+				continue
+			}
+
+			// list other events in same series
+			if pattern[0] == seriesPattern {
+				seriesLine := getSeriesString(
+					directory,
+					pattern[1],
+					strings.Join(pattern[2:], "-"))
+				newLines = append(newLines, seriesLine)
 				continue
 			}
 
