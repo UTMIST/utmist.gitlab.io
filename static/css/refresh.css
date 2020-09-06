@@ -1,0 +1,238 @@
+/* Style for the summary pages */
+.refresh-summary{
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  height: 4.5em;
+  text-overflow: ellipsis;
+}
+.refresh-summary-title{
+  position: relative;
+  margin: 10px 0 0 0;
+  margin-bottom: 10px !important;
+  padding: 0 0 5px 0;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* end */
+
+/* Styles for code snippets */
+.code-highlight{
+  font-size: 1.1em;
+  border-radius: 4px;
+}
+.content pre code table td:first-child{
+  border-right: 1px solid #999;/* #dbdbdb;*/
+  text-align: right;
+  padding-right: 13px;
+  color: #999; /*f8f8f2*/
+}
+.code-highlight table td{
+  border: 0px;
+}
+.code-highlight table{
+  width: auto;
+}
+.nonumbers pre code table td:first-child{
+  display: none;
+}
+.codeinline{
+  display:inline !important;        
+  padding-top: 0.25em; 
+  padding-right: 0.250em;
+  padding-bottom: 0.25em;                            
+  padding-left: 0.25em;                               
+  border-radius: 4px;                                
+  white-space: nowrap;
+}  
+/* End */
+
+/* Style to remove srollbar width */
+div.scroll { 
+  overflow-x: hidden; 
+  scrollbar-width: none; /* Remove scrollbar width in Firefox */
+  -ms-overflow-style: -ms-autohiding-scrollbar; /* Remove scrollbar width in MS Edge */
+}
+/* Remove scrollbar width in Chrome */
+div.scroll::-webkit-scrollbar { width: 0px; }
+/* end */
+
+/* Style for tabs shortcode */
+.content .pre-colorless{
+  background-color: hsla(120, 100%, 50%, 0); 
+}
+
+.content .hide{
+  display: none; /* !important;*/
+}
+/* End */
+
+/* Style to fix titles when using links inside same page */
+.content h5{
+  display: inline-block;
+}
+.content h4{
+  display: inline-block;
+} 
+/* End */
+
+/* Style used in images */
+.content .rounded-corners{
+  border-radius: 10px;         
+}
+/* end */
+
+/* Style used in "site" shortcode */
+.refresh-site-left{
+  width: 100%; 
+  border-top-right-radius: 0px; ; 
+  border-bottom-right-radius: 0px;
+}
+.refresh-site-right{
+  width: 100%; 
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+/* end */
+  
+/*
+ * Profile Picture styling
+ */
+.profile-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background: white;
+}
+
+.profile-single-container {
+  background-color: white;
+  width: 200px;
+  height: 260px;
+}
+
+.profile-logo-container{
+  display: none;
+  padding: 9px 0px;
+  height: 44px;
+}
+
+.profile-logo-container a{
+  text-decoration: none;
+  color: black;
+}
+
+.profile-logo {
+  height: 20px;
+  padding: 0px 5px;
+  filter: opacity(0.7);
+  display: inline-block;
+}
+
+.profile-logo-size {
+  font-size: 20px;
+}
+
+.profile-pic-container {
+  border-width: thin;
+  border-color: darkblue;
+  border-radius: 50%;
+  border-style: solid;
+  width: 150px;
+  height: 150px;
+  max-width: 300px;
+  margin: 0px 25px 5px 25px;
+  background: #00349f;
+}
+
+.profile-pic-background {
+  border-radius: 50%;
+  border-style: none;
+  width: 148px;
+  height: 148px;
+  object-fit: cover;
+  background: #00349f;
+  background-size: contain;
+  background-position: center;
+  transform: scale(0.7);
+  border-radius: 0;
+  background-repeat: no-repeat;
+}
+.profile-pic {
+  border-radius: 50%;
+  border-style: none;
+  width: 148px;
+  height: 148px;
+  object-fit: cover;
+  position: relative;
+  bottom: 148px;
+}
+.profile-info-container {
+  position: relative;
+  top: 44px;
+}
+.profile-name {
+  font-size: 18px;
+}
+
+.profile-position {
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.profile-title-container {
+  display: block;
+  width: 19ch;
+  white-space: nowrap;
+  overflow: hidden;
+  right: -1ch;
+} 
+.profile-position-container {
+  display: block;
+  width: 19ch;
+  white-space: nowrap;
+  overflow: hidden;
+  right: -1ch;
+} 
+
+.profile-name-scroll:hover {
+  width: fit-content;
+  animation: profile-name-scroll 3s infinite linear;
+}
+
+.profile-position-scroll:hover {
+  width: fit-content;
+  animation: profile-position-scroll 3s infinite linear;
+}
+
+@keyframes profile-name-scroll {
+  0% {
+      transform: translateX(0);
+  }
+
+  50% {
+      transform: translateX(calc(-100% + 17ch));
+  }
+
+  100% {
+      transform: translateX(0);
+  }
+}
+
+@keyframes profile-position-scroll {
+  0% {
+      transform: translateX(0);
+  }
+
+  50% {
+      transform: translateX(calc(-100% + 24ch));
+  }
+
+  100% {
+      transform: translateX(0);
+  }
+}
+  

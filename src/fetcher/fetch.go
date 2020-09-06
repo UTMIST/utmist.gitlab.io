@@ -15,7 +15,7 @@ import (
 	"google.golang.org/api/sheets/v4"
 )
 
-// SCOPE of the sheets API access.
+// SCOPE of the sheets API access
 const SCOPE = "https://www.googleapis.com/auth/spreadsheets.readonly"
 
 // FetchFromGoogleSheets pulls associate/recruitment data from Google Sheets.

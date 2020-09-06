@@ -12,5 +12,6 @@ mv $FOLDER_NAME/config.yaml ../
 mv $FOLDER_NAME/content ../content_base
 mv $FOLDER_NAME/insertions ../insertions_base
 mv $FOLDER_NAME/static/*.pdf ../static/
+mv $FOLDER_NAME/static/images/profilepics ../static/images/profilepics
 rm -rf $FOLDER_NAME cookies.txt
 cd ..

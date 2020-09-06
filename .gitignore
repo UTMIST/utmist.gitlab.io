@@ -9,5 +9,6 @@ content_base
 public
 resources
 static/*.pdf
+static/images/profilepics
 insertions
 insertions_base
