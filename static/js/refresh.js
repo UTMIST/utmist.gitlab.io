@@ -177,23 +177,35 @@ $(document).ready(function () {
         });
 })
 
-// add profile icons shows on mouseover, hides on mouseout
-const profile_pic = document.getElementsByClassName("profile-pic");
-const profile_logo = document.getElementsByClassName("profile-logo-container");
-const profile_info = document.getElementsByClassName("profile-info-container");
-const profile_container = document.getElementsByClassName("profile-single-container");
+// add scrolling animation for names and positions with overflow
+const scroll_names = document.getElementsByClassName("profile-name-scroll");
+const scroll_positions = document.getElementsByClassName("profile-position-scroll");
 
-function showLogo(logo, info){
-    logo.style.display = "block";
-    info.style.top = "0px";
+const nameAnimation = "profile-name-scroll";
+const positionAnimation = "profile-position-scroll";
+const nameDivisor = 20;
+const positionDivisor = 10;
+
+function addAnimation(scroll, animation, speedDivisor){
+    // ignore 'i' and 'l' from string length for better estimate of animation time
+    let modifiedStr = scroll.textContent.replace(/i/g, "").replace(/l/g, "");
+    let numChars = modifiedStr.length;
+    scroll.setAttribute(
+        'style',
+        'width: fit-content; animation: ' + animation + ' ' + numChars / speedDivisor + 's linear; animation-fill-mode: forwards; margin: auto;'
+    );
 }
 
-function hideLogo(logo, info){
-    logo.style. display = "none";
-    info.style.top = "44px";
+function removeAnimation(scroll){
+    scroll.setAttribute('style', '');
 }
 
-for (let i=0;i<profile_pic.length;i++){
-    profile_container[i].addEventListener("mouseover", ()=>{showLogo(profile_logo[i], profile_info[i])});
-    profile_container[i].addEventListener("mouseout", ()=>{hideLogo(profile_logo[i], profile_info[i])});
+for (let i = 0; i < scroll_positions.length; i++){
+    scroll_positions[i].addEventListener("mouseover", ()=>{addAnimation(scroll_positions[i], positionAnimation, positionDivisor)});
+    scroll_positions[i].addEventListener("mouseout", ()=>{removeAnimation(scroll_positions[i])});
+}
+
+for(let i = 0; i < scroll_names.length; i++){
+    scroll_names[i].addEventListener("mouseover", ()=>{addAnimation(scroll_names[i], nameAnimation, nameDivisor)});
+    scroll_names[i].addEventListener("mouseout", ()=>{removeAnimation(scroll_names[i])});
 }

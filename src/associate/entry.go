@@ -24,8 +24,8 @@ const topLevel = -1
 
 const entryOpenTag = "{{< profilePic/profilePicContainer >}}"
 const entryCloseTag = "{{< /profilePic/profilePicContainer >}}"
-const magicNumberMaxNameChar = 20
-const magicNumberMaxPositionChar = 25
+const maxNameChar = 19
+const maxPositionChar = 30
 
 // Method Len() to implement sort.Sort.
 func (e EntryList) Len() int {
@@ -125,10 +125,14 @@ func (e *Entry) GetListing(associate *Associate, isExec bool) string {
 	nameOverflow := ""
 	positionOverflow := ""
 
-	if len(name) >= magicNumberMaxNameChar {
+	// ignore 'i' and 'l' from string length for better estimate of width
+	modifiedName := strings.ReplaceAll(strings.ReplaceAll(name, "i", ""), "l", "")
+	modifiedPosition := strings.ReplaceAll(strings.ReplaceAll(position, "i", ""), "l", "")
+
+	if len(modifiedName) >= maxNameChar {
 		nameOverflow = fmt.Sprintf("nameOverflow=\"%t\"", true)
 	}
-	if len(position) >= magicNumberMaxPositionChar {
+	if len(modifiedPosition) >= maxPositionChar {
 		positionOverflow = fmt.Sprintf("positionOverflow=\"%t\"", true)
 	}
 	if linkedin != "" {

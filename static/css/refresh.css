@@ -115,7 +115,7 @@ div.scroll::-webkit-scrollbar { width: 0px; }
 }
 
 .profile-logo-container{
-  display: none;
+  display: block;
   padding: 9px 0px;
   height: 44px;
 }
@@ -172,7 +172,7 @@ div.scroll::-webkit-scrollbar { width: 0px; }
 }
 .profile-info-container {
   position: relative;
-  top: 44px;
+  top: 0px;
 }
 .profile-name {
   font-size: 18px;
@@ -189,6 +189,7 @@ div.scroll::-webkit-scrollbar { width: 0px; }
   white-space: nowrap;
   overflow: hidden;
   right: -1ch;
+  margin: auto;
 } 
 .profile-position-container {
   display: block;
@@ -196,29 +197,16 @@ div.scroll::-webkit-scrollbar { width: 0px; }
   white-space: nowrap;
   overflow: hidden;
   right: -1ch;
+  margin: auto;
 } 
-
-.profile-name-scroll:hover {
-  width: fit-content;
-  animation: profile-name-scroll 3s infinite linear;
-}
-
-.profile-position-scroll:hover {
-  width: fit-content;
-  animation: profile-position-scroll 3s infinite linear;
-}
 
 @keyframes profile-name-scroll {
   0% {
       transform: translateX(0);
   }
 
-  50% {
-      transform: translateX(calc(-100% + 17ch));
-  }
-
   100% {
-      transform: translateX(0);
+      transform: translateX(calc(-100% + 17ch));
   }
 }
 
@@ -227,12 +215,8 @@ div.scroll::-webkit-scrollbar { width: 0px; }
       transform: translateX(0);
   }
 
-  50% {
-      transform: translateX(calc(-100% + 24ch));
-  }
-
   100% {
-      transform: translateX(0);
+      transform: translateX(calc(-100% + 24ch));
   }
 }
   

@@ -1,6 +1,7 @@
 package associate
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -10,9 +11,8 @@ import (
 )
 
 const associateRowLength = 14
-const entryRowLength = 4
+const entryRowLength = 6
 const profilePicPrefix = "https://drive.google.com/uc?export=download&id="
-const profilePicDownloadPathPrefix = "static/images/profilepics/"
 const profilePicPathPrefix = "/images/profilepics/"
 const profilePicPathSuffix = ".jpg"
 const googleDomain = "google.com"
@@ -111,7 +111,11 @@ func downloadProfilePic(link string, name string) string {
 		return ""
 	}
 	defer response.Body.Close()
-	downloadPath := profilePicDownloadPathPrefix + name + profilePicPathSuffix
+	downloadPath := fmt.Sprintf("static%s%s%s",
+		profilePicPathPrefix,
+		name,
+		profilePicPathSuffix)
+	fmt.Println(downloadPath)
 	img, err := os.Create(downloadPath)
 	if err != nil {
 		return ""
@@ -121,6 +125,11 @@ func downloadProfilePic(link string, name string) string {
 	if err != nil {
 		return ""
 	}
-	filepath := profilePicPathPrefix + name + profilePicPathSuffix
+	filepath := fmt.Sprintf("%s%s%s",
+		profilePicPathPrefix,
+		name,
+		profilePicPathSuffix)
+	fmt.Println(filepath)
+
 	return filepath
 }
