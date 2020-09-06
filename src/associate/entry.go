@@ -22,6 +22,11 @@ type EntryList []Entry
 // level value reserved for roles bolded on the exec list (currently only the president)
 const topLevel = -1
 
+const entryOpenTag = "{{< profilePic/profilePicContainer >}}"
+const entryCloseTag = "{{< /profilePic/profilePicContainer >}}"
+const magicNumberMaxNameChar = 20
+const magicNumberMaxPositionChar = 25
+
 // Method Len() to implement sort.Sort.
 func (e EntryList) Len() int {
 	return len(e)
@@ -107,19 +112,57 @@ func (e *Entry) isAVP() bool {
 // GetListing returns a listing for this entry.
 func (e *Entry) GetListing(associate *Associate, isExec bool) string {
 
-	var listing string
-
 	name := associate.getName()
-	if link := associate.getLink(); len(link) > 0 {
-		listing = fmt.Sprintf("[%s](%s), %s", name, link, e.Position)
-	} else {
-		listing = fmt.Sprintf("%s, %s", name, e.Position)
+	position := e.Position
+	linkedin := associate.getTargetLink("linkedin")
+	github := associate.getTargetLink("github")
+	facebook := associate.getTargetLink("facebook")
+	twitter := associate.getTargetLink("twitter")
+	gitlab := associate.getTargetLink("gitlab")
+	personal := associate.getTargetLink("personal")
+	profilePic := associate.ProfilePicture
+	bold := e.IsToBeBolded(isExec)
+	nameOverflow := ""
+	positionOverflow := ""
+
+	if len(name) >= magicNumberMaxNameChar {
+		nameOverflow = fmt.Sprintf("nameOverflow=\"%t\"", true)
+	}
+	if len(position) >= magicNumberMaxPositionChar {
+		positionOverflow = fmt.Sprintf("positionOverflow=\"%t\"", true)
+	}
+	if linkedin != "" {
+		linkedin = fmt.Sprintf("linkedin=\"%s\"", linkedin)
+	}
+	if github != "" {
+		github = fmt.Sprintf("github=\"%s\"", github)
+	}
+	if gitlab != "" {
+		gitlab = fmt.Sprintf("gitlab=\"%s\"", gitlab)
+	}
+	if facebook != "" {
+		facebook = fmt.Sprintf("facebook=\"%s\"", facebook)
+	}
+	if twitter != "" {
+		twitter = fmt.Sprintf("twitter=\"%s\"", twitter)
+	}
+	if personal != "" {
+		personal = fmt.Sprintf("personal=\"%s\"", personal)
 	}
 
-	if e.IsToBeBolded(isExec) {
-		return fmt.Sprintf("- **%s**", listing)
-	}
-	return fmt.Sprintf("- %s", listing)
+	return fmt.Sprintf("\t{{< profilePic/profilePic  bold=%t name=\"%s\" %s position=\"%s\" %s %s %s %s %s %s %s profile_pic=\"%s\" >}}",
+		bold,
+		name,
+		nameOverflow,
+		position,
+		positionOverflow,
+		linkedin,
+		github,
+		gitlab,
+		facebook,
+		twitter,
+		personal,
+		profilePic)
 }
 
 // MakeEntryList generates a string list of associate entries.
@@ -132,10 +175,12 @@ func MakeEntryList(
 	sort.Sort(EntryList(combinedEntries))
 
 	list := []string{}
+	list = append(list, entryOpenTag)
 	for _, entry := range combinedEntries {
 		associate := (*associates)[entry.Email]
 		list = append(list, entry.GetListing(&associate, isDept))
 	}
+	list = append(list, entryCloseTag)
 
 	return list
 }

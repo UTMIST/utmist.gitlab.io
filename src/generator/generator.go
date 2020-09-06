@@ -33,8 +33,8 @@ func InsertGeneratedSubstitutions(bundle *bundle.Bundle, directory string) {
 		log.Fatal(err)
 	}
 
-	for _, f := range files {
-		if f.IsDir() {
+	for _, f := range files { // iterate on every file in this directory
+		if f.IsDir() { // if this file is a directory, make a recursive call on it
 			InsertGeneratedSubstitutions(
 				bundle,
 				fmt.Sprintf("%s/%s", directory, f.Name()))
@@ -43,20 +43,20 @@ func InsertGeneratedSubstitutions(bundle *bundle.Bundle, directory string) {
 
 		filepath := fmt.Sprintf("%s/%s", directory, f.Name())
 		if !strings.HasSuffix(filepath, helpers.MarkdownExt) {
-			continue
+			continue // if this file is not markdown type, skip
 		}
 
 		oldLines := helpers.ReadContentLines(filepath)
 		newLines := []string{}
 		for lineIndex := 0; lineIndex < len(oldLines); lineIndex++ {
-
+			// iterate on every line in this file
 			var theseLines []string
 
 			line := oldLines[lineIndex]
 			if len(line) < len(substitutionPrefix) ||
 				line[:len(substitutionPrefix)] != substitutionPrefix {
 				newLines = append(newLines, line)
-				continue
+				continue // if this line is not a title line, keep it
 			}
 
 			pattern := strings.Split(line[len(substitutionPrefix):], "-")

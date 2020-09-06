@@ -1,6 +1,9 @@
 package associate
 
 import (
+	"io"
+	"net/http"
+	"os"
 	"strings"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
@@ -8,6 +11,11 @@ import (
 
 const associateRowLength = 14
 const entryRowLength = 4
+const profilePicPrefix = "https://drive.google.com/uc?export=download&id="
+const profilePicDownloadPathPrefix = "static/images/profilepics/"
+const profilePicPathPrefix = "/images/profilepics/"
+const profilePicPathSuffix = ".jpg"
+const googleDomain = "google.com"
 
 // LoadAssociate loads an associate from a spreadsheet row.
 func LoadAssociate(data []interface{}) Associate {
@@ -16,7 +24,7 @@ func LoadAssociate(data []interface{}) Associate {
 	for i := len(data); i < associateRowLength; i++ {
 		data = append(data, "")
 	}
-
+	name := data[0].(string) + data[1].(string) + data[2].(string)
 	return Associate{
 		data[0].(string),
 		data[1].(string),
@@ -25,7 +33,7 @@ func LoadAssociate(data []interface{}) Associate {
 		data[4].(string),
 		data[5].(string),
 		data[6].(string),
-		data[7].(string),
+		processProfilePicLink(data[7].(string), name),
 		data[8].(string),
 		data[9].(string),
 		data[10].(string),
@@ -88,4 +96,31 @@ func LoadEntries(data []interface{}, associates *map[string]Associate) []Entry {
 	}
 
 	return entries
+}
+
+func processProfilePicLink(link string, name string) string {
+	if strings.Contains(link, googleDomain) {
+		return ""
+	}
+	return downloadProfilePic(link, name)
+}
+
+func downloadProfilePic(link string, name string) string {
+	response, err := http.Get(link)
+	if err != nil {
+		return ""
+	}
+	defer response.Body.Close()
+	downloadPath := profilePicDownloadPathPrefix + name + profilePicPathSuffix
+	img, err := os.Create(downloadPath)
+	if err != nil {
+		return ""
+	}
+	defer img.Close()
+	_, err = io.Copy(img, response.Body)
+	if err != nil {
+		return ""
+	}
+	filepath := profilePicPathPrefix + name + profilePicPathSuffix
+	return filepath
 }

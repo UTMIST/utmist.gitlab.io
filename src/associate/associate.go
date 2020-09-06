@@ -25,8 +25,8 @@ type Associate struct {
 	ProfilePicture string
 	Website        string
 	LinkedIn       string
-	GitLab         string
 	GitHub         string
+	GitLab         string
 	Facebook       string
 	Twitter        string
 }
@@ -57,4 +57,37 @@ func (a *Associate) getName() string {
 		return fmt.Sprintf("%s (%s) %s", a.GivenName, a.PreferredName, a.Surname)
 	}
 	return fmt.Sprintf("%s %s", a.GivenName, a.Surname)
+}
+
+// Return target link for associate
+func (a *Associate) getTargetLink(linkType string) string {
+	link := ""
+	switch linkType {
+	case "linkedin":
+		if a.LinkedIn != "" {
+			link = fmt.Sprintf("%s%s/", linkedin, a.LinkedIn)
+		}
+	case "github":
+		if a.GitHub != "" {
+			link = fmt.Sprintf("%s%s/", github, a.GitHub)
+		}
+	case "gitlab":
+		if a.GitLab != "" {
+			link = fmt.Sprintf("%s%s/", gitlab, a.GitLab)
+		}
+	case "twitter":
+		if a.Twitter != "" {
+			link = fmt.Sprintf("%s%s/", twitter, a.Twitter)
+		}
+	case "facebook":
+		if a.Facebook != "" {
+			link = fmt.Sprintf("%s%s/", facebook, a.Facebook)
+		}
+	case "personal":
+		if a.Website != "" {
+			link = fmt.Sprintf("%s%s/", website, a.Website)
+		}
+	}
+
+	return link
 }
