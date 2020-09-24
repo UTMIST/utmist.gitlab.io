@@ -36,8 +36,8 @@
         <div class="profile-info-container">
             <div class="profile-pic-container">
                 <div class="profile-pic-background" style="background-image: url({{ $profileIcons.defaultProfilePic }});">
+                    <img class="profile-pic" loading="lazy" src="{{.Get `profile_pic` }}" onerror="this.style.display='none'">          
                 </div>
-                <img class="profile-pic" loading="lazy" src="{{.Get `profile_pic` }}" onerror="this.style.display='none'">          
             </div>
             <div class="profile-title-container">
                 {{ if .Get "nameOverflow" }}

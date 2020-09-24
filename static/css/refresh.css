@@ -155,10 +155,8 @@ div.scroll::-webkit-scrollbar { width: 0px; }
   height: 148px;
   object-fit: cover;
   background: #00349f;
-  background-size: contain;
   background-position: center;
-  transform: scale(0.7);
-  border-radius: 0;
+  background-size: 105px;
   background-repeat: no-repeat;
 }
 .profile-pic {
@@ -167,8 +165,6 @@ div.scroll::-webkit-scrollbar { width: 0px; }
   width: 148px;
   height: 148px;
   object-fit: cover;
-  position: absolute;
-  bottom: 51px;
 }
 .profile-info-container {
   position: relative;
