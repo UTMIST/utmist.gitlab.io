@@ -115,7 +115,6 @@ func downloadProfilePic(link string, name string) string {
 		profilePicPathPrefix,
 		name,
 		profilePicPathSuffix)
-	fmt.Println(downloadPath)
 	img, err := os.Create(downloadPath)
 	if err != nil {
 		return ""
@@ -129,7 +128,6 @@ func downloadProfilePic(link string, name string) string {
 		profilePicPathPrefix,
 		name,
 		profilePicPathSuffix)
-	fmt.Println(filepath)
 
 	return filepath
 }

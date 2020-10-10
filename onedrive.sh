@@ -2,7 +2,7 @@ if test -f ".env"; then
     source ./.env
 fi
 
-FOLDER_NAME=_utmist.gitlab.io
+FOLDER_NAME=$ONEDRIVE_FOLDER_NAME
 
 cd onedeath
 lua main.lua $ONEDRIVE_FOLDER_LINK
