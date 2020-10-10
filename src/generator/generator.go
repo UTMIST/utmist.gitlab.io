@@ -25,6 +25,7 @@ const projectsPattern = "projects"
 const seriesPattern = "series"
 const webRawPattern = "webraw"
 const yearsPattern = "years"
+const projectMemberPattern = "team"
 
 // InsertGeneratedSubstitutions inserts generated substitution lists.
 func InsertGeneratedSubstitutions(bundle *bundle.Bundle, directory string) {
@@ -86,6 +87,16 @@ func InsertGeneratedSubstitutions(bundle *bundle.Bundle, directory string) {
 					pattern[1],
 					strings.Join(pattern[2:], "-"))
 				newLines = append(newLines, seriesLine)
+				continue
+			}
+
+			// insert project member
+			if pattern[0] == projectMemberPattern {
+				teamLines := GenerateProjectAssociateList(
+					bundle.Associates,
+					bundle.TeamEntries,
+					strings.Join(pattern[1:], " "))
+				newLines = append(newLines, teamLines...)
 				continue
 			}
 
