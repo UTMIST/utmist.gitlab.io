@@ -25,6 +25,7 @@ const projectsPattern = "projects"
 const seriesPattern = "series"
 const webRawPattern = "webraw"
 const yearsPattern = "years"
+const projectMemberPattern = "team"
 
 // InsertGeneratedSubstitutions inserts generated substitution lists.
 func InsertGeneratedSubstitutions(bundle *bundle.Bundle, directory string) {
@@ -34,7 +35,7 @@ func InsertGeneratedSubstitutions(bundle *bundle.Bundle, directory string) {
 	}
 
 	for _, f := range files { // iterate on every file in this directory
-		if f.IsDir() { // if this file is a directory, make a recursive call on it
+		if f.IsDir() { // if this file is a directory, make a recursive call
 			InsertGeneratedSubstitutions(
 				bundle,
 				fmt.Sprintf("%s/%s", directory, f.Name()))
@@ -49,9 +50,6 @@ func InsertGeneratedSubstitutions(bundle *bundle.Bundle, directory string) {
 		oldLines := helpers.ReadContentLines(filepath)
 		newLines := []string{}
 		for lineIndex := 0; lineIndex < len(oldLines); lineIndex++ {
-			// iterate on every line in this file
-			var theseLines []string
-
 			line := oldLines[lineIndex]
 			if len(line) < len(substitutionPrefix) ||
 				line[:len(substitutionPrefix)] != substitutionPrefix {
@@ -59,96 +57,91 @@ func InsertGeneratedSubstitutions(bundle *bundle.Bundle, directory string) {
 				continue // if this line is not a title line, keep it
 			}
 
-			pattern := strings.Split(line[len(substitutionPrefix):], "-")
+			// iterate on every line in this file
+			var theseLines []string
 
-			// TODO: generalize these pattern matching substitutions.
-
-			// insert web raw text resource
-			if pattern[0] == webRawPattern {
-				webRawLines := project.DownloadReadMe(
-					strings.Join(pattern[1:], "-"))
-				newLines = append(newLines, webRawLines...)
-				continue
+			pattern := strings.Split(line[len(substitutionPrefix):], "\\")
+			year, err := strconv.Atoi(pattern[len(pattern)-1])
+			if err != nil {
+				year = -1
 			}
 
-			// insert local insertions
-			if pattern[0] == insertPattern {
-				patternLines := helpers.ReadContentLines(
-					strings.Join(pattern[1:], "-"))
-				newLines = append(newLines, patternLines...)
-				continue
-			}
+			// match pattern[0] against insertion rules
+			switch pattern[0] {
 
-			// list other events in same series
-			if pattern[0] == seriesPattern {
-				seriesLine := getSeriesString(
-					directory,
-					pattern[1],
-					strings.Join(pattern[2:], "-"))
-				newLines = append(newLines, seriesLine)
-				continue
-			}
-
-			switch len(pattern) {
-			case 2:
-				year, err := strconv.Atoi(pattern[1])
-				if err != nil {
-					year = -1
-				}
-
-				switch pattern[0] {
-				case associatesPattern:
+			case associatesPattern:
+				if len(pattern) == 2 {
 					theseLines = GenerateTeamAssociateList(
 						bundle.Associates,
 						bundle.Entries,
 						year,
 						false)
-				case departmentsPattern:
-					theseLines = GenerateTeamDepartmentList(bundle.Entries, year)
-				case eventsPattern:
-					theseLines = GenerateEventList(bundle.Events, year)
-				case executivesPattern:
-					theseLines = GenerateTeamAssociateList(
-						bundle.Associates,
-						bundle.Entries,
-						year,
-						true)
-				case positionsPattern:
-					positionsByDepts := (*bundle.PositionsByDepts)
-					if _, exists := positionsByDepts[pattern[1]]; exists {
-						theseLines = GenerateDeptPositionLists(
-							bundle.PositionsByDepts,
-							pattern[1])
-					} else {
-						theseLines = GeneratePositionList(
-							bundle.PositionsByLevel,
-							pattern[1])
-					}
-				}
-			case 3:
-				year, err := strconv.Atoi(pattern[2])
-				if err != nil {
-					newLines = append(newLines, line)
-					continue
-				}
-				switch pattern[0] {
-				case associatesPattern:
+				} else if len(pattern) == 3 {
 					theseLines = GenerateDepartmentAssociateLists(
 						bundle.Associates,
 						bundle.Entries,
 						pattern[1],
 						year)
-				case projectsPattern:
-					theseLines = GenerateProjectLists(
-						bundle.Projects,
-						pattern[1],
-						year)
-				case yearsPattern:
-					theseLines = []string{getYearListString(
-						helpers.StringToSimplePath(filepath), year)}
 				}
+
+			case departmentsPattern: // insert department list
+				theseLines = GenerateTeamDepartmentList(bundle.Entries, year)
+
+			case eventsPattern: // insert event list
+				theseLines = GenerateEventList(bundle.Events, year)
+
+			case executivesPattern: // insert exec profiles
+				theseLines = GenerateTeamAssociateList(
+					bundle.Associates,
+					bundle.Entries,
+					year,
+					true)
+
+			case insertPattern: // insert local insertions
+				theseLines = helpers.ReadContentLines(
+					strings.Join(pattern[1:], "-"))
+
+			case positionsPattern: // insert open positions
+				positionsByDepts := (*bundle.PositionsByDepts)
+				if _, exists := positionsByDepts[pattern[1]]; exists {
+					theseLines = GenerateDeptPositionLists(
+						bundle.PositionsByDepts,
+						pattern[1])
+				} else {
+					theseLines = GeneratePositionList(
+						bundle.PositionsByLevel,
+						pattern[1])
+				}
+
+			case projectMemberPattern: // insert project members
+				theseLines = GenerateProjectAssociateList(
+					bundle.Associates,
+					bundle.TeamEntries,
+					strings.Join(pattern[1:], " "))
+
+			case projectsPattern: // insert project list
+				theseLines = GenerateProjectLists(
+					bundle.Projects,
+					pattern[1],
+					year)
+
+			case seriesPattern: // list other events in same series
+				theseLines = []string{getSeriesString(
+					directory,
+					pattern[1],
+					strings.Join(pattern[2:], "-"))}
+
+			case webRawPattern: // insert web raw text resource
+				theseLines = project.DownloadReadMe(
+					strings.Join(pattern[1:], "-"))
+
+			case yearsPattern: // insert year list
+				theseLines = []string{getYearListString(
+					helpers.StringToSimplePath(filepath), year)}
+
 			}
 
+			// add new lines
 			newLines = append(newLines, theseLines...)
 		}
 

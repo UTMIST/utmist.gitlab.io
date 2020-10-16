@@ -11,6 +11,7 @@ import (
 type Bundle struct {
 	Associates       *map[string]associate.Associate
 	Entries          *map[int]map[string][]associate.Entry
+	TeamEntries      *map[string][]associate.Entry
 	Events           *map[int][]event.Event
 	PositionsByDepts *map[string][]position.Position
 	PositionsByLevel *map[string][]position.Position

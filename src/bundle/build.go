@@ -14,6 +14,7 @@ import (
 func BuildBundle(
 	associates *map[string]associate.Associate,
 	entries *map[int][]associate.Entry,
+	teamEntries *map[string][]associate.Entry,
 	events *map[int][]event.Event,
 	positions *[]position.Position,
 	projects *map[int][]project.Project) Bundle {
@@ -21,6 +22,7 @@ func BuildBundle(
 	bundle := Bundle{
 		Associates:       associates,
 		Entries:          buildEntryMap(entries),
+		TeamEntries:      teamEntries,
 		Events:           events,
 		PositionsByDepts: buildPositionByDeptsMap(positions),
 		PositionsByLevel: buildPositionByLevelMap(positions),

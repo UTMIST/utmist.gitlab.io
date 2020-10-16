@@ -17,12 +17,13 @@ func main() {
 
 	flag.Parse()
 
-	associates, assocEntries, positions := fetcher.FetchFromGoogleSheets()
+	associates, assocEntries, teamEntries, positions := fetcher.FetchFromGoogleSheets()
 	events, projects := fetcher.FetchFromOneDriveFiles()
 
 	bundle := bundle.BuildBundle(
 		&associates,
 		&assocEntries,
+		&teamEntries,
 		&events,
 		&positions,
 		&projects)

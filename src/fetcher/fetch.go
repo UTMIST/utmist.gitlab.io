@@ -22,6 +22,7 @@ const SCOPE = "https://www.googleapis.com/auth/spreadsheets.readonly"
 func FetchFromGoogleSheets() (
 	map[string]associate.Associate,
 	map[int][]associate.Entry,
+	map[string][]associate.Entry,
 	[]position.Position) {
 
 	b, err := getCredentials()
@@ -50,10 +51,10 @@ func FetchFromGoogleSheets() (
 	}
 
 	associates := fetchAssociates(srv)
-	entries := fetchAssociateEntries(srv, &associates, firstYear, lastYear)
+	entries, teamEntries := fetchAssociateEntries(srv, &associates, firstYear, lastYear)
 	positions := fetchPositions(srv)
 
-	return associates, entries, positions
+	return associates, entries, teamEntries, positions
 }
 
 // FetchFromOneDriveFiles pulls event/project data from local OneDrive files.

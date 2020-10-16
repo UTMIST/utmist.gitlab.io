@@ -96,3 +96,13 @@ func GenerateTeamAssociateList(
 	sort.Sort(associate.EntryList(execs))
 	return associate.MakeEntryList(associates, &execs, false)
 }
+
+// GenerateProjectAssociateList inserts generated lists of project director and developer into project pages
+func GenerateProjectAssociateList(
+	associates *map[string]associate.Associate,
+	entries *map[string][]associate.Entry,
+	teamName string) []string {
+
+	projectMember := (*entries)[teamName]
+	return associate.MakeEntryList(associates, &projectMember, true)
+}
