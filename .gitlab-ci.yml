@@ -14,7 +14,7 @@ test:
     - mv content_base content
     - mv insertions_base insertions
     - go run main.go
-    - hugo
+    - hugo -F
     - rm -rf public
   except:
     - master
@@ -26,7 +26,7 @@ pages:
     - mv content_base content
     - mv insertions_base insertions
     - go run main.go
-    - hugo
+    - hugo -F
   artifacts:
     paths:
       - public
