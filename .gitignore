@@ -1,14 +1,16 @@
 .env
-config.yaml
+.vscode
+
 credentials.json
 token.json
 
-.vscode
+config.yaml
+
 content
 content_base
-public
-resources
-static/*.pdf
-static/images/profilepics
 insertions
 insertions_base
+public
+static/*.pdf
+static/images/profilepics
+resources

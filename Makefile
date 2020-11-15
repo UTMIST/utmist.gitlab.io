@@ -1,4 +1,4 @@
-.PHONY: base build clean dep fetch full
+.PHONY: build clean dep fetch full
 
 build: dust
 	cp -r content_base content
@@ -6,7 +6,7 @@ build: dust
 	go run main.go
 
 clean:
-	rm -rf content content_base config.yaml public insertions insertions_base static/*.pdf
+	rm -rf content content_base config.yaml public insertions insertions_base static/*.pdf static/images/profilepics
 
 dep:
 	git submodule update --init --recursive
@@ -17,5 +17,5 @@ dust:
 fetch:
 	sh onedrive.sh
 
-full: clean fetch base build
+full: clean fetch build
 
