@@ -120,8 +120,7 @@ func (e *Entry) GetListing(associate *Associate, isExec bool) string {
 	twitter := associate.getTargetLink("twitter")
 	gitlab := associate.getTargetLink("gitlab")
 	personal := associate.getTargetLink("personal")
-	profilePic := associate.ProfilePicture
-	bold := e.IsToBeBolded(isExec)
+
 	nameOverflow := ""
 	positionOverflow := ""
 
@@ -155,7 +154,7 @@ func (e *Entry) GetListing(associate *Associate, isExec bool) string {
 	}
 
 	return fmt.Sprintf("\t{{< profilePic/profilePic  bold=%t name=\"%s\" %s position=\"%s\" %s %s %s %s %s %s %s profile_pic=\"%s\" >}}",
-		bold,
+		e.IsToBeBolded(isExec),
 		name,
 		nameOverflow,
 		position,
@@ -166,7 +165,7 @@ func (e *Entry) GetListing(associate *Associate, isExec bool) string {
 		facebook,
 		twitter,
 		personal,
-		profilePic)
+		associate.ProfilePicturePath)
 }
 
 // MakeEntryList generates a string list of associate entries.

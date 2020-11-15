@@ -16,7 +16,7 @@ func fetchAssociates(srv *sheets.Service) map[string]associate.Associate {
 	resp := fetchValues(srv, "Associates Directory", sheetID, sheetRange)
 	for _, row := range resp.Values {
 		associate := associate.LoadAssociate(row)
-		associates[associate.UofTEmail] = associate
+		associates[associate.MainEmail] = associate
 	}
 
 	return associates

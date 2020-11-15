@@ -1,21 +1,20 @@
 package associate
 
 import (
+	"crypto/sha256"
 	"fmt"
-	"io"
-	"net/http"
-	"os"
 	"strings"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
-const associateRowLength = 14
-const entryRowLength = 6
-const profilePicPrefix = "https://drive.google.com/uc?export=download&id="
-const profilePicPathPrefix = "/images/profilepics/"
-const profilePicPathSuffix = ".jpg"
-const googleDomain = "google.com"
+const (
+	associateRowLength = 13
+	entryRowLength     = 6
+
+	profilePicPathPrefix = "/images/profilepics/"
+	profilePicPathSuffix = ".jpg"
+)
 
 // LoadAssociate loads an associate from a spreadsheet row.
 func LoadAssociate(data []interface{}) Associate {
@@ -24,8 +23,8 @@ func LoadAssociate(data []interface{}) Associate {
 	for i := len(data); i < associateRowLength; i++ {
 		data = append(data, "")
 	}
-	name := data[0].(string) + data[1].(string) + data[2].(string)
-	return Associate{
+
+	a := Associate{
 		data[0].(string),
 		data[1].(string),
 		data[2].(string),
@@ -33,14 +32,24 @@ func LoadAssociate(data []interface{}) Associate {
 		data[4].(string),
 		data[5].(string),
 		data[6].(string),
-		processProfilePicLink(data[7].(string), name),
+		"", // assume there is no local picture
+		data[7].(string),
 		data[8].(string),
 		data[9].(string),
 		data[10].(string),
 		data[11].(string),
 		data[12].(string),
-		data[13].(string),
 	}
+
+	// Path to the hashed profile picture filename
+	if len(a.MainEmail) > 0 {
+		a.ProfilePicturePath = fmt.Sprintf("%s%x%s",
+			profilePicPathPrefix,
+			sha256.Sum256([]byte(a.MainEmail)),
+			profilePicPathSuffix)
+	}
+
+	return a
 }
 
 // LoadEntries loads an associate entry from a spreadsheet row.
@@ -66,10 +75,10 @@ func LoadEntries(data []interface{}, associates *map[string]Associate) []Entry {
 		email := data[3].(string)
 		associate := (*associates)[email]
 
-		level := 0 //associate level (lowest)
+		level := 0 // associate level (lowest)
 		posTrimmed := strings.TrimSpace(positions[i])
 
-		for r, regStr := range levelRegexes { //determine the level
+		for r, regStr := range levelRegexes { // determine the level
 			if helpers.FitRegex(posTrimmed, regStr) {
 				level = r + 1
 				break
@@ -77,7 +86,7 @@ func LoadEntries(data []interface{}, associates *map[string]Associate) []Entry {
 		}
 
 		if level != 0 {
-			for _, regStr := range execRegexes { //check if they are exec
+			for _, regStr := range execRegexes { // check if they are exec
 				if helpers.FitRegex(posTrimmed, regStr) {
 					level = 0 - level
 					break
@@ -96,38 +105,4 @@ func LoadEntries(data []interface{}, associates *map[string]Associate) []Entry {
 	}
 
 	return entries
-}
-
-func processProfilePicLink(link string, name string) string {
-	if strings.Contains(link, googleDomain) {
-		return ""
-	}
-	return downloadProfilePic(link, name)
-}
-
-func downloadProfilePic(link string, name string) string {
-	response, err := http.Get(link)
-	if err != nil {
-		return ""
-	}
-	defer response.Body.Close()
-	downloadPath := fmt.Sprintf("static%s%s%s",
-		profilePicPathPrefix,
-		name,
-		profilePicPathSuffix)
-	img, err := os.Create(downloadPath)
-	if err != nil {
-		return ""
-	}
-	defer img.Close()
-	_, err = io.Copy(img, response.Body)
-	if err != nil {
-		return ""
-	}
-	filepath := fmt.Sprintf("%s%s%s",
-		profilePicPathPrefix,
-		name,
-		profilePicPathSuffix)
-
-	return filepath
 }

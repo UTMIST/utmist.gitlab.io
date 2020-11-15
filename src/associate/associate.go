@@ -4,32 +4,35 @@ import (
 	"fmt"
 )
 
-const website = ""
-const linkedin = "https://linkedin.com/in/"
-const github = "https://www.github.com/"
-const gitlab = "https://www.gitlab.com/"
-const facebook = "https://www.facebook.com/"
-const twitter = "https://www.twitter.com/"
-
 // Associate represents an associateutive member's database row.
 type Associate struct {
 	GivenName     string
 	PreferredName string
 	Surname       string
 
-	UofTEmail   string
+	MainEmail   string
 	OtherEmail  string
 	PhoneNumber string
 	Discipline  string
 
-	ProfilePicture string
-	Website        string
-	LinkedIn       string
-	GitHub         string
-	GitLab         string
-	Facebook       string
-	Twitter        string
+	ProfilePicturePath string
+
+	Website  string
+	LinkedIn string
+	GitHub   string
+	GitLab   string
+	Facebook string
+	Twitter  string
 }
+
+const (
+	website  = ""
+	linkedin = "https://linkedin.com/in/"
+	github   = "https://www.github.com/"
+	gitlab   = "https://www.gitlab.com/"
+	facebook = "https://www.facebook.com/"
+	twitter  = "https://www.twitter.com/"
+)
 
 // Return personal link for associate.
 func (a *Associate) getLink() string {
