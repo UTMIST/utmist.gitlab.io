@@ -1,8 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
+	"io/ioutil"
 	"log"
+
+	"gitlab.com/utmist/utmist.gitlab.io/src/points"
 
 	"github.com/joho/godotenv"
 	"gitlab.com/utmist/utmist.gitlab.io/src/bundle"
@@ -17,7 +21,7 @@ func main() {
 
 	flag.Parse()
 
-	associates, assocEntries, teamEntries, positions := fetcher.FetchFromGoogleSheets()
+	associates, assocEntries, teamEntries, positions, tasks, students := fetcher.FetchFromGoogleSheets()
 	events, projects := fetcher.FetchFromOneDriveFiles()
 
 	bundle := bundle.BuildBundle(
@@ -29,4 +33,12 @@ func main() {
 		&projects)
 
 	generator.InsertGeneratedSubstitutions(&bundle, "content")
+
+	taskStudentBundle := points.TaskStudentBundle{
+		Tasks:    &tasks,
+		Students: &students,
+	}
+
+	file, _ := json.Marshal(taskStudentBundle)
+	_ = ioutil.WriteFile("static/points.json", file, 0644)
 }
