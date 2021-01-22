@@ -13,7 +13,11 @@ func fetchPositions(srv *sheets.Service) []position.Position {
 
 	sheetID := os.Getenv("POSITIONS_SHEET_ID")
 	sheetRange := os.Getenv("POSITIONS_SHEET_RANGE")
-	resp := fetchValues(srv, "Positions", sheetID, sheetRange)
+	resp, err := fetchValues(srv, "Positions", sheetID, sheetRange)
+	if err != nil {
+		return positions
+	}
+
 	for _, row := range resp.Values {
 		pos := position.Load(row)
 

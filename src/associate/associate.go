@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-// Associate represents an associateutive member's database row.
+// Associate represents an associate member's database row.
 type Associate struct {
 	GivenName     string
 	PreferredName string

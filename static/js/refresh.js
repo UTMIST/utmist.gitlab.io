@@ -19,15 +19,15 @@ $(document).ready(function () {
     });
 
     // Collapse-expand elements
-    $('.collapsible').on("click", function(e){
+    $('.collapsible').on("click", function (e) {
         var elem_id = $(this).attr('data-target');
         $("#" + elem_id).slideToggle();
         $("i", this).toggleClass("fa-angle-down fa-angle-up");
     });
 
     //Toggle Tabs
-    $('.tabs li').on("click", function(e){
-        $(this).parent().children("li").each(function(index, element){
+    $('.tabs li').on("click", function (e) {
+        $(this).parent().children("li").each(function (index, element) {
             $(element).removeClass("is-active")
             // $(element).removeClass("has-background-white-ter");
             var elem_id = $(element).attr('data-target');
@@ -129,11 +129,11 @@ $(document).ready(function () {
     });
 
     //modals
-    $('.modal-trigger').on('click', function(){
+    $('.modal-trigger').on('click', function () {
         var modalID = $(this).attr('data-modal');
         $('#' + modalID).addClass('is-active');
     })
-    $('.modal-close, .close-modal').on('click', function(){
+    $('.modal-close, .close-modal').on('click', function () {
         $(this).closest('.modal').removeClass('is-active');
     })
 
@@ -159,7 +159,7 @@ $(document).ready(function () {
                     // event.preventDefault(); // removed to add history to the navigation
                     $('html, body').animate({
                         scrollTop: target.offset().top - ($('#navbar-clone').height() + 5)
-                                  // '5' added as custom value
+                        // '5' added as custom value
                     }, 550, function () {
                         // Callback after animation
                         // Must change focus!
@@ -178,34 +178,34 @@ $(document).ready(function () {
 })
 
 // add scrolling animation for names and positions with overflow
-const scroll_names = document.getElementsByClassName("profile-name-scroll");
-const scroll_positions = document.getElementsByClassName("profile-position-scroll");
+// const scroll_names = document.getElementsByClassName("profile-name-scroll");
+// const scroll_positions = document.getElementsByClassName("profile-position-scroll");
 
-const nameAnimation = "profile-name-scroll";
-const positionAnimation = "profile-position-scroll";
-const nameDivisor = 20;
-const positionDivisor = 10;
+// const nameAnimation = "profile-name-scroll";
+// const positionAnimation = "profile-position-scroll";
+// const nameDivisor = 20;
+// const positionDivisor = 10;
 
-function addAnimation(scroll, animation, speedDivisor){
-    // ignore 'i' and 'l' from string length for better estimate of animation time
-    let modifiedStr = scroll.textContent.replace(/i/g, "").replace(/l/g, "");
-    let numChars = modifiedStr.length;
-    scroll.setAttribute(
-        'style',
-        'width: fit-content; animation: ' + animation + ' ' + numChars / speedDivisor + 's linear; animation-fill-mode: forwards; margin: auto;'
-    );
-}
+// function addAnimation(scroll, animation, speedDivisor) {
+//     // ignore 'i' and 'l' from string length for better estimate of animation time
+//     let modifiedStr = scroll.textContent.replace(/i/g, "").replace(/l/g, "");
+//     let numChars = modifiedStr.length;
+//     scroll.setAttribute(
+//         'style',
+//         'width: fit-content; animation: ' + animation + ' ' + numChars / speedDivisor + 's linear; animation-fill-mode: forwards; margin: auto;'
+//     );
+// }
 
-function removeAnimation(scroll){
-    scroll.setAttribute('style', '');
-}
+// function removeAnimation(scroll) {
+//     scroll.setAttribute('style', '');
+// }
 
-for (let i = 0; i < scroll_positions.length; i++){
-    scroll_positions[i].addEventListener("mouseover", ()=>{addAnimation(scroll_positions[i], positionAnimation, positionDivisor)});
-    scroll_positions[i].addEventListener("mouseout", ()=>{removeAnimation(scroll_positions[i])});
-}
+// for (let i = 0; i < scroll_positions.length; i++) {
+//     scroll_positions[i].addEventListener("mouseover", () => { addAnimation(scroll_positions[i], positionAnimation, positionDivisor) });
+//     scroll_positions[i].addEventListener("mouseout", () => { removeAnimation(scroll_positions[i]) });
+// }
 
-for(let i = 0; i < scroll_names.length; i++){
-    scroll_names[i].addEventListener("mouseover", ()=>{addAnimation(scroll_names[i], nameAnimation, nameDivisor)});
-    scroll_names[i].addEventListener("mouseout", ()=>{removeAnimation(scroll_names[i])});
-}
+// for (let i = 0; i < scroll_names.length; i++) {
+//     scroll_names[i].addEventListener("mouseover", () => { addAnimation(scroll_names[i], nameAnimation, nameDivisor) });
+//     scroll_names[i].addEventListener("mouseout", () => { removeAnimation(scroll_names[i]) });
+// }

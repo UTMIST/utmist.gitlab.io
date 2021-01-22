@@ -8,6 +8,7 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
 	"gitlab.com/utmist/utmist.gitlab.io/src/event"
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
+	"gitlab.com/utmist/utmist.gitlab.io/src/points"
 	"gitlab.com/utmist/utmist.gitlab.io/src/position"
 	"gitlab.com/utmist/utmist.gitlab.io/src/project"
 
@@ -23,7 +24,9 @@ func FetchFromGoogleSheets() (
 	map[string]associate.Associate,
 	map[int][]associate.Entry,
 	map[string][]associate.Entry,
-	[]position.Position) {
+	[]position.Position,
+	map[string][]string,
+	map[string]map[string]points.Student) {
 
 	b, err := getCredentials()
 	if err != nil {
@@ -53,8 +56,9 @@ func FetchFromGoogleSheets() (
 	associates := fetchAssociates(srv)
 	entries, teamEntries := fetchAssociateEntries(srv, &associates, firstYear, lastYear)
 	positions := fetchPositions(srv)
+	tasks, students := fetchTasksAndStudents(srv, firstYear, lastYear)
 
-	return associates, entries, teamEntries, positions
+	return associates, entries, teamEntries, positions, tasks, students
 }
 
 // FetchFromOneDriveFiles pulls event/project data from local OneDrive files.
@@ -72,14 +76,14 @@ func fetchValues(
 	srv *sheets.Service,
 	groupName,
 	sheetID,
-	sheetRange string) *sheets.ValueRange {
+	sheetRange string) (*sheets.ValueRange, error) {
 
 	// Validate the API response.
 	resp, err := srv.Spreadsheets.Values.Get(sheetID, sheetRange).Do()
 	if err != nil {
 		log.Println(fmt.Sprintf("Unable to retrieve %s data from sheet: ",
 			groupName))
-		panic(err)
+		return nil, err
 	}
 	if len(resp.Values) == 0 {
 		log.Printf("No %s data found.\n", groupName)
@@ -87,5 +91,5 @@ func fetchValues(
 
 	log.Printf("Downloaded %s data.", groupName)
 
-	return resp
+	return resp, nil
 }
