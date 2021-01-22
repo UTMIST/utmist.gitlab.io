@@ -13,7 +13,11 @@ func fetchAssociates(srv *sheets.Service) map[string]associate.Associate {
 
 	sheetID := os.Getenv("ASSOCIATES_SHEET_ID")
 	sheetRange := os.Getenv("ASSOCIATES_RANGE")
-	resp := fetchValues(srv, "Associates Directory", sheetID, sheetRange)
+	resp, err := fetchValues(srv, "Associates Directory", sheetID, sheetRange)
+	if err != nil {
+		panic(err)
+	}
+
 	for _, row := range resp.Values {
 		associate := associate.LoadAssociate(row)
 		associates[associate.MainEmail] = associate
@@ -34,11 +38,16 @@ func fetchAssociateEntries(
 	for y := firstYear; y <= lastYear; y++ {
 		yearEntries := []associate.Entry{}
 		sheetRange := fmt.Sprintf("%d!%s", y, os.Getenv("ENTRIES_RANGE"))
-		resp := fetchValues(
+		resp, err := fetchValues(
 			srv,
 			fmt.Sprintf("Associates (%d)", y),
 			sheetID,
 			sheetRange)
+
+		if err != nil {
+			continue
+		}
+
 		for _, row := range resp.Values {
 			curEntries := associate.LoadEntries(row, associates)
 			yearEntries = append(

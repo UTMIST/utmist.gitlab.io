@@ -12,5 +12,6 @@ insertions
 insertions_base
 public
 static/*.pdf
+static/*.json
 static/images/profilepics
 resources

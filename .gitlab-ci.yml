@@ -1,8 +1,5 @@
 # All available Hugo versions are listed here: https://gitlab.com/pages/hugo/container_registry
-image: leglesslamb/lua-golang-hugo:latest
-
-before_script:
-  - pacman -Syu --noconfirm wget coreutils
+image: utmisteam/utmist-docker:firsttry
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
