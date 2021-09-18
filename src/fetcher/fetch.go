@@ -8,7 +8,6 @@ import (
 	"gitlab.com/utmist/utmist.gitlab.io/src/associate"
 	"gitlab.com/utmist/utmist.gitlab.io/src/event"
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
-	"gitlab.com/utmist/utmist.gitlab.io/src/points"
 	"gitlab.com/utmist/utmist.gitlab.io/src/position"
 	"gitlab.com/utmist/utmist.gitlab.io/src/project"
 
@@ -24,9 +23,7 @@ func FetchFromGoogleSheets() (
 	map[string]associate.Associate,
 	map[int][]associate.Entry,
 	map[string][]associate.Entry,
-	[]position.Position,
-	map[string][]string,
-	map[string]map[string]points.Student) {
+	[]position.Position) {
 
 	b, err := getCredentials()
 	if err != nil {
@@ -56,9 +53,8 @@ func FetchFromGoogleSheets() (
 	associates := fetchAssociates(srv)
 	entries, teamEntries := fetchAssociateEntries(srv, &associates, firstYear, lastYear)
 	positions := fetchPositions(srv)
-	tasks, students := fetchTasksAndStudents(srv, firstYear, lastYear)
 
-	return associates, entries, teamEntries, positions, tasks, students
+	return associates, entries, teamEntries, positions
 }
 
 // FetchFromOneDriveFiles pulls event/project data from local OneDrive files.

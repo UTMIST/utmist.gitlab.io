@@ -27,6 +27,13 @@ const entryCloseTag = "{{< /profilePic/profilePicContainer >}}"
 const maxNameChar = 19
 const maxPositionChar = 30
 
+func abs(n int) int {
+	if n < 0 {
+		return -n
+	}
+	return n
+}
+
 // Method Len() to implement sort.Sort.
 func (e EntryList) Len() int {
 	return len(e)
@@ -49,31 +56,7 @@ func (e EntryList) Less(i, j int) bool {
 			}
 		}
 	}
-
-	// 0 is the lowest rank, not the highest
-	if e[i].Level != 0 && e[j].Level == 0 {
-		return true
-	}
-	if e[i].Level == 0 && e[j].Level != 0 {
-		return false
-	}
-
-	// compare the absolute values of the levels
-	lvlI := e[i].Level
-	if lvlI < 0 {
-		lvlI = -lvlI
-	}
-
-	lvlJ := e[j].Level
-	if lvlJ < 0 {
-		lvlJ = -lvlJ
-	}
-
-	// lower levels means higher rank
-	if lvlI < lvlJ {
-		return true
-	}
-	return false
+	return abs(e[i].Level) > abs(e[j].Level)
 }
 
 // Method Swap() to implement sort.Sort.
@@ -84,29 +67,6 @@ func (e EntryList) Swap(i, j int) {
 // IsExecutive returns whether entry is an executive.
 func (e *Entry) IsExecutive() bool {
 	return e.Level < 0
-}
-
-// IsToBeBolded returns whether listing should be bolded as Executive.
-func (e *Entry) IsToBeBolded(dept bool) bool {
-	// Bold if specified in .env POS_RANKING, or if top position (level == topLevel).
-	return (dept && e.isSignificant()) || e.isTop()
-}
-
-// isSignificant returns whether this position would be bolded on its department page
-func (e *Entry) isSignificant() bool {
-	return e.Level != 0
-}
-
-func (e *Entry) isTop() bool {
-	return e.Level == topLevel
-}
-
-func (e *Entry) isVP() bool {
-	return strings.HasPrefix(e.Position, "VP")
-}
-
-func (e *Entry) isAVP() bool {
-	return strings.HasPrefix(e.Position, "AVP")
 }
 
 // GetListing returns a listing for this entry.
@@ -121,19 +81,6 @@ func (e *Entry) GetListing(associate *Associate, isExec bool) string {
 	gitlab := associate.getTargetLink("gitlab")
 	personal := associate.getTargetLink("personal")
 
-	nameOverflow := ""
-	positionOverflow := ""
-
-	// ignore 'i' and 'l' from string length for better estimate of width
-	modifiedName := strings.ReplaceAll(strings.ReplaceAll(name, "i", ""), "l", "")
-	modifiedPosition := strings.ReplaceAll(strings.ReplaceAll(position, "i", ""), "l", "")
-
-	if len(modifiedName) >= maxNameChar {
-		nameOverflow = fmt.Sprintf("nameOverflow=\"%t\"", true)
-	}
-	if len(modifiedPosition) >= maxPositionChar {
-		positionOverflow = fmt.Sprintf("positionOverflow=\"%t\"", true)
-	}
 	if linkedin != "" {
 		linkedin = fmt.Sprintf("linkedin=\"%s\"", linkedin)
 	}
@@ -153,12 +100,9 @@ func (e *Entry) GetListing(associate *Associate, isExec bool) string {
 		personal = fmt.Sprintf("personal=\"%s\"", personal)
 	}
 
-	return fmt.Sprintf("\t{{< profilePic/profilePic  bold=%t name=\"%s\" %s position=\"%s\" %s %s %s %s %s %s %s profile_pic=\"%s\" >}}",
-		e.IsToBeBolded(isExec),
+	return fmt.Sprintf("\t{{< profilePic/profilePic  name=\"%s\" position=\"%s\" %s %s %s %s %s %s profile_pic=\"%s\" >}}",
 		name,
-		nameOverflow,
 		position,
-		positionOverflow,
 		linkedin,
 		github,
 		gitlab,
@@ -184,12 +128,10 @@ func MakeEntryList(
 		list = append(list, entry.GetListing(&associate, isDept))
 	}
 	list = append(list, entryCloseTag)
-
 	return list
 }
 
 func combineEntries(entries *[]Entry) []Entry {
-
 	entryMap := map[string]Entry{}
 	for _, e := range *entries {
 
@@ -212,36 +154,8 @@ func combineEntries(entries *[]Entry) []Entry {
 
 //combineLevel determines the highest level for an associate
 func combineLevel(lvlA, lvlB int) int {
-	// if the levels are the same
-	if lvlA == lvlB {
+	if abs(lvlA) > abs(lvlB) {
 		return lvlA
 	}
-	// if one of the levels is the lowest (associate 0)
-	if lvlA == 0 {
-		return lvlB
-	}
-	if lvlB == 0 {
-		return lvlA
-	}
-
-	isExec := lvlA < 0 || lvlB < 0
-
-	// exec levels are negative
-	if lvlA < 0 {
-		lvlA = -lvlA
-	}
-	if lvlB < 0 {
-		lvlB = -lvlB
-	}
-	combinedLevel := lvlA
-
-	// lower levels are ranked higher
-	if lvlA > lvlB {
-		combinedLevel = lvlB
-	}
-
-	if isExec {
-		combinedLevel = -combinedLevel
-	}
-	return combinedLevel
+	return lvlB
 }

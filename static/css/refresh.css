@@ -194,13 +194,6 @@ div.scroll::-webkit-scrollbar { width: 0px; }
   position: relative;
 } 
 
-.profile-name-scroll {
-  display: block;
-}
-.profile-position-scroll {
-  display: block;
-}
-
 .footer-title{
   font-weight: 500;
   font-size: 1rem;
@@ -236,75 +229,4 @@ Adapted from: http://blog.heyimcat.com/universal-signup-form/ */
     #mc_embed_signup input.email {width:100%; margin-bottom:5px;}
     #mc_embed_signup .clear {display: block; width: 100% }
     #mc_embed_signup .button {width: 100%; margin:0; }
-}
-
-/* Styling for the Points System */
-#points_container {
-  margin-top: 5vh;
-  margin-bottom: 5vh;
-}
-
-.year-points-div {
-  margin-top: 5vh;
-  margin-bottom: 5vh;
-}
-
-#student_results p {
-  margin-top: 5vh;
-  font-size: 1.1em;
-}
-
-#points_line_prefix {
-  display: inline;
-}
-
-#points_line_total {
-  display: inline;
-  font-size: 1.1em;
-}
-
-#student_username_input {
-  border-radius: 30px;
-  padding: 5px 5px 5px 12px;
-  border: 3px solid #0033A0;
-  margin-left: 15px;
-  width: 30vw;
-  font-size: 1em;
-}
-
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: lightslategray;
-  opacity: 1; 
-}
-
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
-  color: lightslategray;
-}
-
-::-ms-input-placeholder { /* Microsoft Edge */
-  color: lightslategray;
-}
-
-#student_username_submit {
-  font-size: large;
-  margin-left: -36px;
-  color: #0033A0;
-  cursor: pointer;
-}
-
-*,*:focus,*:hover{
-  outline:none;
-}
-
-@media (max-width: 768px) {
-  #student_username_input {
-    width: 60vw;
-    margin-left: 0vw;
-    padding: 5px 5px 5px 5px;
-    margin-top: 2vh;
-  }
-  #student_username_submit {
-    font-size: large;
-    margin-left: 0;
-  }
 }

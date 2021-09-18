@@ -15,12 +15,12 @@ Club website for the [University of Toronto Machine Intelligence Student Team (U
 ### Connections
 
 - The `fetcher`/`generator`, `onedeath` and Hugo are run in [GitLab CI](https://docs.gitlab.com/ce/ci/) and fed into [GitLab Pages](https://docs.gitlab.com/ce/user/project/pages/).
-- The [UTMIST Assistant (MISTA)](https://gitlab.com/utmist/mista) can trigger a job to regenerate when responding to commands in our [Discord Server](https://discord.gg/88mSPw8). If MISTA is offline, jobs must be triggered manually through the [GitLab CI/CD Pipeline Manager](https://gitlab.com/utmist/utmist.gitlab.io/pipelines).
+- The [UTMIST Runner (MISTR)](https://gitlab.com/utmist/mistr) can trigger a job to regenerate when responding to commands in our [Discord Server](https://discord.gg/88mSPw8). If MISTR is offline, jobs must be triggered manually through the [GitLab CI/CD Pipeline Manager](https://gitlab.com/utmist/utmist.gitlab.io/pipelines).
 
 ### Prerequisites
 
 - [Go](https://golang.org/). Put this project in `$GOPATH/utmist/`.
-- [Hugo](https://github.com/gohugoio/hugo/releases), `>= 0.61`. GitLab CI uses `0.68`.
+- [Hugo](https://github.com/gohugoio/hugo/releases), `>= 0.61`.
 - [Lua](https://www.lua.org/).
 - [wget](https://www.gnu.org/software/wget/).
 
@@ -33,9 +33,8 @@ Club website for the [University of Toronto Machine Intelligence Student Team (U
 
 Full details can be found on [our Wiki](https://gitlab.com/utmist/utmist.gitlab.io/-/wikis).
 
-- [Content Management](https://gitlab.com/utmist/utmist.gitlab.io/-/wikis/Content-Management)
-- [Development](https://gitlab.com/utmist/utmist.gitlab.io/-/wikis/Development)
-- [Website Updates](https://gitlab.com/utmist/utmist.gitlab.io/-/wikis/Website-Updates)
+- [Content Management](https://gitlab.com/utmist/utmist.gitlab.io/-/wikis/Exec-Team-Guide-To-Content-Management)
+- Development (Coming Soon)
 
 ### GitLab
 
@@ -44,7 +43,7 @@ Full details can be found on [our Wiki](https://gitlab.com/utmist/utmist.gitlab.
 
 ### Usage
 
-- Clone the repository under `$GOPATH/gitlab.com/utmist/` and initialize theme submodule.
+- Clone the repository under `$GOPATH/gitlab.com/utmist/`.
 
   ```sh
   cd $GOPATH/gitlab.com/utmist/
@@ -52,25 +51,23 @@ Full details can be found on [our Wiki](https://gitlab.com/utmist/utmist.gitlab.
   cd utmist.gitlab.io
   ```
 
-- Initialize the Hugo Fresh theme submodule.
+- Initialize the Hugo ReFresh and OneDeath submodules.
 
   ```sh
-  git submodule update --init --recursive # or "make dep".
+  make dep
   ```
 
 - Paste the environment variables into `.env`. Refer to `.env.copy` for the required variables.
 - Run the `fetcher/generator` script.
 
-  - The `-depts` flag will specify that department pages should be generated too.
-
   ```sh
-  go run main.go [-depts] # or "make build"
+  make full
   ```
 
-- Run `hugo` in debugging mode to host the website on `localhost:1313`.
+- Run `hugo` in future mode (include pages dated in the future) to host the website on `localhost:1313`.
 
   ```sh
-  hugo server -D
+  hugo server -F
   ```
 
 ## Development
@@ -80,8 +77,8 @@ Full details can be found on [our Wiki](https://gitlab.com/utmist/utmist.gitlab.
   - Bug reports and feature requests are preferred.
 - [**GitHub (Mirror)**](https://github.com/utmist/utmist.gitlab.io)
   - Bug reports and feature requests are accepted.
-- This project is maintained by the [Engineering Department at UTMIST](https://utmist.gitlab.io/team/engineering).
-- If you’re a member of UTMIST and would like to contribute or learn development through this project, you can join our Discord) and let us know in #infrastructure.
+- This project is maintained by the [Infrastructure Department at UTMIST](https://utmist.gitlab.io/team/infrastructure).
+- If you’re a member of UTMIST and would like to contribute or learn development through this project, you can join our [Discord Server](https://discord.gg/88mSPw8) and let us know in #infrastructure.
 
 ## Acknowledgements
 
