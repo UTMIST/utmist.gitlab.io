@@ -1,15 +1,13 @@
 package associate
 
 import (
-	"crypto/sha256"
-	"fmt"
 	"strings"
 
 	"gitlab.com/utmist/utmist.gitlab.io/src/helpers"
 )
 
 const (
-	associateRowLength = 13
+	associateRowLength = 14
 	entryRowLength     = 6
 
 	profilePicPathPrefix = "/images/profilepics/"
@@ -32,21 +30,13 @@ func LoadAssociate(data []interface{}) Associate {
 		data[4].(string),
 		data[5].(string),
 		data[6].(string),
-		"", // assume there is no local picture
 		data[7].(string),
 		data[8].(string),
 		data[9].(string),
 		data[10].(string),
 		data[11].(string),
 		data[12].(string),
-	}
-
-	// Path to the hashed profile picture filename
-	if len(a.MainEmail) > 0 {
-		a.ProfilePicturePath = fmt.Sprintf("%s%x%s",
-			profilePicPathPrefix,
-			sha256.Sum256([]byte(a.MainEmail)),
-			profilePicPathSuffix)
+		data[13].(string),
 	}
 
 	return a

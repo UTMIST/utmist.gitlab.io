@@ -1,5 +1,5 @@
 if test -f ".env"; then
-    source ./.env
+    . ./.env
 fi
 
 FOLDER_NAME=$ONEDRIVE_FOLDER_NAME

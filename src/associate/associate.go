@@ -15,14 +15,14 @@ type Associate struct {
 	PhoneNumber string
 	Discipline  string
 
-	ProfilePicturePath string
-
 	Website  string
 	LinkedIn string
 	GitHub   string
 	GitLab   string
 	Facebook string
 	Twitter  string
+
+	ProfilePicturePath string
 }
 
 const (
