@@ -195,7 +195,7 @@
       </div>
       {{ end }}
 
-      <!-- {{ if isset .Site.Params.footer "copyright" }}
+      {{ if isset .Site.Params.footer "copyright" }}
       <div class="column">
         <div class="footer-column">
           <div class="footer-header">
@@ -204,14 +204,19 @@
           <ul class="link-list">
             <li>
               <a>
-                <span class="icon"><i class="fa fa-copyright"></i></span>
                 {{ .Site.Params.footer.copyright }}
+
+              </a>
+            </li>
+            <li>
+              <a>
+                {{ .Site.Params.footer.copyright_signature }}
               </a>
             </li>
           </ul>
         </div>
       </div>
-      {{ end }} -->
+      {{ end }}
 
     </div>
   </div>
