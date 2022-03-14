@@ -1,5 +1,6 @@
 .env
 .vscode
+.hugo_build.lock
 
 credentials.json
 token.json
